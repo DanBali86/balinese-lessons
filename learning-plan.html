@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basa Bali — Learning Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1a14;
+    --surface: #162010;
+    --surface2: #1c2a18;
+    --border: #2a3d24;
+    --green: #6abf69;
+    --green-bright: #a8e6a3;
+    --yellow: #f0d060;
+    --rust: #e07050;
+    --text: #d8e8d0;
+    --muted: #7a9a72;
+    --ink: #f0f4ee;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  /* ── BACK BUTTON ── */
+  .back-bar {
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 2rem;
+  }
+
+  .back-bar-inner {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .back-btn:hover { color: var(--green-bright); }
+  .back-btn::before { content: '←'; font-size: 0.85rem; }
+
+  /* ── HEADER ── */
+  header {
+    padding: 3rem 2rem 2rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 80% 50%, rgba(106,191,105,0.07) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .header-inner { max-width: 820px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--green);
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+  }
+
+  .tag::before {
+    content: '';
+    width: 5px; height: 5px;
+    background: var(--green);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  header h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  header h1 em {
+    font-style: italic;
+    color: var(--green-bright);
+  }
+
+  header p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 540px;
+    margin-top: 0.5rem;
+  }
+
+  /* ── PHASE STRIP ── */
+  .phase-strip {
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+
+  .phase-strip-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .phase-tab {
+    flex: 1;
+    min-width: 140px;
+    padding: 1rem 1.2rem;
+    border-left: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.15s;
+    user-select: none;
+  }
+
+  .phase-tab:first-child { border-left: none; }
+  .phase-tab:hover { background: var(--surface); }
+  .phase-tab.active { background: var(--surface); border-top: 2px solid var(--green); }
+
+  .phase-tab-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 0.25rem;
+  }
+
+  .phase-tab-title {
+    font-size: 0.82rem;
+    color: var(--ink);
+    font-weight: 400;
+    line-height: 1.3;
+  }
+
+  .phase-tab-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    margin-top: 0.15rem;
+  }
+
+  /* ── MAIN WRAP ── */
+  .wrap {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    position: sticky;
+    top: 1rem;
+  }
+
+  .sidebar-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .lesson-nav {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .lesson-nav li a {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.3;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+  }
+
+  .lesson-nav li a:hover {
+    background: var(--surface);
+    color: var(--text);
+  }
+
+  .lesson-nav li a.active {
+    background: var(--surface);
+    color: var(--ink);
+    border-left-color: var(--green);
+    font-weight: 500;
+  }
+
+  .lesson-nav li a span {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--muted);
+    margin-top: 0.1rem;
+  }
+
+  /* ── LESSON PANELS ── */
+  .lesson-panel { display: none; }
+  .lesson-panel.active { display: block; }
+
+  /* ── PROGRESS ── */
+  .progress-wrap { margin-bottom: 1.5rem; }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .progress-bar {
+    height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), var(--green-bright));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  /* ── LESSON HEADER ── */
+  .lesson-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .lesson-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    color: var(--green);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .lesson-title {
+    font-family: 'Lora', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  /* ── SECTION BLOCKS ── */
+  .block { margin-bottom: 1.8rem; }
+
+  .block-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .block-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── INTRO TEXT ── */
+  .intro-text {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: var(--text);
+    background: var(--surface);
+    border-left: 3px solid var(--green);
+    padding: 1rem 1.2rem;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .intro-text em { color: var(--green-bright); font-style: italic; }
+  .intro-text strong { color: var(--ink); font-weight: 500; }
+
+  /* ── VOCAB TABLE ── */
+  .vocab-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  .vocab-table thead th {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 0.4rem 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .vocab-table tbody tr {
+    border-bottom: 1px solid rgba(42,61,36,0.6);
+    transition: background 0.1s;
+  }
+
+  .vocab-table tbody tr:hover { background: var(--surface2); }
+
+  .vocab-table td { padding: 0.7rem 0.8rem; vertical-align: top; }
+
+  .td-bali {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    color: var(--green-bright);
+  }
+
+  .td-rom {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--rust);
+  }
+
+  .td-en { color: var(--text); font-size: 0.85rem; }
+  .td-note { color: var(--muted); font-size: 0.78rem; font-style: italic; }
+
+  /* ── REGISTER TAGS ── */
+  .reg {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.12rem 0.35rem;
+    border-radius: 2px;
+    vertical-align: middle;
+    margin-left: 0.3rem;
+  }
+
+  .reg-low  { background: rgba(106,191,105,0.12); color: var(--green); border: 1px solid rgba(106,191,105,0.25); }
+  .reg-mid  { background: rgba(240,208,96,0.1);   color: var(--yellow); border: 1px solid rgba(240,208,96,0.2); }
+  .reg-high { background: rgba(224,112,80,0.1);   color: var(--rust);   border: 1px solid rgba(224,112,80,0.2); }
+
+  /* ── PHRASE CARDS ── */
+  .phrase-list { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .phrase-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.85rem 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.3rem 1.2rem;
+    transition: border-color 0.15s;
+  }
+
+  .phrase-card:hover { border-color: rgba(106,191,105,0.35); }
+
+  .phrase-bali {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    color: var(--green-bright);
+    font-weight: 400;
+  }
+
+  .phrase-eng { color: var(--text); font-size: 0.85rem; align-self: center; }
+
+  .phrase-rom {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--rust);
+  }
+
+  .phrase-note {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-style: italic;
+    grid-column: 1 / -1;
+    margin-top: 0.1rem;
+  }
+
+  /* ── CULTURE BOX ── */
+  .culture-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--yellow);
+    border-radius: 0 6px 6px 0;
+    padding: 1.1rem 1.3rem;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  .culture-box strong {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+  }
+
+  /* ── GRAMMAR BOX ── */
+  .grammar-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--green);
+    border-radius: 0 0 6px 6px;
+    padding: 1.1rem 1.3rem;
+    font-size: 0.85rem;
+    line-height: 1.75;
+    color: var(--text);
+  }
+
+  .grammar-box h4 {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    color: var(--green-bright);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .grammar-box p { margin-bottom: 0.6rem; }
+  .grammar-box p:last-child { margin-bottom: 0; }
+  .grammar-box strong { color: var(--ink); font-weight: 500; }
+  .grammar-box em { color: var(--green-bright); font-style: italic; }
+
+  .example {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.5rem 0.8rem;
+    margin: 0.5rem 0;
+  }
+
+  .example .bali {
+    font-family: 'Lora', serif;
+    color: var(--green-bright);
+    display: block;
+    font-size: 0.95rem;
+  }
+
+  .example .rom {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--rust);
+    display: block;
+    margin-top: 0.1rem;
+  }
+
+  .example .eng {
+    font-size: 0.75rem;
+    color: var(--muted);
+    display: block;
+    margin-top: 0.1rem;
+  }
+
+  /* ── PRACTICE LIST ── */
+  .practice-list {
+    list-style: none;
+    counter-reset: practice;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .practice-list li {
+    counter-increment: practice;
+    display: flex;
+    gap: 0.75rem;
+    align-items: baseline;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .practice-list li::before {
+    content: counter(practice, decimal-leading-zero);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--green);
+    flex-shrink: 0;
+  }
+
+  .practice-list li em { color: var(--green-bright); font-style: italic; }
+
+  /* ── INSIGHT BOX ── */
+  .insight {
+    background: rgba(106,191,105,0.07);
+    border: 1px solid rgba(106,191,105,0.2);
+    border-radius: 6px;
+    padding: 1rem 1.2rem;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  .insight-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 0.4rem;
+  }
+
+  .insight strong { color: var(--ink); font-weight: 500; }
+  .insight em { color: var(--green-bright); font-style: italic; }
+
+  /* ── REGISTER COMPARISON TABLE ── */
+  .reg-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  .reg-table thead th {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 0.4rem 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .reg-table tbody tr {
+    border-bottom: 1px solid rgba(42,61,36,0.6);
+    transition: background 0.1s;
+  }
+
+  .reg-table tbody tr:hover { background: var(--surface2); }
+  .reg-table td { padding: 0.7rem 0.8rem; vertical-align: middle; }
+  .reg-table .td-en { color: var(--muted); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    text-align: center;
+  }
+
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 680px) {
+    .wrap { grid-template-columns: 1fr; padding: 1.5rem 1.2rem; gap: 1.5rem; }
+    .sidebar { position: static; }
+    .lesson-nav { flex-direction: row; flex-wrap: wrap; gap: 0.4rem; }
+    .lesson-nav li a { border-left: none; border-bottom: 2px solid transparent; font-size: 0.75rem; padding: 0.4rem 0.6rem; }
+    .lesson-nav li a.active { border-left: none; border-bottom-color: var(--green); }
+    .phrase-card { grid-template-columns: 1fr; }
+    .phase-strip { padding: 0 1.2rem; }
+    header { padding: 2.5rem 1.2rem 1.5rem; }
+    .back-bar { padding: 0.75rem 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="back-bar">
+  <div class="back-bar-inner">
+    <a class="back-btn" href="index.html">Back to hub</a>
+  </div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <div class="tag">Curriculum Overview · Phase 1</div>
+    <h1>Learning <em>Basa Bali</em></h1>
+    <p>A structured path to fluency in Balinese — not Indonesian. Eight foundational lessons covering greetings, speech registers, core vocabulary, and everyday phrases.</p>
+  </div>
+</header>
+
+<!-- PHASE TABS -->
+<div class="phase-strip">
+  <div class="phase-strip-inner">
+    <div class="phase-tab active">
+      <div class="phase-tab-num">Phase 1</div>
+      <div class="phase-tab-title">Foundations</div>
+      <div class="phase-tab-sub">Lessons 1–8</div>
+    </div>
+    <div class="phase-tab">
+      <div class="phase-tab-num">Phase 2</div>
+      <div class="phase-tab-title">Building Blocks</div>
+      <div class="phase-tab-sub">Lessons 9–20</div>
+    </div>
+    <div class="phase-tab">
+      <div class="phase-tab-num">Phase 3</div>
+      <div class="phase-tab-title">Conversation</div>
+      <div class="phase-tab-sub">Lessons 21–36</div>
+    </div>
+    <div class="phase-tab">
+      <div class="phase-tab-num">Phase 4</div>
+      <div class="phase-tab-title">Fluency</div>
+      <div class="phase-tab-sub">Lessons 37+</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-label">Phase 1 · Lessons</div>
+    <ul class="lesson-nav" id="lessonNav">
+      <li><a href="#" class="active" data-lesson="1">1. Greetings &amp; Politeness<span>Om Swastiastu</span></a></li>
+      <li><a href="#" data-lesson="2">2. Speech Registers<span>Sor Singgih Basa</span></a></li>
+      <li><a href="#" data-lesson="3">3. Numbers &amp; Counting<span>Aksara angka</span></a></li>
+      <li><a href="#" data-lesson="4">4. Pronouns &amp; People<span>Krama &amp; register</span></a></li>
+      <li><a href="#" data-lesson="5">5. Family &amp; Relationships<span>Kulawarga</span></a></li>
+      <li><a href="#" data-lesson="6">6. Food &amp; Drink<span>Ajengan lan inum</span></a></li>
+      <li><a href="#" data-lesson="7">7. Time &amp; Days<span>Galah lan rahina</span></a></li>
+      <li><a href="#" data-lesson="8">8. Body &amp; Health<span>Awak lan kasehatan</span></a></li>
+    </ul>
+  </aside>
+
+  <!-- LESSON PANELS -->
+  <main>
+
+    <!-- LESSON 1 -->
+    <div class="lesson-panel active" id="lesson-1">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 1 of 8</span><span>Phase 1 · Foundations</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:12.5%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 01</span>
+        <h2 class="lesson-title">Greetings &amp; Politeness</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Balinese greetings are deeply tied to Hinduism and community. The universal greeting <em>Om Swastiastu</em> is used by all Balinese regardless of caste or context. Unlike Indonesian, Balinese greetings shift depending on the social rank of the person you're addressing and the setting. Begin here — this is how every interaction opens.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Core Vocabulary</div>
+        <table class="vocab-table">
+          <thead><tr><th>Balinese</th><th>Romanization</th><th>English</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali">Om Swastiastu</td><td class="td-rom">Om Swas-ti-as-tu</td><td class="td-en">Universal greeting</td><td class="td-note">Sanskrit origin; used at all times</td></tr>
+            <tr><td class="td-bali">Suksma</td><td class="td-rom">Suk-sma</td><td class="td-en">Thank you</td><td class="td-note">Everyday register</td></tr>
+            <tr><td class="td-bali">Matur suksma</td><td class="td-rom">Ma-tur suk-sma</td><td class="td-en">Thank you (formal)</td><td class="td-note"><span class="reg reg-high">High</span></td></tr>
+            <tr><td class="td-bali">Nggih</td><td class="td-rom">Ngih</td><td class="td-en">Yes (polite)</td><td class="td-note">All-purpose polite yes</td></tr>
+            <tr><td class="td-bali">Nenten</td><td class="td-rom">Nen-ten</td><td class="td-en">No (polite)</td><td class="td-note"><span class="reg reg-high">High</span></td></tr>
+            <tr><td class="td-bali">Ten</td><td class="td-rom">Ten</td><td class="td-en">No (casual)</td><td class="td-note"><span class="reg reg-low">Low</span></td></tr>
+            <tr><td class="td-bali">Punapi gatra?</td><td class="td-rom">Pu-na-pi ga-tra?</td><td class="td-en">How are you? (formal)</td><td class="td-note"><span class="reg reg-high">High</span></td></tr>
+            <tr><td class="td-bali">Kenken kabare?</td><td class="td-rom">Ken-ken ka-ba-re?</td><td class="td-en">How are you? (casual)</td><td class="td-note"><span class="reg reg-low">Low</span></td></tr>
+            <tr><td class="td-bali">Becik-becik</td><td class="td-rom">Be-cik be-cik</td><td class="td-en">Fine, fine</td><td class="td-note">Response to "how are you"</td></tr>
+            <tr><td class="td-bali">Om Santih Santih Santih Om</td><td class="td-rom">Om San-tih…</td><td class="td-en">Farewell blessing</td><td class="td-note">Formal closing</td></tr>
+            <tr><td class="td-bali">Pamit</td><td class="td-rom">Pa-mit</td><td class="td-en">Goodbye / taking leave</td><td class="td-note">Said when leaving</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Key Phrases</div>
+        <div class="phrase-list">
+          <div class="phrase-card">
+            <div class="phrase-bali">Om Swastiastu</div>
+            <div class="phrase-eng">Hello / Greetings (any time)</div>
+            <div class="phrase-rom">Om Swas-ti-as-tu</div>
+            <div class="phrase-note">Hands pressed together, slight bow. Learn this first.</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali">Tiang madan …</div>
+            <div class="phrase-eng">My name is …</div>
+            <div class="phrase-rom">Ti-ang ma-dan …</div>
+            <div class="phrase-note">"Tiang" is the humble/polite first-person pronoun</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali">Sira parab ragane?</div>
+            <div class="phrase-eng">What is your name? (formal)</div>
+            <div class="phrase-rom">Si-ra pa-rab ra-ga-ne?</div>
+            <div class="phrase-note">Use with elders or strangers</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali">Tiang nenten uning</div>
+            <div class="phrase-eng">I don't know (polite)</div>
+            <div class="phrase-rom">Ti-ang nen-ten u-ning</div>
+            <div class="phrase-note"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Culture Note</div>
+        <div class="culture-box">
+          <strong>The Anjali Gesture</strong>
+          Om Swastiastu is always paired with the anjali — palms pressed together at chest height, a slight forward bow. Greeting someone verbally without the gesture can feel incomplete. When entering a temple or meeting a high-caste elder, the bow is deeper. The body language carries as much meaning as the words.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Practice</div>
+        <ul class="practice-list">
+          <li>Say the full greeting sequence: <em>Om Swastiastu</em> → introduce yourself → ask how someone is → respond <em>Becik-becik</em> → close with <em>Om Santih Santih Santih Om.</em></li>
+          <li>Write out "My name is [your name]" and "Thank you very much" five times to internalize the spelling.</li>
+          <li>Notice the difference between formal <em>Punapi gatra?</em> and casual <em>Kenken kabare?</em> — which would you use with a street vendor? With a temple priest?</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LESSON 2 -->
+    <div class="lesson-panel" id="lesson-2">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 2 of 8</span><span>Phase 1 · Foundations</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 02</span>
+        <h2 class="lesson-title">Speech Registers: Sor Singgih Basa</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          This is the single most important structural feature of Balinese. The register system called <em>Sor Singgih Basa</em> has three main levels: <strong>Basa Alus</strong> (refined/high), <strong>Basa Madia</strong> (middle/polite), and <strong>Basa Kasar</strong> (low/everyday). The same concept has an entirely different word depending on who you're talking to. Learn this early or you will confuse and offend people.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Register Comparison</div>
+        <table class="reg-table">
+          <thead>
+            <tr>
+              <th>English</th>
+              <th>Basa Alus <span class="reg reg-high">High</span></th>
+              <th>Basa Madia <span class="reg reg-mid">Mid</span></th>
+              <th>Basa Kasar <span class="reg reg-low">Low</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="td-en">I / me</td><td class="td-bali">Titiang</td><td class="td-bali">Tiang</td><td class="td-bali">Icang / Kai</td></tr>
+            <tr><td class="td-en">You</td><td class="td-bali">Ragane / Ida</td><td class="td-bali">Nyane</td><td class="td-bali">Nyen / Iba</td></tr>
+            <tr><td class="td-en">Eat</td><td class="td-bali">Ngajengang</td><td class="td-bali">Ngajeng</td><td class="td-bali">Naar</td></tr>
+            <tr><td class="td-en">Sleep</td><td class="td-bali">Sirep</td><td class="td-bali">Pules</td><td class="td-bali">Turu</td></tr>
+            <tr><td class="td-en">Go / walk</td><td class="td-bali">Lunga</td><td class="td-bali">Mamargi</td><td class="td-bali">Luas</td></tr>
+            <tr><td class="td-en">Come</td><td class="td-bali">Rauh</td><td class="td-bali">Teka</td><td class="td-bali">Mai</td></tr>
+            <tr><td class="td-en">Water</td><td class="td-bali">Toya</td><td class="td-bali">Yeh</td><td class="td-bali">Yeh</td></tr>
+            <tr><td class="td-en">Good / fine</td><td class="td-bali">Becik</td><td class="td-bali">Melah</td><td class="td-bali">Apang</td></tr>
+            <tr><td class="td-en">Want / wish</td><td class="td-bali">Kayun</td><td class="td-bali">Dot</td><td class="td-bali">Demen</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Grammar Note</div>
+        <div class="grammar-box">
+          <h4>When to use which register</h4>
+          <p><strong>Basa Alus (High):</strong> Use with elders, priests, high-caste Balinese, or in temple contexts. If unsure, default to Alus — it is never offensive to be too polite.</p>
+          <p><strong>Basa Madia (Middle):</strong> Use in everyday polite conversation with strangers or people of unknown status. This is your safest starting register as a learner.</p>
+          <p><strong>Basa Kasar (Low):</strong> Use only with close friends or family. Never use with strangers or elders.</p>
+          <div class="example">
+            <span class="bali">Titiang kayun ngajengang</span>
+            <span class="rom">I would like to eat — said to a priest or elder (Alus)</span>
+            <span class="eng">I would like to eat</span>
+          </div>
+          <div class="example">
+            <span class="bali">Icang dot naar</span>
+            <span class="rom">I-cang dot na-ar — said to a close friend (Kasar)</span>
+            <span class="eng">I wanna eat</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Practice</div>
+        <ul class="practice-list">
+          <li>Memorize the three ways to say "I" — <em>Titiang</em> (Alus), <em>Tiang</em> (Madia), <em>Icang</em> (Kasar) — drill them until instinctive.</li>
+          <li>Write one sentence saying "I want to eat" in all three registers using the correct vocabulary for each level.</li>
+          <li>Practice Madia as your baseline. Everything in Phase 1 defaults to Madia unless noted otherwise.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LESSON 3 -->
+    <div class="lesson-panel" id="lesson-3">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 3 of 8</span><span>Phase 1 · Foundations</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:37.5%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 03</span>
+        <h2 class="lesson-title">Numbers &amp; Counting</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Balinese has its own number system with distinct roots — not borrowed from Indonesian. Numbers are essential immediately: shopping, time, quantity, age. Treat each number as a new word, not a translation.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Cardinal Numbers</div>
+        <table class="vocab-table">
+          <thead><tr><th>#</th><th>Balinese</th><th>Romanization</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="td-en">1</td><td class="td-bali">Besik</td><td class="td-rom">Be-sik</td><td class="td-note">Also "abesik"</td></tr>
+            <tr><td class="td-en">2</td><td class="td-bali">Dua</td><td class="td-rom">Du-a</td><td class="td-note"></td></tr>
+            <tr><td class="td-en">3</td><td class="td-bali">Telu</td><td class="td-rom">Te-lu</td><td class="td-note"></td></tr>
+            <tr><td class="td-en">4</td><td class="td-bali">Pat</td><td class="td-rom">Pat</td><td class="td-note"></td></tr>
+            <tr><td class="td-en">5</td><td class="td-bali">Lima</td><td class="td-rom">Li-ma</td><td class="td-note">Shared with Indonesian</td></tr>
+            <tr><td class="td-en">6</td><td class="td-bali">Nenem</td><td class="td-rom">Ne-nem</td><td class="td-note"></td></tr>
+            <tr><td class="td-en">7</td><td class="td-bali">Pitu</td><td class="td-rom">Pi-tu</td><td class="td-note"></td></tr>
+            <tr><td class="td-en">8</td><td class="td-bali">Kutus</td><td class="td-rom">Ku-tus</td><td class="td-note">Unique to Balinese</td></tr>
+            <tr><td class="td-en">9</td><td class="td-bali">Sia</td><td class="td-rom">Si-a</td><td class="td-note"></td></tr>
+            <tr><td class="td-en">10</td><td class="td-bali">Dasa</td><td class="td-rom">Da-sa</td><td class="td-note">Sanskrit origin</td></tr>
+            <tr><td class="td-en">100</td><td class="td-bali">Satus</td><td class="td-rom">Sa-tus</td><td class="td-note"></td></tr>
+            <tr><td class="td-en">1000</td><td class="td-bali">Siu</td><td class="td-rom">Si-u</td><td class="td-note">NOT "ribu" like Indonesian</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Shopping Phrases</div>
+        <div class="phrase-list">
+          <div class="phrase-card">
+            <div class="phrase-bali">Aji kuda niki?</div>
+            <div class="phrase-eng">How much is this?</div>
+            <div class="phrase-rom">A-ji ku-da ni-ki?</div>
+            <div class="phrase-note">Essential for markets. "Aji" = price/cost</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali">Makehan pesan</div>
+            <div class="phrase-eng">Too expensive</div>
+            <div class="phrase-rom">Ma-ke-han pe-san</div>
+            <div class="phrase-note">Use in negotiation at markets</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali">Kuangan akidik</div>
+            <div class="phrase-eng">A little cheaper please</div>
+            <div class="phrase-rom">Ku-a-ngan a-ki-dik</div>
+            <div class="phrase-note">"Kuangan" = reduce, "akidik" = a little</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Practice</div>
+        <ul class="practice-list">
+          <li>Count 1 to 10 out loud three times without looking at the list.</li>
+          <li>Note that 8 is <em>Kutus</em> — completely distinct from Indonesian "delapan." Treat each number as a new word.</li>
+          <li>Practice saying prices: <em>Satus lima dasa</em> (150), <em>Siu</em> (1000), <em>Dua siu</em> (2000).</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LESSON 4 -->
+    <div class="lesson-panel" id="lesson-4">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 4 of 8</span><span>Phase 1 · Foundations</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 04</span>
+        <h2 class="lesson-title">Pronouns &amp; People</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Pronouns shift with register. Balinese also avoids direct pronouns more than English — names and titles are often used instead of "you" or "he/she." This lesson builds your full pronoun toolkit.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Pronouns by Register</div>
+        <table class="reg-table">
+          <thead><tr><th>Person</th><th>Alus <span class="reg reg-high">H</span></th><th>Madia <span class="reg reg-mid">M</span></th><th>Kasar <span class="reg reg-low">L</span></th></tr></thead>
+          <tbody>
+            <tr><td class="td-en">I</td><td class="td-bali">Titiang</td><td class="td-bali">Tiang</td><td class="td-bali">Icang / Kai</td></tr>
+            <tr><td class="td-en">You</td><td class="td-bali">Ragane / Ida</td><td class="td-bali">Nyane / Cai</td><td class="td-bali">Iba / Nyen</td></tr>
+            <tr><td class="td-en">He / She</td><td class="td-bali">Ida</td><td class="td-bali">Ia / Ne</td><td class="td-bali">Ia / Ne</td></tr>
+            <tr><td class="td-en">We</td><td class="td-bali">Iraga sami</td><td class="td-bali">Rage mekejang</td><td class="td-bali">Iraga</td></tr>
+            <tr><td class="td-en">They</td><td class="td-bali">Ida-idane</td><td class="td-bali">Ia mekejang</td><td class="td-bali">Ia-iane</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Titles Used as Pronouns</div>
+        <table class="vocab-table">
+          <thead><tr><th>Title</th><th>Used for</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali">Bli</td><td class="td-en">Older brother / peer male</td><td class="td-note">Commonly used instead of "you" with males</td></tr>
+            <tr><td class="td-bali">Mbok</td><td class="td-en">Older sister / peer female</td><td class="td-note">Same role as Bli for women</td></tr>
+            <tr><td class="td-bali">Adi</td><td class="td-en">Younger sibling / child</td><td class="td-note">Used affectionately for younger people</td></tr>
+            <tr><td class="td-bali">Bapak / Pak</td><td class="td-en">Mr. / older man</td><td class="td-note">Polite address for older men</td></tr>
+            <tr><td class="td-bali">Ibu / Bu</td><td class="td-en">Mrs. / older woman</td><td class="td-note">Polite address for older women</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Practice</div>
+        <ul class="practice-list">
+          <li>When approaching a male stranger, use <em>Bli</em> instead of "you." Practice: <em>Bli, tiang dot takon…</em> (Bli, I want to ask…)</li>
+          <li>Drill: <em>Tiang + verb</em> in Madia. Say five sentences with Tiang as subject.</li>
+          <li>Note that <em>Ida</em> means both "you" (Alus) AND "he/she" (Alus) — context determines meaning.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LESSON 5 -->
+    <div class="lesson-panel" id="lesson-5">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 5 of 8</span><span>Phase 1 · Foundations</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:62.5%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 05</span>
+        <h2 class="lesson-title">Family &amp; Relationships</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Family is central to Balinese social life. Balinese people often introduce themselves by their birth-order name. Understanding these terms will immediately open conversations and show cultural awareness that goes far beyond simple vocabulary.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Birth Order Names</div>
+        <table class="vocab-table">
+          <thead><tr><th>Order</th><th>Name</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="td-en">1st child</td><td class="td-bali">Wayan / Putu / Gede</td><td class="td-note">All three used interchangeably</td></tr>
+            <tr><td class="td-en">2nd child</td><td class="td-bali">Made / Kadek / Nengah</td><td class="td-note">Interchangeable by region</td></tr>
+            <tr><td class="td-en">3rd child</td><td class="td-bali">Nyoman / Komang</td><td class="td-note">Interchangeable</td></tr>
+            <tr><td class="td-en">4th child</td><td class="td-bali">Ketut</td><td class="td-note">5th child starts again at Wayan</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Family Vocabulary</div>
+        <table class="vocab-table">
+          <thead><tr><th>Balinese</th><th>Romanization</th><th>English</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali">Rerama</td><td class="td-rom">Re-ra-ma</td><td class="td-en">Parents</td></tr>
+            <tr><td class="td-bali">Bapa / Ajik</td><td class="td-rom">Ba-pa / A-jik</td><td class="td-en">Father ("Ajik" is more Balinese)</td></tr>
+            <tr><td class="td-bali">Meme / Ibu</td><td class="td-rom">Me-me / I-bu</td><td class="td-en">Mother ("Meme" is distinctly Balinese)</td></tr>
+            <tr><td class="td-bali">Panak</td><td class="td-rom">Pa-nak</td><td class="td-en">Child / children</td></tr>
+            <tr><td class="td-bali">Semeton</td><td class="td-rom">Se-me-ton</td><td class="td-en">Sibling / fellow Balinese</td></tr>
+            <tr><td class="td-bali">Kurenan</td><td class="td-rom">Ku-re-nan</td><td class="td-en">Spouse</td></tr>
+            <tr><td class="td-bali">Pekak</td><td class="td-rom">Pe-kak</td><td class="td-en">Grandfather</td></tr>
+            <tr><td class="td-bali">Dadong</td><td class="td-rom">Da-dong</td><td class="td-en">Grandmother</td></tr>
+            <tr><td class="td-bali">Kulawarga</td><td class="td-rom">Ku-la-war-ga</td><td class="td-en">Family (as a group)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Culture Note</div>
+        <div class="culture-box">
+          <strong>Birth Order as Identity</strong>
+          If someone introduces themselves as "Wayan," you immediately know they are the first-born child. This applies across all castes. Asking "Wayan, Made, Nyoman, atawa Ketut?" is a natural and friendly opener that signals you understand the culture. Balinese people are genuinely surprised and delighted when visitors know this system.
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 6 -->
+    <div class="lesson-panel" id="lesson-6">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 6 of 8</span><span>Phase 1 · Foundations</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 06</span>
+        <h2 class="lesson-title">Food &amp; Drink</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Food vocabulary is practical from day one and opens genuine conversations. Balinese food culture is distinct — with ceremonial foods and dishes you won't find elsewhere in Indonesia. This lesson covers everyday eating, ordering, and describing taste.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Food Vocabulary</div>
+        <table class="vocab-table">
+          <thead><tr><th>Balinese</th><th>Romanization</th><th>English</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali">Ajengan</td><td class="td-rom">A-je-ngan</td><td class="td-en">Food / meal</td><td class="td-note">Madia/Alus register</td></tr>
+            <tr><td class="td-bali">Nasi</td><td class="td-rom">Na-si</td><td class="td-en">Cooked rice</td><td class="td-note">Foundation of every meal</td></tr>
+            <tr><td class="td-bali">Babi guling</td><td class="td-rom">Ba-bi gu-ling</td><td class="td-en">Roasted suckling pig</td><td class="td-note">Iconic Balinese dish</td></tr>
+            <tr><td class="td-bali">Lawar</td><td class="td-rom">La-war</td><td class="td-en">Minced meat and vegetable dish</td><td class="td-note">Ceremonial food</td></tr>
+            <tr><td class="td-bali">Sate lilit</td><td class="td-rom">Sa-te li-lit</td><td class="td-en">Minced satay on lemongrass stick</td><td class="td-note">Distinct from Indonesian sate</td></tr>
+            <tr><td class="td-bali">Yeh</td><td class="td-rom">Yeh</td><td class="td-en">Water</td><td class="td-note">"Toya" in Alus</td></tr>
+            <tr><td class="td-bali">Kopi</td><td class="td-rom">Ko-pi</td><td class="td-en">Coffee</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Manis</td><td class="td-rom">Ma-nis</td><td class="td-en">Sweet</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Pedis</td><td class="td-rom">Pe-dis</td><td class="td-en">Spicy / hot</td><td class="td-note">Important for ordering</td></tr>
+            <tr><td class="td-bali">Enak</td><td class="td-rom">E-nak</td><td class="td-en">Delicious</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Tiang lapar</td><td class="td-rom">Ti-ang la-par</td><td class="td-en">I am hungry</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Tiang suba wareg</td><td class="td-rom">Ti-ang su-ba wa-reg</td><td class="td-en">I am already full</td><td class="td-note">"Suba" = already</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Ordering Phrases</div>
+        <div class="phrase-list">
+          <div class="phrase-card">
+            <div class="phrase-bali">Tiang dot pesan nasi goreng</div>
+            <div class="phrase-eng">I'd like to order fried rice</div>
+            <div class="phrase-rom">Ti-ang dot pe-san na-si go-reng</div>
+            <div class="phrase-note">"Pesan" = to order</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali">Sing pedis, suksma</div>
+            <div class="phrase-eng">Not spicy, thank you</div>
+            <div class="phrase-rom">Sing pe-dis, suk-sma</div>
+            <div class="phrase-note">"Sing" = not (casual); "Nenten" in Alus</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali">Nasi niki enak pesan!</div>
+            <div class="phrase-eng">This rice is really delicious!</div>
+            <div class="phrase-rom">Na-si ni-ki e-nak pe-san!</div>
+            <div class="phrase-note">Say this to a warung owner — they will love you for it</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 7 -->
+    <div class="lesson-panel" id="lesson-7">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 7 of 8</span><span>Phase 1 · Foundations</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:87.5%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 07</span>
+        <h2 class="lesson-title">Time &amp; Days</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Balinese has two parallel calendar systems — the Gregorian calendar for daily life and the traditional Pawukon calendar (210-day cycle) for ceremonies. Focus on Gregorian-based day vocabulary and time expressions first. Pawukon day names are a Phase 3 goal.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Days of the Week</div>
+        <table class="vocab-table">
+          <thead><tr><th>Day</th><th>Balinese</th><th>Romanization</th></tr></thead>
+          <tbody>
+            <tr><td class="td-en">Sunday</td><td class="td-bali">Redite</td><td class="td-rom">Re-di-te</td></tr>
+            <tr><td class="td-en">Monday</td><td class="td-bali">Soma</td><td class="td-rom">So-ma</td></tr>
+            <tr><td class="td-en">Tuesday</td><td class="td-bali">Anggara</td><td class="td-rom">Ang-ga-ra</td></tr>
+            <tr><td class="td-en">Wednesday</td><td class="td-bali">Budha</td><td class="td-rom">Bu-dha</td></tr>
+            <tr><td class="td-en">Thursday</td><td class="td-bali">Wraspati</td><td class="td-rom">Wras-pa-ti</td></tr>
+            <tr><td class="td-en">Friday</td><td class="td-bali">Sukra</td><td class="td-rom">Suk-ra</td></tr>
+            <tr><td class="td-en">Saturday</td><td class="td-bali">Saniscara</td><td class="td-rom">Sa-nis-ca-ra</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Time Vocabulary</div>
+        <table class="vocab-table">
+          <thead><tr><th>Balinese</th><th>Romanization</th><th>English</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali">Galah</td><td class="td-rom">Ga-lah</td><td class="td-en">Time</td></tr>
+            <tr><td class="td-bali">Mangkin</td><td class="td-rom">Mang-kin</td><td class="td-en">Now</td></tr>
+            <tr><td class="td-bali">Mani</td><td class="td-rom">Ma-ni</td><td class="td-en">Tomorrow</td></tr>
+            <tr><td class="td-bali">Ibi</td><td class="td-rom">I-bi</td><td class="td-en">Yesterday</td></tr>
+            <tr><td class="td-bali">Semeng</td><td class="td-rom">Se-meng</td><td class="td-en">Morning</td></tr>
+            <tr><td class="td-bali">Tengai</td><td class="td-rom">Te-ngai</td><td class="td-en">Midday / noon</td></tr>
+            <tr><td class="td-bali">Sore</td><td class="td-rom">So-re</td><td class="td-en">Afternoon</td></tr>
+            <tr><td class="td-bali">Peteng</td><td class="td-rom">Pe-teng</td><td class="td-en">Night / dark</td></tr>
+            <tr><td class="td-bali">Suba</td><td class="td-rom">Su-ba</td><td class="td-en">Already</td></tr>
+            <tr><td class="td-bali">Durung</td><td class="td-rom">Du-rung</td><td class="td-en">Not yet</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Culture Note</div>
+        <div class="culture-box">
+          <strong>Sanskrit Day Names</strong>
+          Balinese day names are Sanskrit-derived, like the planets: Soma (Moon/Monday), Anggara (Mars/Tuesday), Budha (Mercury/Wednesday). This connection to Sanskrit helps with memorization and reflects the deep Hindu roots of the language. Also note: Balinese does not have time-of-day greetings like "good morning" — Om Swastiastu works at all hours.
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 8 -->
+    <div class="lesson-panel" id="lesson-8">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 8 of 8</span><span>Phase 1 · Foundations</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 08</span>
+        <h2 class="lesson-title">Body &amp; Health</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          In Balinese Hindu tradition, different parts of the body carry spiritual significance — the head is sacred, the feet are the lowest. This shapes everyday behavior, from how you pass objects to how you position yourself in a temple. Learn the words alongside their cultural weight.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Body Vocabulary</div>
+        <table class="vocab-table">
+          <thead><tr><th>Balinese</th><th>Romanization</th><th>English</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali">Awak</td><td class="td-rom">A-wak</td><td class="td-en">Body</td><td class="td-note">Also means "self"</td></tr>
+            <tr><td class="td-bali">Sirah</td><td class="td-rom">Si-rah</td><td class="td-en">Head</td><td class="td-note">Sacred — never touch another's head</td></tr>
+            <tr><td class="td-bali">Mata</td><td class="td-rom">Ma-ta</td><td class="td-en">Eye(s)</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Cunguh</td><td class="td-rom">Cu-nguh</td><td class="td-en">Nose</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Bibih</td><td class="td-rom">Bi-bih</td><td class="td-en">Mouth / lips</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Lima</td><td class="td-rom">Li-ma</td><td class="td-en">Hand / arm</td><td class="td-note">Same word as "five"</td></tr>
+            <tr><td class="td-bali">Batis</td><td class="td-rom">Ba-tis</td><td class="td-en">Leg / foot</td><td class="td-note">Never point feet at shrines or people</td></tr>
+            <tr><td class="td-bali">Panas</td><td class="td-rom">Pa-nas</td><td class="td-en">Hot / fever</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Sakit</td><td class="td-rom">Sa-kit</td><td class="td-en">Sick / pain</td><td class="td-note">Shared with Indonesian</td></tr>
+            <tr><td class="td-bali">Tiang gelem</td><td class="td-rom">Ti-ang ge-lem</td><td class="td-en">I am sick</td><td class="td-note">Specifically Balinese term</td></tr>
+            <tr><td class="td-bali">Balian</td><td class="td-rom">Ba-li-an</td><td class="td-en">Traditional healer</td><td class="td-note">Not the same as a doctor</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Culture Note</div>
+        <div class="culture-box">
+          <strong>The Sacred Head / Profane Feet</strong>
+          The Balinese body is organized on a vertical spiritual axis. The head (sirah) is closest to the divine — never touch someone's head without permission. The feet (batis) are the most impure — never point them at a shrine, sacred object, or another person. When sitting in a temple, tuck your feet behind or to the side. These are expressions of respect that every Balinese person will notice.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Phase 1 Complete — What's Next</div>
+        <div class="grammar-box">
+          <h4>Phase 2 Preview: Building Blocks (Lessons 9–20)</h4>
+          <p>Phase 2 builds on these foundations with: basic sentence structure and verb patterns, adjectives and descriptors, directions and navigation, emotions and states, common question words (kenken, napi, sira, dija, nguda), verbs conjugated in Madia register, and an introduction to Aksara Bali (the Balinese script) for reading awareness.</p>
+          <p>Review Phase 1 vocabulary daily — 10 minutes of active recall per lesson is more effective than long sessions. Say <em>Om Swastiastu</em> to every Balinese person you encounter. This alone will open more doors than any textbook.</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <p>Basa Bali · Learning Plan · Phase 1 Foundations</p>
+</footer>
+
+<script>
+  const navLinks = document.querySelectorAll('.lesson-nav a');
+  const panels = document.querySelectorAll('.lesson-panel');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const lessonNum = link.dataset.lesson;
+      navLinks.forEach(l => l.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      link.classList.add('active');
+      document.getElementById('lesson-' + lessonNum).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
