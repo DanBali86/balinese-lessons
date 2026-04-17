@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basa Bali — Learning Plan Phase 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1a14;
+    --surface: #162010;
+    --surface2: #1c2a18;
+    --border: #2a3d24;
+    --green: #6abf69;
+    --green-bright: #a8e6a3;
+    --yellow: #f0d060;
+    --rust: #e07050;
+    --text: #d8e8d0;
+    --muted: #7a9a72;
+    --ink: #f0f4ee;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  /* ── BACK BUTTON ── */
+  .back-bar { border-bottom: 1px solid var(--border); padding: 0.75rem 2rem; }
+  .back-bar-inner { max-width: 820px; margin: 0 auto; }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.15s;
+  }
+  .back-btn:hover { color: var(--green-bright); }
+  .back-btn::before { content: '←'; font-size: 0.85rem; }
+
+  /* ── HEADER ── */
+  header {
+    padding: 3rem 2rem 2rem;
+    border-bottom: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  header::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 80% 50%, rgba(106,191,105,0.07) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .header-inner { max-width: 820px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .tag {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: 'DM Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--green); border: 1px solid var(--border);
+    padding: 0.25rem 0.6rem; border-radius: 2px; margin-bottom: 1rem;
+  }
+  .tag::before {
+    content: ''; width: 5px; height: 5px;
+    background: var(--green); border-radius: 50%; display: inline-block;
+  }
+
+  header h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 400; line-height: 1.15; color: var(--ink); margin-bottom: 0.5rem;
+  }
+  header h1 em { font-style: italic; color: var(--green-bright); }
+  header p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; max-width: 540px; margin-top: 0.5rem; }
+
+  /* ── PHASE STRIP ── */
+  .phase-strip { border-bottom: 1px solid var(--border); padding: 0 2rem; }
+  .phase-strip-inner { max-width: 820px; margin: 0 auto; display: flex; overflow-x: auto; }
+  .phase-tab {
+    flex: 1; min-width: 140px; padding: 1rem 1.2rem;
+    border-left: 1px solid var(--border); cursor: pointer;
+    transition: background 0.15s; user-select: none;
+  }
+  .phase-tab:first-child { border-left: none; }
+  .phase-tab:hover { background: var(--surface); }
+  .phase-tab.active { background: var(--surface); border-top: 2px solid var(--green); }
+  .phase-tab-num { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 0.25rem; }
+  .phase-tab-title { font-size: 0.82rem; color: var(--ink); font-weight: 400; line-height: 1.3; }
+  .phase-tab-sub { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--muted); margin-top: 0.15rem; }
+  .phase-tab a { text-decoration: none; color: inherit; display: block; }
+
+  /* ── MAIN WRAP ── */
+  .wrap {
+    max-width: 820px; margin: 0 auto;
+    padding: 2.5rem 2rem;
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 2rem; align-items: start;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar { position: sticky; top: 1rem; }
+  .sidebar-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+  .lesson-nav { list-style: none; display: flex; flex-direction: column; gap: 0.2rem; }
+  .lesson-nav li a {
+    display: block; padding: 0.5rem 0.75rem; border-radius: 4px;
+    text-decoration: none; color: var(--muted); font-size: 0.8rem;
+    line-height: 1.3; transition: all 0.15s; border-left: 2px solid transparent;
+  }
+  .lesson-nav li a:hover { background: var(--surface); color: var(--text); }
+  .lesson-nav li a.active { background: var(--surface); color: var(--ink); border-left-color: var(--green); font-weight: 500; }
+  .lesson-nav li a span { display: block; font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--muted); margin-top: 0.1rem; }
+
+  /* ── LESSON PANELS ── */
+  .lesson-panel { display: none; }
+  .lesson-panel.active { display: block; }
+
+  /* ── PROGRESS ── */
+  .progress-wrap { margin-bottom: 1.5rem; }
+  .progress-meta { display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--muted); margin-bottom: 0.4rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .progress-bar { height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--green-bright)); border-radius: 2px; transition: width 0.4s ease; }
+
+  /* ── LESSON HEADER ── */
+  .lesson-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .lesson-num { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; color: var(--green); text-transform: uppercase; white-space: nowrap; }
+  .lesson-title { font-family: 'Lora', serif; font-size: 1.5rem; font-weight: 400; color: var(--ink); line-height: 1.2; }
+
+  /* ── SECTION BLOCKS ── */
+  .block { margin-bottom: 1.8rem; }
+  .block-label {
+    font-family: 'DM Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+    margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;
+  }
+  .block-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── INTRO TEXT ── */
+  .intro-text { font-size: 0.88rem; line-height: 1.75; color: var(--text); background: var(--surface); border-left: 3px solid var(--green); padding: 1rem 1.2rem; border-radius: 0 4px 4px 0; }
+  .intro-text em { color: var(--green-bright); font-style: italic; }
+  .intro-text strong { color: var(--ink); font-weight: 500; }
+
+  /* ── VOCAB TABLE ── */
+  .vocab-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .vocab-table thead th { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 0.4rem 0.8rem; border-bottom: 1px solid var(--border); }
+  .vocab-table tbody tr { border-bottom: 1px solid rgba(42,61,36,0.6); transition: background 0.1s; }
+  .vocab-table tbody tr:hover { background: var(--surface2); }
+  .vocab-table td { padding: 0.7rem 0.8rem; vertical-align: top; }
+  .td-bali { font-family: 'Lora', serif; font-size: 1rem; color: var(--green-bright); }
+  .td-rom { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--rust); white-space: nowrap; }
+  .td-en { color: var(--text); font-size: 0.85rem; }
+  .td-note { color: var(--muted); font-size: 0.78rem; font-style: italic; }
+
+  /* ── REGISTER TAGS ── */
+  .reg { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.12rem 0.35rem; border-radius: 2px; vertical-align: middle; margin-left: 0.3rem; }
+  .reg-low  { background: rgba(106,191,105,0.12); color: var(--green); border: 1px solid rgba(106,191,105,0.25); }
+  .reg-mid  { background: rgba(240,208,96,0.1);   color: var(--yellow); border: 1px solid rgba(240,208,96,0.2); }
+  .reg-high { background: rgba(224,112,80,0.1);   color: var(--rust);   border: 1px solid rgba(224,112,80,0.2); }
+
+  /* ── PHRASE CARDS ── */
+  .phrase-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .phrase-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.85rem 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem 1.2rem; transition: border-color 0.15s; }
+  .phrase-card:hover { border-color: rgba(106,191,105,0.35); }
+  .phrase-bali { font-family: 'Lora', serif; font-size: 1rem; color: var(--green-bright); font-weight: 400; }
+  .phrase-eng { color: var(--text); font-size: 0.85rem; align-self: center; }
+  .phrase-rom { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--rust); }
+  .phrase-note { font-size: 0.75rem; color: var(--muted); font-style: italic; grid-column: 1 / -1; margin-top: 0.1rem; }
+
+  /* ── CULTURE BOX ── */
+  .culture-box { background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--yellow); border-radius: 0 6px 6px 0; padding: 1.1rem 1.3rem; font-size: 0.85rem; line-height: 1.7; color: var(--text); }
+  .culture-box strong { display: block; font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--yellow); margin-bottom: 0.5rem; font-weight: 400; }
+
+  /* ── GRAMMAR BOX ── */
+  .grammar-box { background: var(--surface); border: 1px solid var(--border); border-top: 2px solid var(--green); border-radius: 0 0 6px 6px; padding: 1.1rem 1.3rem; font-size: 0.85rem; line-height: 1.75; color: var(--text); }
+  .grammar-box h4 { font-family: 'Lora', serif; font-size: 1rem; color: var(--green-bright); font-weight: 600; margin-bottom: 0.5rem; }
+  .grammar-box p { margin-bottom: 0.6rem; }
+  .grammar-box p:last-child { margin-bottom: 0; }
+  .grammar-box strong { color: var(--ink); font-weight: 500; }
+  .grammar-box em { color: var(--green-bright); font-style: italic; }
+
+  .example { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 0.5rem 0.8rem; margin: 0.5rem 0; }
+  .example .bali { font-family: 'Lora', serif; color: var(--green-bright); display: block; font-size: 0.95rem; }
+  .example .rom { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--rust); display: block; margin-top: 0.1rem; white-space: nowrap; }
+  .example .eng { font-size: 0.75rem; color: var(--muted); display: block; margin-top: 0.1rem; }
+
+  /* ── PRACTICE LIST ── */
+  .practice-list { list-style: none; counter-reset: practice; display: flex; flex-direction: column; gap: 0.5rem; }
+  .practice-list li { counter-increment: practice; display: flex; gap: 0.75rem; align-items: baseline; font-size: 0.85rem; line-height: 1.6; color: var(--text); }
+  .practice-list li::before { content: counter(practice, decimal-leading-zero); font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--green); flex-shrink: 0; }
+  .practice-list li em { color: var(--green-bright); font-style: italic; }
+
+  /* ── INSIGHT BOX ── */
+  .insight { background: rgba(106,191,105,0.07); border: 1px solid rgba(106,191,105,0.2); border-radius: 6px; padding: 1rem 1.2rem; font-size: 0.85rem; line-height: 1.7; color: var(--text); }
+  .insight-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green); margin-bottom: 0.4rem; }
+  .insight strong { color: var(--ink); font-weight: 500; }
+  .insight em { color: var(--green-bright); font-style: italic; }
+
+  /* ── REG COMPARISON TABLE ── */
+  .reg-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .reg-table thead th { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 0.4rem 0.8rem; border-bottom: 1px solid var(--border); }
+  .reg-table tbody tr { border-bottom: 1px solid rgba(42,61,36,0.6); transition: background 0.1s; }
+  .reg-table tbody tr:hover { background: var(--surface2); }
+  .reg-table td { padding: 0.7rem 0.8rem; vertical-align: middle; }
+
+  /* ── SENTENCE BREAKDOWN ── */
+  .sentence-breakdown { display: flex; flex-direction: column; gap: 0.5rem; }
+  .sb-row { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.85rem 1rem; }
+  .sb-bali { font-family: 'Lora', serif; font-size: 1.05rem; color: var(--ink); margin-bottom: 0.3rem; }
+  .sb-bali .s { color: var(--green-bright); }
+  .sb-bali .v { color: var(--yellow); }
+  .sb-bali .adj { color: #a8d8f0; }
+  .sb-bali .neg { color: var(--rust); }
+  .sb-bali .q { color: var(--yellow); }
+  .sb-eng { font-size: 0.8rem; color: var(--muted); }
+  .sb-note { font-size: 0.75rem; color: var(--muted); font-style: italic; margin-top: 0.2rem; }
+
+  /* ── FOOTER ── */
+  footer { border-top: 1px solid var(--border); padding: 1.5rem 2rem; text-align: center; }
+  footer p { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 680px) {
+    .wrap { grid-template-columns: 1fr; padding: 1.5rem 1.2rem; gap: 1.5rem; }
+    .sidebar { position: static; }
+    .lesson-nav { flex-direction: row; flex-wrap: wrap; gap: 0.4rem; }
+    .lesson-nav li a { border-left: none; border-bottom: 2px solid transparent; font-size: 0.75rem; padding: 0.4rem 0.6rem; }
+    .lesson-nav li a.active { border-left: none; border-bottom-color: var(--green); }
+    .phrase-card { grid-template-columns: 1fr; }
+    header { padding: 2.5rem 1.2rem 1.5rem; }
+    .back-bar { padding: 0.75rem 1.2rem; }
+    .phase-strip { padding: 0 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="back-bar">
+  <div class="back-bar-inner">
+    <a class="back-btn" href="index.html">Back to hub</a>
+  </div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <div class="tag">Curriculum · Phase 2</div>
+    <h1><em>Building Blocks</em></h1>
+    <p>Lessons 9–20. Expand beyond foundations into verbs, adjectives, questions, directions, emotions, and your first fluent conversations.</p>
+  </div>
+</header>
+
+<!-- PHASE TABS -->
+<div class="phase-strip">
+  <div class="phase-strip-inner">
+    <div class="phase-tab"><a href="learning-plan.html">
+      <div class="phase-tab-num">Phase 1</div>
+      <div class="phase-tab-title">Foundations</div>
+      <div class="phase-tab-sub">Lessons 1–8</div>
+    </a></div>
+    <div class="phase-tab active">
+      <div class="phase-tab-num">Phase 2</div>
+      <div class="phase-tab-title">Building Blocks</div>
+      <div class="phase-tab-sub">Lessons 9–20</div>
+    </div>
+    <div class="phase-tab">
+      <div class="phase-tab-num">Phase 3</div>
+      <div class="phase-tab-title">Conversation</div>
+      <div class="phase-tab-sub">Lessons 21–36</div>
+    </div>
+    <div class="phase-tab">
+      <div class="phase-tab-num">Phase 4</div>
+      <div class="phase-tab-title">Fluency</div>
+      <div class="phase-tab-sub">Lessons 37+</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-label">Phase 2 · Lessons</div>
+    <ul class="lesson-nav" id="lessonNav">
+      <li><a href="#" class="active" data-lesson="9">9. Adjectives &amp; Descriptors<span>Katrangan</span></a></li>
+      <li><a href="#" data-lesson="10">10. Question Words<span>Pitaken</span></a></li>
+      <li><a href="#" data-lesson="11">11. Common Verbs<span>Kruna kriya</span></a></li>
+      <li><a href="#" data-lesson="12">12. Directions &amp; Navigation<span>Margi</span></a></li>
+      <li><a href="#" data-lesson="13">13. Emotions &amp; States<span>Rasa</span></a></li>
+      <li><a href="#" data-lesson="14">14. Colours &amp; Descriptions<span>Warna</span></a></li>
+      <li><a href="#" data-lesson="15">15. At the Market<span>Di peken</span></a></li>
+      <li><a href="#" data-lesson="16">16. Weather &amp; Nature<span>Alam</span></a></li>
+      <li><a href="#" data-lesson="17">17. The Home<span>Di umah</span></a></li>
+      <li><a href="#" data-lesson="18">18. Transport &amp; Getting Around<span>Nglungsur</span></a></li>
+      <li><a href="#" data-lesson="19">19. Aksara Bali — The Script<span>Tulisan Bali</span></a></li>
+      <li><a href="#" data-lesson="20">20. Phase 2 Review<span>Pangeling-eling</span></a></li>
+    </ul>
+  </aside>
+
+  <!-- LESSON PANELS -->
+  <main>
+
+    <!-- LESSON 9 -->
+    <div class="lesson-panel active" id="lesson-9">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 9 of 20</span><span>Phase 2 · Building Blocks</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:45%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 09</span>
+        <h2 class="lesson-title">Adjectives &amp; Descriptors</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          In Balinese, adjectives come <strong>after</strong> the noun — the opposite of English. So "a big house" is <em>umah gede</em> (house big). This rule is consistent and once you have it, you can describe almost anything. This lesson builds your core descriptor vocabulary and locks in the noun-adjective order.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Word Order Rule</div>
+        <div class="grammar-box">
+          <h4>Noun + Adjective (not Adjective + Noun)</h4>
+          <p><strong>English:</strong> big house &nbsp;→&nbsp; <strong>Balinese:</strong> umah gede (house big)</p>
+          <p><strong>English:</strong> cold water &nbsp;→&nbsp; <strong>Balinese:</strong> yeh nyem (water cold)</p>
+          <p><strong>English:</strong> delicious food &nbsp;→&nbsp; <strong>Balinese:</strong> ajengan enak (food delicious)</p>
+          <div class="example">
+            <span class="bali"><span class="s">Umah</span> <span class="adj">gede</span> nika</span>
+            <span class="rom">u-mah · ge-de · ni-ka</span>
+            <span class="eng">That house is big</span>
+          </div>
+          <div class="example">
+            <span class="bali"><span class="s">Yeh</span> <span class="adj">nyem</span> pesan</span>
+            <span class="rom">yeh · nyem · pe-san</span>
+            <span class="eng">The water is very cold</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Core Adjectives</div>
+        <table class="vocab-table">
+          <thead><tr><th>Balinese</th><th>Pronunciation</th><th>English</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali">Gede</td><td class="td-rom">ge-de</td><td class="td-en">Big / large</td><td class="td-note">Also used for "older" (Gede = first-born name)</td></tr>
+            <tr><td class="td-bali">Cenik</td><td class="td-rom">ce-nik</td><td class="td-en">Small / little</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Melah</td><td class="td-rom">me-lah</td><td class="td-en">Good / nice</td><td class="td-note">Madia register</td></tr>
+            <tr><td class="td-bali">Jele</td><td class="td-rom">je-le</td><td class="td-en">Bad / ugly</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Tegeh</td><td class="td-rom">te-geh</td><td class="td-en">Tall / high</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Endep</td><td class="td-rom">en-dep</td><td class="td-en">Short / low</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Lantang</td><td class="td-rom">lan-tang</td><td class="td-en">Long</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Bawak</td><td class="td-rom">ba-wak</td><td class="td-en">Short (length)</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Ngelarang</td><td class="td-rom">nge-la-rang</td><td class="td-en">Wide</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Belig</td><td class="td-rom">be-lig</td><td class="td-en">Clever / smart</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Engal</td><td class="td-rom">eng-al</td><td class="td-en">Fast / quick</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Adeng</td><td class="td-rom">a-deng</td><td class="td-en">Slow</td><td class="td-note">Also used as "slowly, carefully"</td></tr>
+            <tr><td class="td-bali">Nyen</td><td class="td-rom">nyen</td><td class="td-en">New</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Tua</td><td class="td-rom">tu-a</td><td class="td-en">Old</td><td class="td-note">For objects; different word for elderly people</td></tr>
+            <tr><td class="td-bali">Pesan</td><td class="td-rom">pe-san</td><td class="td-en">Very (intensifier)</td><td class="td-note">Always follows the adjective: gede pesan = very big</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Practice</div>
+        <ul class="practice-list">
+          <li>Build five noun-adjective phrases using words you already know: <em>umah gede, yeh nyem, ajengan melah, kopi panas, umah cenik.</em></li>
+          <li>Add the intensifier <em>pesan</em>: <em>umah gede pesan</em> (very big house), <em>kopi panas pesan</em> (very hot coffee).</li>
+          <li>Make descriptive sentences: <em>Tiang dot yeh nyem</em> (I want cold water). <em>Umah nika gede pesan</em> (That house is very big).</li>
+          <li>Notice: adjectives don't change form for gender or number. <em>Gede</em> works for one or many, male or female.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LESSON 10 -->
+    <div class="lesson-panel" id="lesson-10">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 10 of 20</span><span>Phase 2 · Building Blocks</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 10</span>
+        <h2 class="lesson-title">Question Words</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          You already know <em>dije</em> (where) from your tutor session. This lesson completes your full question-word toolkit. In Balinese, most question words go at the <strong>front</strong> of the sentence, and the rest of the sentence keeps its normal S-V-O order. Mastering these unlocks real two-way conversation.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Question Words</div>
+        <table class="vocab-table">
+          <thead><tr><th>Balinese</th><th>Pronunciation</th><th>English</th><th>Position</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali">Dije</td><td class="td-rom">di-je</td><td class="td-en">Where</td><td class="td-note">Sentence-initial</td></tr>
+            <tr><td class="td-bali">Napi / Ape</td><td class="td-rom">na-pi / a-pe</td><td class="td-en">What</td><td class="td-note">Napi = Alus · Ape = Kasar</td></tr>
+            <tr><td class="td-bali">Sira</td><td class="td-rom">si-ra</td><td class="td-en">Who</td><td class="td-note">Alus; everyday = nyen</td></tr>
+            <tr><td class="td-bali">Kenken</td><td class="td-rom">ken-ken</td><td class="td-en">How / what kind</td><td class="td-note">Also used for "how are you"</td></tr>
+            <tr><td class="td-bali">Pidan</td><td class="td-rom">pi-dan</td><td class="td-en">When</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Nguda</td><td class="td-rom">ngu-da</td><td class="td-en">Why</td><td class="td-note">Distinctly Balinese</td></tr>
+            <tr><td class="td-bali">Kuda</td><td class="td-rom">ku-da</td><td class="td-en">How many / how much</td><td class="td-note">Seen in "aji kuda" (how much does it cost)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Question Sentence Examples</div>
+        <div class="sentence-breakdown">
+          <div class="sb-row">
+            <div class="sb-bali"><span class="q">Napi</span> <span class="s">ragane</span> <span class="v">ngajeng</span>?</div>
+            <div class="sb-eng">What are you eating?</div>
+          </div>
+          <div class="sb-row">
+            <div class="sb-bali"><span class="q">Sira</span> <span class="v">teka</span> <span class="s">ibi</span>?</div>
+            <div class="sb-eng">Who came yesterday?</div>
+          </div>
+          <div class="sb-row">
+            <div class="sb-bali"><span class="q">Pidan</span> <span class="s">ragane</span> <span class="v">luas</span>?</div>
+            <div class="sb-eng">When are you leaving?</div>
+          </div>
+          <div class="sb-row">
+            <div class="sb-bali"><span class="q">Nguda</span> <span class="s">ragane</span> <span class="neg">ten</span> <span class="v">ngajeng</span>?</div>
+            <div class="sb-eng">Why didn't you eat?</div>
+          </div>
+          <div class="sb-row">
+            <div class="sb-bali"><span class="q">Kenken</span> <span class="s">ragane</span>?</div>
+            <div class="sb-eng">How are you? / How is it going?</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Practice</div>
+        <ul class="practice-list">
+          <li>Drill each question word with a simple sentence. Start with <em>Napi ragane nginum?</em> (What are you drinking?) and swap the question word through the full list.</li>
+          <li>Combine with time words: <em>Pidan ragane teka mani?</em> (When are you coming tomorrow?) — notice both a question word and a time word in one sentence.</li>
+          <li>Practice answering your own questions to make it a full exchange.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LESSON 11 -->
+    <div class="lesson-panel" id="lesson-11">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 11 of 20</span><span>Phase 2 · Building Blocks</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:55%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 11</span>
+        <h2 class="lesson-title">Common Verbs</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          You know ngajeng, minum, and nyakan from your tutor session. This lesson adds 20 essential verbs that cover most of daily life. Remember: Balinese verbs <strong>do not conjugate</strong> for tense, person, or number. The same verb works for I, you, he, she, we, they, past, present, and future. Time words and context carry the meaning.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Essential Verbs — Madia Register</div>
+        <table class="vocab-table">
+          <thead><tr><th>Balinese</th><th>Pronunciation</th><th>English</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali">Luas</td><td class="td-rom">lu-as</td><td class="td-en">Go / leave</td><td class="td-note">Everyday casual</td></tr>
+            <tr><td class="td-bali">Teka</td><td class="td-rom">te-ka</td><td class="td-en">Come / arrive</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Negak</td><td class="td-rom">ne-gak</td><td class="td-en">Sit</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Majujuk</td><td class="td-rom">ma-ju-juk</td><td class="td-en">Stand</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Pules</td><td class="td-rom">pu-les</td><td class="td-en">Sleep</td><td class="td-note">Madia; kasar = turu</td></tr>
+            <tr><td class="td-bali">Bangun</td><td class="td-rom">ba-ngun</td><td class="td-en">Wake up / get up</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Meli</td><td class="td-rom">me-li</td><td class="td-en">Buy</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Ngadep</td><td class="td-rom">nga-dep</td><td class="td-en">Sell</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Nunasang</td><td class="td-rom">nu-na-sang</td><td class="td-en">Ask / request</td><td class="td-note">Alus; kasar = takon</td></tr>
+            <tr><td class="td-bali">Nyautin</td><td class="td-rom">nya-u-tin</td><td class="td-en">Answer / respond</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Ngomong</td><td class="td-rom">ngo-mong</td><td class="td-en">Speak / talk</td><td class="td-note">Casual register</td></tr>
+            <tr><td class="td-bali">Ningeh</td><td class="td-rom">ni-ngeh</td><td class="td-en">Hear / listen</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Nepukin</td><td class="td-rom">ne-pu-kin</td><td class="td-en">See / find</td><td class="td-note">Casual; Alus = manggihin</td></tr>
+            <tr><td class="td-bali">Buin</td><td class="td-rom">bu-in</td><td class="td-en">Again / also / more</td><td class="td-note">Very commonly used modifier</td></tr>
+            <tr><td class="td-bali">Dot</td><td class="td-rom">dot</td><td class="td-en">Want / would like</td><td class="td-note">Madia; Alus = kayun</td></tr>
+            <tr><td class="td-bali">Nawang</td><td class="td-rom">na-wang</td><td class="td-en">Know (a fact)</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Kenal</td><td class="td-rom">ke-nal</td><td class="td-en">Know (a person)</td><td class="td-note">Shared with Indonesian</td></tr>
+            <tr><td class="td-bali">Nyemak</td><td class="td-rom">nye-mak</td><td class="td-en">Take / pick up</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Ngemaang</td><td class="td-rom">nge-ma-ang</td><td class="td-en">Give</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Maplalian</td><td class="td-rom">ma-pla-li-an</td><td class="td-en">Play</td><td class="td-note"></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Insight</div>
+        <div class="insight">
+          <div class="insight-label">No Conjugation — Ever</div>
+          <em>Tiang luas.</em> (I go / I went / I will go.) <em>Ia luas.</em> (He/she goes.) <em>Ia mekejang luas.</em> (They all go.) The verb <strong>luas</strong> never changes. Add a time word to specify tense: <em>Tiang luas mani</em> (I'm going tomorrow). <em>Tiang luas ibi</em> (I went yesterday). This is one of the features that makes Balinese more logical than English once you get used to it.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Practice</div>
+        <ul class="practice-list">
+          <li>Pick five verbs and build a sentence for each using a different pronoun and time word every time.</li>
+          <li>Make a negative: <em>Tiang ten nawang</em> (I don't know). <em>Ia ten teka ibi</em> (She didn't come yesterday).</li>
+          <li>Combine a question word with a new verb: <em>Dije ragane meli?</em> (Where did you buy it?) <em>Pidan ia teka?</em> (When does he arrive?)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LESSON 12 -->
+    <div class="lesson-panel" id="lesson-12">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 12 of 20</span><span>Phase 2 · Building Blocks</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 12</span>
+        <h2 class="lesson-title">Directions &amp; Navigation</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Balinese uses a completely different directional system from English — and from most languages. Instead of north/south/east/west or left/right, traditional Balinese orientation is based on <strong>Kaja</strong> (toward the mountain) and <strong>Kelod</strong> (toward the sea), with <strong>Kangin</strong> (sunrise/east) and <strong>Kauh</strong> (sunset/west) as the cross-axis. These directions are sacred and used in everyday speech, temple orientation, and even how you position yourself when sleeping. You will hear them constantly.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">The Balinese Compass</div>
+        <table class="vocab-table">
+          <thead><tr><th>Balinese</th><th>Pronunciation</th><th>Literal meaning</th><th>Rough equivalent</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali">Kaja</td><td class="td-rom">ka-ja</td><td class="td-en">Toward the mountain</td><td class="td-note">North in south Bali; South in north Bali</td></tr>
+            <tr><td class="td-bali">Kelod</td><td class="td-rom">ke-lod</td><td class="td-en">Toward the sea</td><td class="td-note">Opposite of Kaja</td></tr>
+            <tr><td class="td-bali">Kangin</td><td class="td-rom">ka-ngin</td><td class="td-en">Sunrise direction</td><td class="td-note">East</td></tr>
+            <tr><td class="td-bali">Kauh</td><td class="td-rom">ka-uh</td><td class="td-en">Sunset direction</td><td class="td-note">West</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Practical Direction Vocabulary</div>
+        <table class="vocab-table">
+          <thead><tr><th>Balinese</th><th>Pronunciation</th><th>English</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali">Kiri</td><td class="td-rom">ki-ri</td><td class="td-en">Left</td></tr>
+            <tr><td class="td-bali">Tengen</td><td class="td-rom">te-ngen</td><td class="td-en">Right</td></tr>
+            <tr><td class="td-bali">Nganginang</td><td class="td-rom">nga-ngi-nang</td><td class="td-en">Straight ahead</td></tr>
+            <tr><td class="td-bali">Duur</td><td class="td-rom">du-ur</td><td class="td-en">Above / up</td></tr>
+            <tr><td class="td-bali">Sor</td><td class="td-rom">sor</td><td class="td-en">Below / down</td></tr>
+            <tr><td class="td-bali">Dija</td><td class="td-rom">di-ja</td><td class="td-en">Over there</td></tr>
+            <tr><td class="td-bali">Dini</td><td class="td-rom">di-ni</td><td class="td-en">Here / this place</td></tr>
+            <tr><td class="td-bali">Ditu</td><td class="td-rom">di-tu</td><td class="td-en">There / that place</td></tr>
+            <tr><td class="td-bali">Joh</td><td class="td-rom">joh</td><td class="td-en">Far</td></tr>
+            <tr><td class="td-bali">Peken</td><td class="td-rom">pe-ken</td><td class="td-en">Market</td></tr>
+            <tr><td class="td-bali">Pura</td><td class="td-rom">pu-ra</td><td class="td-en">Temple</td></tr>
+            <tr><td class="td-bali">Pasisi</td><td class="td-rom">pa-si-si</td><td class="td-en">Beach / coast</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Asking for Directions</div>
+        <div class="phrase-list">
+          <div class="phrase-card">
+            <div class="phrase-bali">Dije pura nika?</div>
+            <div class="phrase-eng">Where is that temple?</div>
+            <div class="phrase-rom">di-je · pu-ra · ni-ka?</div>
+            <div class="phrase-note"></div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali">Luas kaja, buin luas kangin</div>
+            <div class="phrase-eng">Go toward the mountain, then go east</div>
+            <div class="phrase-rom">lu-as · ka-ja · bu-in · lu-as · ka-ngin</div>
+            <div class="phrase-note">"Buin" = then / also / again</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali">Joh apa tara?</div>
+            <div class="phrase-eng">Is it far?</div>
+            <div class="phrase-rom">joh · a-pa · ta-ra?</div>
+            <div class="phrase-note">"Apa tara" = is it / or not?</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Culture Note</div>
+        <div class="culture-box">
+          <strong>Kaja-Kelod as Spiritual Axis</strong>
+          The mountain-sea axis is not just geographical — it is spiritually loaded. Kaja (mountain, toward Gunung Agung) is the direction of the gods and purity. Kelod (sea) is associated with the lower, earthly realm. Temples always face kaja. When sleeping, Balinese traditionally place their head kaja. When a Balinese person says "go a bit kelod," they are giving you a real directional instruction that reflects how they experience the landscape. Learning kaja and kelod is not optional if you want to communicate naturally.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Practice</div>
+        <ul class="practice-list">
+          <li>Figure out which direction is kaja from where you live in Denpasar — it should be roughly north toward Gunung Agung. Notice how locals use it in conversation.</li>
+          <li>Practice giving directions combining kaja/kelod/kangin/kauh with luas: <em>Luas kelod, buin luas kauh.</em></li>
+          <li>Drill the three location words: <em>dini</em> (here), <em>ditu</em> (there), <em>dija</em> (over there). Use them in sentences with <em>di</em>: <em>Tiang di dini</em> (I am here).</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LESSON 13 -->
+    <div class="lesson-panel" id="lesson-13">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 13 of 20</span><span>Phase 2 · Building Blocks</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:65%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 13</span>
+        <h2 class="lesson-title">Emotions &amp; States</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Expressing how you feel in Balinese opens up genuine human connection. The structure is simple: <em>Tiang + [emotion/state]</em>. Many emotional expressions in Balinese are tied to the heart or liver (<em>hati</em>), which is considered the emotional center — just as in many other Asian languages.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Emotions &amp; Feelings</div>
+        <table class="vocab-table">
+          <thead><tr><th>Balinese</th><th>Pronunciation</th><th>English</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali">Seneng</td><td class="td-rom">se-neng</td><td class="td-en">Happy / glad</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Sedih</td><td class="td-rom">se-dih</td><td class="td-en">Sad</td><td class="td-note">Shared with Indonesian</td></tr>
+            <tr><td class="td-bali">Jejeh</td><td class="td-rom">je-jeh</td><td class="td-en">Scared / afraid</td><td class="td-note">Distinctly Balinese</td></tr>
+            <tr><td class="td-bali">Gedeg</td><td class="td-rom">ge-deg</td><td class="td-en">Angry</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Kenyem</td><td class="td-rom">ke-nyem</td><td class="td-en">Smile / happy feeling</td><td class="td-note">Also used as a verb (to smile)</td></tr>
+            <tr><td class="td-bali">Keneh</td><td class="td-rom">ke-neh</td><td class="td-en">Mind / feeling / intention</td><td class="td-note">Very important cultural concept</td></tr>
+            <tr><td class="td-bali">Lapar</td><td class="td-rom">la-par</td><td class="td-en">Hungry</td><td class="td-note">From Phase 1</td></tr>
+            <tr><td class="td-bali">Wareg</td><td class="td-rom">wa-reg</td><td class="td-en">Full (after eating)</td><td class="td-note">From Phase 1</td></tr>
+            <tr><td class="td-bali">Gelem</td><td class="td-rom">ge-lem</td><td class="td-en">Sick / unwell</td><td class="td-note">From Phase 1</td></tr>
+            <tr><td class="td-bali">Leleh</td><td class="td-rom">le-leh</td><td class="td-en">Tired</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Kenyang</td><td class="td-rom">ke-nyang</td><td class="td-en">Bored / fed up</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Sajan</td><td class="td-rom">sa-jan</td><td class="td-en">Really / truly (emphasis)</td><td class="td-note">Used to intensify: seneng sajan = truly happy</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Expressing States</div>
+        <div class="phrase-list">
+          <div class="phrase-card">
+            <div class="phrase-bali">Tiang seneng pesan!</div>
+            <div class="phrase-eng">I am very happy!</div>
+            <div class="phrase-rom">ti-ang · se-neng · pe-san</div>
+            <div class="phrase-note"></div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali">Kenken keneh ragane?</div>
+            <div class="phrase-eng">How are you feeling? (lit. How is your mind/feeling?)</div>
+            <div class="phrase-rom">ken-ken · ke-neh · ra-ga-ne?</div>
+            <div class="phrase-note">A deeper, more personal "how are you"</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali">Tiang leleh sajan</div>
+            <div class="phrase-eng">I am really tired</div>
+            <div class="phrase-rom">ti-ang · le-leh · sa-jan</div>
+            <div class="phrase-note"></div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali">Tiang ten sedih</div>
+            <div class="phrase-eng">I am not sad</div>
+            <div class="phrase-rom">ti-ang · ten · se-dih</div>
+            <div class="phrase-note">Negation works the same as with verbs</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Culture Note</div>
+        <div class="culture-box">
+          <strong>Keneh — More Than "Feeling"</strong>
+          The word <em>keneh</em> is one of the most culturally loaded words in Balinese. It means mind, heart, feeling, intention, and disposition all at once. When someone asks <em>kenken kenehe?</em> they are asking about your whole inner state, not just your mood. Balinese culture places enormous weight on maintaining inner balance — being <em>keneh melah</em> (a good/clear mind-heart) is a life goal, not just a passing state. Using this word correctly will mark you as someone who genuinely understands Balinese culture.
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 14 -->
+    <div class="lesson-panel" id="lesson-14">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 14 of 20</span><span>Phase 2 · Building Blocks</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:70%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 14</span>
+        <h2 class="lesson-title">Colours &amp; Descriptions</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Colours in Balinese carry ritual significance beyond everyday use. Each of the four cardinal directions has a sacred colour associated with it in the Balinese Hindu tradition, and these appear in temple offerings, ceremonial dress, and spiritual symbolism. Learn the colours as both everyday descriptors and cultural markers.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Colours</div>
+        <table class="vocab-table">
+          <thead><tr><th>Balinese</th><th>Pronunciation</th><th>English</th><th>Sacred direction</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali">Putih</td><td class="td-rom">pu-tih</td><td class="td-en">White</td><td class="td-note">Kaja (mountain / north)</td></tr>
+            <tr><td class="td-bali">Selem</td><td class="td-rom">se-lem</td><td class="td-en">Black</td><td class="td-note">Kaja-kauh (northwest)</td></tr>
+            <tr><td class="td-bali">Barak</td><td class="td-rom">ba-rak</td><td class="td-en">Red</td><td class="td-note">Kangin (east / sunrise)</td></tr>
+            <tr><td class="td-bali">Kuning</td><td class="td-rom">ku-ning</td><td class="td-en">Yellow</td><td class="td-note">Kelod (sea / south)</td></tr>
+            <tr><td class="td-bali">Gadang</td><td class="td-rom">ga-dang</td><td class="td-en">Green</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Biru</td><td class="td-rom">bi-ru</td><td class="td-en">Blue</td><td class="td-note">Shared with Indonesian</td></tr>
+            <tr><td class="td-bali">Jingga</td><td class="td-rom">jing-ga</td><td class="td-en">Orange</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Saba</td><td class="td-rom">sa-ba</td><td class="td-en">Brown</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Abu-abu</td><td class="td-rom">a-bu a-bu</td><td class="td-en">Grey</td><td class="td-note">Shared with Indonesian</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Descriptive Phrases</div>
+        <div class="phrase-list">
+          <div class="phrase-card">
+            <div class="phrase-bali">Baju nika barak melah pesan</div>
+            <div class="phrase-eng">That red shirt is really nice</div>
+            <div class="phrase-rom">ba-ju · ni-ka · ba-rak · me-lah · pe-san</div>
+            <div class="phrase-note">Baju = shirt/clothing · multiple adjectives stack after the noun</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali">Napi warna selegang ragane?</div>
+            <div class="phrase-eng">What colour do you like?</div>
+            <div class="phrase-rom">na-pi · war-na · se-le-gang · ra-ga-ne?</div>
+            <div class="phrase-note">Warna = colour · selegang = to like/prefer</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Culture Note</div>
+        <div class="culture-box">
+          <strong>The Colours of the Compass</strong>
+          At Balinese temples and in ceremonial offerings you will see cloths, flowers, and decorations arranged in the four directional colours — white, red, yellow, black — each placed facing its sacred direction. The centre point is represented by <em>poleng</em>, the black-and-white checked cloth you see everywhere in Bali, which represents the balance of opposites. You will notice poleng wrapped around trees, statues, and temple gates. It is not decoration — it is protection and balance.
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 15 -->
+    <div class="lesson-panel" id="lesson-15">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 15 of 20</span><span>Phase 2 · Building Blocks</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 15</span>
+        <h2 class="lesson-title">At the Market</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          The pasar (market) is one of the best places to practice real Balinese. Vendors are accustomed to quick exchanges and will appreciate any effort. This lesson combines everything from Phase 1 and Phase 2 — numbers, adjectives, verbs, and question words — into real market conversation.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Market Vocabulary</div>
+        <table class="vocab-table">
+          <thead><tr><th>Balinese</th><th>Pronunciation</th><th>English</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali">Peken</td><td class="td-rom">pe-ken</td><td class="td-en">Market</td></tr>
+            <tr><td class="td-bali">Aji</td><td class="td-rom">a-ji</td><td class="td-en">Price / cost</td></tr>
+            <tr><td class="td-bali">Pis</td><td class="td-rom">pis</td><td class="td-en">Money</td></tr>
+            <tr><td class="td-bali">Tumbas</td><td class="td-rom">tum-bas</td><td class="td-en">Buy (Alus)</td></tr>
+            <tr><td class="td-bali">Meli</td><td class="td-rom">me-li</td><td class="td-en">Buy (Madia)</td></tr>
+            <tr><td class="td-bali">Tawar</td><td class="td-rom">ta-war</td><td class="td-en">Bargain / negotiate price</td></tr>
+            <tr><td class="td-bali">Makehan</td><td class="td-rom">ma-ke-han</td><td class="td-en">Too much / too expensive</td></tr>
+            <tr><td class="td-bali">Murah</td><td class="td-rom">mu-rah</td><td class="td-en">Cheap</td></tr>
+            <tr><td class="td-bali">Melah pesan</td><td class="td-rom">me-lah · pe-san</td><td class="td-en">Very good / excellent quality</td></tr>
+            <tr><td class="td-bali">Buah</td><td class="td-rom">bu-ah</td><td class="td-en">Fruit</td></tr>
+            <tr><td class="td-bali">Jukut</td><td class="td-rom">ju-kut</td><td class="td-en">Vegetable</td></tr>
+            <tr><td class="td-bali">Basa</td><td class="td-rom">ba-sa</td><td class="td-en">Spice / seasoning</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Market Dialogue</div>
+        <div class="sentence-breakdown">
+          <div class="sb-row">
+            <div class="sb-bali"><span class="s">Tiang</span> <span class="v">dot meli</span> buah nika.</div>
+            <div class="sb-eng">I want to buy that fruit.</div>
+            <div class="sb-note">dot = want · meli = buy</div>
+          </div>
+          <div class="sb-row">
+            <div class="sb-bali"><span class="q">Aji kuda</span> niki?</div>
+            <div class="sb-eng">How much is this?</div>
+          </div>
+          <div class="sb-row">
+            <div class="sb-bali">Makehan pesan! Kuangan akidik.</div>
+            <div class="sb-eng">Too expensive! A little cheaper.</div>
+            <div class="sb-note">kuangan = reduce · akidik = a little</div>
+          </div>
+          <div class="sb-row">
+            <div class="sb-bali"><span class="s">Tiang</span> <span class="v">meli</span> pat buah.</div>
+            <div class="sb-eng">I'll buy four (pieces of) fruit.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Practice</div>
+        <ul class="practice-list">
+          <li>Go to a local market and try at least one exchange in Balinese. Even just <em>Aji kuda niki?</em> is a win.</li>
+          <li>Practice the full negotiation sequence from memory: greeting → ask price → say it's too expensive → ask for a discount → agree on a number → buy.</li>
+          <li>Add adjectives: <em>Tiang dot meli buah melah</em> (I want to buy good fruit). <em>Buah nika nyen apa tara?</em> (Is that fruit fresh?)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LESSON 16 -->
+    <div class="lesson-panel" id="lesson-16">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 16 of 20</span><span>Phase 2 · Building Blocks</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 16</span>
+        <h2 class="lesson-title">Weather &amp; Nature</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Weather is one of the most natural conversation openers in any language. Bali has two seasons — dry (<em>sasih kapat</em>) and wet (<em>sasih kasa</em>) — and the landscape vocabulary is deeply tied to the island's geography. Nature words also connect to ceremony and spiritual life.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Weather &amp; Nature Vocabulary</div>
+        <table class="vocab-table">
+          <thead><tr><th>Balinese</th><th>Pronunciation</th><th>English</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali">Ujan</td><td class="td-rom">u-jan</td><td class="td-en">Rain</td></tr>
+            <tr><td class="td-bali">Ujan bales</td><td class="td-rom">u-jan · ba-les</td><td class="td-en">Heavy rain</td></tr>
+            <tr><td class="td-bali">Panas</td><td class="td-rom">pa-nas</td><td class="td-en">Hot / sunny</td></tr>
+            <tr><td class="td-bali">Nyem</td><td class="td-rom">nyem</td><td class="td-en">Cool / cold</td></tr>
+            <tr><td class="td-bali">Angin</td><td class="td-rom">a-ngin</td><td class="td-en">Wind</td></tr>
+            <tr><td class="td-bali">Mendung</td><td class="td-rom">men-dung</td><td class="td-en">Cloudy / overcast</td></tr>
+            <tr><td class="td-bali">Gunung</td><td class="td-rom">gu-nung</td><td class="td-en">Mountain</td></tr>
+            <tr><td class="td-bali">Tukad</td><td class="td-rom">tu-kad</td><td class="td-en">River</td></tr>
+            <tr><td class="td-bali">Pasisi</td><td class="td-rom">pa-si-si</td><td class="td-en">Beach / coast</td></tr>
+            <tr><td class="td-bali">Tegalan</td><td class="td-rom">te-ga-lan</td><td class="td-en">Rice field (dry)</td></tr>
+            <tr><td class="td-bali">Carik</td><td class="td-rom">ca-rik</td><td class="td-en">Rice field (irrigated)</td></tr>
+            <tr><td class="td-bali">Abian</td><td class="td-rom">a-bi-an</td><td class="td-en">Garden / orchard</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Weather Phrases</div>
+        <div class="phrase-list">
+          <div class="phrase-card">
+            <div class="phrase-bali">Jani panas pesan</div>
+            <div class="phrase-eng">Today is very hot</div>
+            <div class="phrase-rom">ja-ni · pa-nas · pe-san</div>
+            <div class="phrase-note">Jani = today / now</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali">Ujan lakar teka</div>
+            <div class="phrase-eng">Rain is coming</div>
+            <div class="phrase-rom">u-jan · la-kar · te-ka</div>
+            <div class="phrase-note">Lakar = will / going to</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali">Gunung Agung kelihatan jani</div>
+            <div class="phrase-eng">Gunung Agung is visible today</div>
+            <div class="phrase-rom">gu-nung · a-gung · ke-li-ha-tan · ja-ni</div>
+            <div class="phrase-note">A comment locals make with pride on clear days</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 17 -->
+    <div class="lesson-panel" id="lesson-17">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 17 of 20</span><span>Phase 2 · Building Blocks</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:85%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 17</span>
+        <h2 class="lesson-title">The Home</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          A Balinese home (<em>umah</em>) is not just a house — it is a sacred compound organized around a family temple (<em>sanggah</em>) and governed by the same kaja-kelod-kangin-kauh axis as the wider world. Understanding the parts of a Balinese home helps you navigate conversations about daily life and gives you insight into how Balinese people organize their world.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Parts of the Home</div>
+        <table class="vocab-table">
+          <thead><tr><th>Balinese</th><th>Pronunciation</th><th>English</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali">Umah</td><td class="td-rom">u-mah</td><td class="td-en">House / home</td><td class="td-note">The whole compound</td></tr>
+            <tr><td class="td-bali">Sanggah</td><td class="td-rom">sang-gah</td><td class="td-en">Family temple</td><td class="td-note">Always in kaja-kangin corner</td></tr>
+            <tr><td class="td-bali">Pa on</td><td class="td-rom">pa-on</td><td class="td-en">Kitchen</td><td class="td-note">From your tutor session</td></tr>
+            <tr><td class="td-bali">Bale</td><td class="td-rom">ba-le</td><td class="td-en">Pavilion / open platform</td><td class="td-note">Multi-purpose gathering space</td></tr>
+            <tr><td class="td-bali">Kamar</td><td class="td-rom">ka-mar</td><td class="td-en">Room / bedroom</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali">Jineng</td><td class="td-rom">ji-neng</td><td class="td-en">Rice barn</td><td class="td-note">Traditional storage for rice harvest</td></tr>
+            <tr><td class="td-bali">Kori</td><td class="td-rom">ko-ri</td><td class="td-en">Gate / entrance</td><td class="td-note">The ceremonial split gate</td></tr>
+            <tr><td class="td-bali">Teba</td><td class="td-rom">te-ba</td><td class="td-en">Back yard / lower area</td><td class="td-note">Kelod side — animals, waste</td></tr>
+            <tr><td class="td-bali">Lebuh</td><td class="td-rom">le-buh</td><td class="td-en">Front yard / outer area</td><td class="td-note">Between house and road</td></tr>
+            <tr><td class="td-bali">Paon</td><td class="td-rom">pa-on</td><td class="td-en">Hearth / fireplace</td><td class="td-note">Sacred — never step over it</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Culture Note</div>
+        <div class="culture-box">
+          <strong>The Compound as a Microcosm</strong>
+          A traditional Balinese compound mirrors the cosmos. The family temple sits in the kaja-kangin (most sacred) corner. The kitchen and sleeping areas are in the middle. The animal pens and waste areas are in the kelod-kauh (least sacred) corner. Even within a single home, the mountain-sea axis organises everything. When you visit a Balinese family, noticing the sanggah and its position shows a level of cultural awareness that most visitors never have.
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 18 -->
+    <div class="lesson-panel" id="lesson-18">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 18 of 20</span><span>Phase 2 · Building Blocks</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:90%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 18</span>
+        <h2 class="lesson-title">Transport &amp; Getting Around</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Getting around Bali involves motorbikes, cars, trucks, and occasionally boats — plus the ceremonial processions that close roads without warning. This lesson gives you the vocabulary to talk about transport, ask for rides, and understand directions in a vehicle context.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Transport Vocabulary</div>
+        <table class="vocab-table">
+          <thead><tr><th>Balinese</th><th>Pronunciation</th><th>English</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali">Motor</td><td class="td-rom">mo-tor</td><td class="td-en">Motorbike</td></tr>
+            <tr><td class="td-bali">Mobil</td><td class="td-rom">mo-bil</td><td class="td-en">Car</td></tr>
+            <tr><td class="td-bali">Sepeda</td><td class="td-rom">se-pe-da</td><td class="td-en">Bicycle</td></tr>
+            <tr><td class="td-bali">Kapal</td><td class="td-rom">ka-pal</td><td class="td-en">Boat / ship</td></tr>
+            <tr><td class="td-bali">Margi</td><td class="td-rom">mar-gi</td><td class="td-en">Road / path (Alus)</td></tr>
+            <tr><td class="td-bali">Jalan</td><td class="td-rom">ja-lan</td><td class="td-en">Road / street (everyday)</td></tr>
+            <tr><td class="td-bali">Ngojek</td><td class="td-rom">ngo-jek</td><td class="td-en">Ride a motorbike taxi</td></tr>
+            <tr><td class="td-bali">Nyetir</td><td class="td-rom">nye-tir</td><td class="td-en">Drive</td></tr>
+            <tr><td class="td-bali">Mundur</td><td class="td-rom">mun-dur</td><td class="td-en">Reverse / go back</td></tr>
+            <tr><td class="td-bali">Berhenti</td><td class="td-rom">ber-hen-ti</td><td class="td-en">Stop</td></tr>
+            <tr><td class="td-bali">Macet</td><td class="td-rom">ma-cet</td><td class="td-en">Traffic jam</td></tr>
+            <tr><td class="td-bali">Galang</td><td class="td-rom">ga-lang</td><td class="td-en">Bright / clear (of roads, sky)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Getting Around Phrases</div>
+        <div class="phrase-list">
+          <div class="phrase-card">
+            <div class="phrase-bali">Tiang lakar ke Ubud</div>
+            <div class="phrase-eng">I am going to Ubud</div>
+            <div class="phrase-rom">ti-ang · la-kar · ke · u-bud</div>
+            <div class="phrase-note">"Ke" = to (destination)</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali">Berhenti dini, suksma</div>
+            <div class="phrase-eng">Stop here, thank you</div>
+            <div class="phrase-rom">ber-hen-ti · di-ni · suk-sma</div>
+            <div class="phrase-note">Essential for motorbike taxis</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali">Macet apa tara di jalan nika?</div>
+            <div class="phrase-eng">Is that road jammed?</div>
+            <div class="phrase-rom">ma-cet · a-pa · ta-ra · di · ja-lan · ni-ka?</div>
+            <div class="phrase-note">"Apa tara" = or not / is it?</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 19 -->
+    <div class="lesson-panel" id="lesson-19">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 19 of 20</span><span>Phase 2 · Building Blocks</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:95%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 19</span>
+        <h2 class="lesson-title">Aksara Bali — The Script</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Aksara Bali is the traditional Balinese script, derived from the ancient Brahmi script of India. It is an <strong>abugida</strong> — a syllabic alphabet where each character represents a consonant with an inherent vowel sound that can be modified with diacritics. You will see it on temple gates, ceremonial banners, offerings, and road signs. You are not expected to read it fluently at this stage — but recognising the script and understanding its significance is part of genuine Balinese literacy.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Core Characters — Aksara Wianjana</div>
+        <table class="vocab-table">
+          <thead><tr><th>Aksara</th><th>Sound</th><th>Pronunciation</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bali" style="font-size:1.4rem">ᬳ</td><td class="td-en">Ha</td><td class="td-rom">ha</td><td class="td-note">First character of the script</td></tr>
+            <tr><td class="td-bali" style="font-size:1.4rem">ᬦ</td><td class="td-en">Na</td><td class="td-rom">na</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali" style="font-size:1.4rem">ᬘ</td><td class="td-en">Ca</td><td class="td-rom">cha</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali" style="font-size:1.4rem">ᬭ</td><td class="td-en">Ra</td><td class="td-rom">ra</td><td class="td-note">One of the most common characters</td></tr>
+            <tr><td class="td-bali" style="font-size:1.4rem">ᬓ</td><td class="td-en">Ka</td><td class="td-rom">ka</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali" style="font-size:1.4rem">ᬤ</td><td class="td-en">Da</td><td class="td-rom">da</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali" style="font-size:1.4rem">ᬢ</td><td class="td-en">Ta</td><td class="td-rom">ta</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali" style="font-size:1.4rem">ᬲ</td><td class="td-en">Sa</td><td class="td-rom">sa</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali" style="font-size:1.4rem">ᬯ</td><td class="td-en">Wa</td><td class="td-rom">wa</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali" style="font-size:1.4rem">ᬮ</td><td class="td-en">La</td><td class="td-rom">la</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali" style="font-size:1.4rem">ᬫ</td><td class="td-en">Ma</td><td class="td-rom">ma</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali" style="font-size:1.4rem">ᬕ</td><td class="td-en">Ga</td><td class="td-rom">ga</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali" style="font-size:1.4rem">ᬩ</td><td class="td-en">Ba</td><td class="td-rom">ba</td><td class="td-note"></td></tr>
+            <tr><td class="td-bali" style="font-size:1.4rem">ᬜ</td><td class="td-en">Nya</td><td class="td-rom">nya</td><td class="td-note">The "nya" sound from ngajeng etc.</td></tr>
+            <tr><td class="td-bali" style="font-size:1.4rem">ᬧ</td><td class="td-en">Pa</td><td class="td-rom">pa</td><td class="td-note"></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Recognising the Script</div>
+        <div class="phrase-list">
+          <div class="phrase-card">
+            <div class="phrase-bali" style="font-size:1.5rem">ᬒᬁ ᬲ᭄ᬯᬲ᭄ᬢ᭄ᬬᬲ᭄ᬢᬸ</div>
+            <div class="phrase-eng">Om Swastiastu</div>
+            <div class="phrase-rom">The universal greeting in Aksara Bali</div>
+            <div class="phrase-note">You will see this on signs, banners and temple entrances across Bali</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-bali" style="font-size:1.5rem">ᬩᬮᬶ</div>
+            <div class="phrase-eng">Bali</div>
+            <div class="phrase-rom">Ba · Li — two characters</div>
+            <div class="phrase-note">One of the simplest words to read in the script</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Culture Note</div>
+        <div class="culture-box">
+          <strong>A Living Script</strong>
+          Aksara Bali is not a dead script preserved in museums — it is actively used in religious manuscripts (lontar), temple inscriptions, ceremonial banners (umbul-umbul), and road signs. Learning to recognise even a handful of characters will let you notice the script everywhere. Reading it fully is a Phase 4 goal, but even pointing to a sign and saying "That says 'Om Swastiastu'" will make any Balinese person smile.
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 20 -->
+    <div class="lesson-panel" id="lesson-20">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 20 of 20</span><span>Phase 2 · Building Blocks</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 20</span>
+        <h2 class="lesson-title">Phase 2 Review</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          You have now covered 20 lessons across Phases 1 and 2. This review consolidates what you know into a set of self-test prompts and connects the vocabulary into real-world scenarios. Before moving to Phase 3, you should be able to complete each of the tasks below comfortably.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Self-Test Checklist</div>
+        <ul class="practice-list">
+          <li>Greet someone, introduce yourself, ask how they are, and close the conversation correctly — all in Balinese.</li>
+          <li>Say the same sentence in all three registers: <em>I want to eat rice</em> in Alus, Madia, and Kasar.</li>
+          <li>Count from 1 to 20 without looking. Say the price of five items in Rupiah.</li>
+          <li>Describe five objects around you using the noun + adjective rule.</li>
+          <li>Ask and answer all seven question words in a sentence each: dije, napi, sira, kenken, pidan, nguda, kuda.</li>
+          <li>Use ten verbs from Lesson 11 in a sentence. Negate five of them. Put three in the past using a time word.</li>
+          <li>Give someone directions using kaja, kelod, kangin, kauh, kiri, and tengen.</li>
+          <li>Express five emotions in a sentence: <em>Tiang + emotion.</em></li>
+          <li>Name all four directional colours and their associated sacred directions.</li>
+          <li>Recognise and read aloud <em>Om Swastiastu</em> and <em>Bali</em> in Aksara Bali.</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Phase 3 Preview</div>
+        <div class="grammar-box">
+          <h4>Phase 3: Conversation (Lessons 21–36)</h4>
+          <p>Phase 3 moves from building blocks into flowing conversation. You will learn: how to tell stories and recount events using past/future framing, polite requests and formal address, ceremonial and temple vocabulary, deeper register navigation, compound sentences using connectors, expressing opinions and preferences, and the art of <em>ngobrol</em> — casual Balinese small talk.</p>
+          <p>Before starting Phase 3, spend at least one week using Phase 2 vocabulary in real conversations. The market, your warung, your neighbourhood — every interaction is a practice session. Balinese people are patient and generous with learners. Use that.</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <p>Basa Bali · Learning Plan · Phase 2 Building Blocks</p>
+</footer>
+
+<script>
+  const navLinks = document.querySelectorAll('.lesson-nav a');
+  const panels = document.querySelectorAll('.lesson-panel');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const lessonNum = link.dataset.lesson;
+      navLinks.forEach(l => l.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      link.classList.add('active');
+      document.getElementById('lesson-' + lessonNum).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
