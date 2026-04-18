@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tutor Lesson 1 — Basa Bali</title>
+<title>Tutor Lesson 1 — Bahasa Indonesia</title>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -30,542 +30,118 @@
     min-height: 100vh;
   }
 
+  /* ── BACK BUTTON ── */
+  .back-bar { border-bottom: 1px solid var(--border); padding: 0.75rem 2rem; }
+  .back-bar-inner { max-width: 820px; margin: 0 auto; }
+  .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+  .back-btn:hover { color: var(--green-bright); }
+  .back-btn::before { content: '←'; font-size: 0.85rem; }
+
   /* ── HEADER ── */
-  header {
-    padding: 3rem 2rem 2rem;
-    border-bottom: 1px solid var(--border);
-    position: relative;
-    overflow: hidden;
-  }
-
-  header::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: radial-gradient(ellipse at 80% 50%, rgba(106,191,105,0.07) 0%, transparent 65%);
-    pointer-events: none;
-  }
-
+  header { padding: 3rem 2rem 2rem; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+  header::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at 80% 50%, rgba(106,191,105,0.07) 0%, transparent 65%); pointer-events: none; }
   .header-inner { max-width: 820px; margin: 0 auto; }
 
-  .tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--green);
-    border: 1px solid var(--border);
-    padding: 0.25rem 0.6rem;
-    border-radius: 2px;
-    margin-bottom: 1rem;
-  }
+  .tag { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green); border: 1px solid var(--border); padding: 0.25rem 0.6rem; border-radius: 2px; margin-bottom: 1rem; }
+  .tag::before { content: ''; width: 5px; height: 5px; background: var(--green); border-radius: 50%; display: inline-block; }
 
-  .tag::before {
-    content: '';
-    width: 5px; height: 5px;
-    background: var(--green);
-    border-radius: 50%;
-    display: inline-block;
-  }
-
-  header h1 {
-    font-family: 'Lora', serif;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    font-weight: 400;
-    line-height: 1.15;
-    color: var(--ink);
-    margin-bottom: 0.5rem;
-  }
-
-  header h1 em {
-    font-style: italic;
-    color: var(--green-bright);
-  }
-
-  .header-meta {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-    margin-top: 0.75rem;
-  }
-
-  /* ── BACK BUTTON ── */
-  .back-bar {
-    border-bottom: 1px solid var(--border);
-    padding: 0.75rem 2rem;
-  }
-
-  .back-bar-inner {
-    max-width: 820px;
-    margin: 0 auto;
-  }
-
-  .back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-
-  .back-btn:hover { color: var(--green-bright); }
-
-  .back-btn::before {
-    content: '←';
-    font-size: 0.85rem;
-  }
+  header h1 { font-family: 'Lora', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 400; line-height: 1.15; color: var(--ink); margin-bottom: 0.5rem; }
+  header h1 em { font-style: italic; color: var(--green-bright); }
+  .header-meta { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; margin-top: 0.75rem; }
 
   /* ── LAYOUT ── */
-  .wrap {
-    max-width: 820px;
-    margin: 0 auto;
-    padding: 2.5rem 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-  }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 2.5rem 2rem; display: flex; flex-direction: column; gap: 2.5rem; }
 
   /* ── SECTION ── */
-  .section {}
-
-  .section-head {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    margin-bottom: 1.2rem;
-  }
-
-  .section-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    color: var(--green);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    border: 1px solid var(--border);
-    padding: 0.2rem 0.5rem;
-    border-radius: 2px;
-    white-space: nowrap;
-  }
-
-  .section-title {
-    font-family: 'Lora', serif;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--ink);
-  }
-
-  .section-rule {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+  .section-head { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem; }
+  .section-num { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--green); letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid var(--border); padding: 0.2rem 0.5rem; border-radius: 2px; white-space: nowrap; }
+  .section-title { font-family: 'Lora', serif; font-size: 1.25rem; font-weight: 600; color: var(--ink); }
+  .section-rule { flex: 1; height: 1px; background: var(--border); }
 
   /* ── GRAMMAR FORMULA ── */
-  .formula-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-top: 2px solid var(--green);
-    border-radius: 0 0 6px 6px;
-    padding: 1.4rem 1.6rem;
-  }
-
-  .formula {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    flex-wrap: wrap;
-    margin-bottom: 1.2rem;
-  }
-
-  .f-block {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.85rem;
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-    font-weight: 500;
-  }
-
+  .formula-box { background: var(--surface); border: 1px solid var(--border); border-top: 2px solid var(--green); border-radius: 0 0 6px 6px; padding: 1.4rem 1.6rem; }
+  .formula { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+  .f-block { font-family: 'DM Mono', monospace; font-size: 0.85rem; padding: 0.4rem 0.8rem; border-radius: 4px; font-weight: 500; }
   .f-s { background: rgba(106,191,105,0.15); color: var(--green-bright); border: 1px solid rgba(106,191,105,0.3); }
   .f-v { background: rgba(240,208,96,0.15); color: var(--yellow); border: 1px solid rgba(240,208,96,0.3); }
   .f-o { background: rgba(224,112,80,0.15); color: var(--rust); border: 1px solid rgba(224,112,80,0.3); }
   .f-t { background: rgba(122,154,114,0.15); color: var(--muted); border: 1px solid rgba(122,154,114,0.3); }
   .f-op { color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.75rem; }
 
-  .formula-note {
-    font-size: 0.82rem;
-    color: var(--muted);
-    line-height: 1.6;
-    border-left: 2px solid var(--border);
-    padding-left: 0.8rem;
-    margin-bottom: 1rem;
-  }
-
+  .formula-note { font-size: 0.82rem; color: var(--muted); line-height: 1.6; border-left: 2px solid var(--border); padding-left: 0.8rem; margin-bottom: 1rem; }
   .formula-note:last-child { margin-bottom: 0; }
+  .formula-note strong { color: var(--green-bright); font-weight: 500; }
 
-  .formula-note strong {
-    color: var(--green-bright);
-    font-weight: 500;
-  }
-
-  /* ── KEY INSIGHT BOX ── */
-  .insight {
-    background: rgba(106,191,105,0.08);
-    border: 1px solid rgba(106,191,105,0.25);
-    border-radius: 6px;
-    padding: 1rem 1.2rem;
-    font-size: 0.85rem;
-    line-height: 1.7;
-    color: var(--text);
-  }
-
-  .insight-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--green);
-    margin-bottom: 0.4rem;
-  }
+  /* ── INSIGHT BOX ── */
+  .insight { background: rgba(106,191,105,0.08); border: 1px solid rgba(106,191,105,0.25); border-radius: 6px; padding: 1rem 1.2rem; font-size: 0.85rem; line-height: 1.7; color: var(--text); }
+  .insight-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--green); margin-bottom: 0.4rem; }
+  .insight strong { color: var(--ink); font-weight: 500; }
+  .insight em { color: var(--green-bright); font-style: italic; }
 
   /* ── PRONOUN GRID ── */
-  .pronoun-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-  }
-
-  .pronoun-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 0.8rem 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    transition: border-color 0.15s;
-  }
-
+  .pronoun-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .pronoun-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.8rem 1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; transition: border-color 0.15s; }
   .pronoun-card:hover { border-color: var(--green); }
-
-  .pronoun-en {
-    font-size: 0.8rem;
-    color: var(--muted);
-    font-weight: 400;
-    min-width: 50px;
-  }
-
-  .pronoun-arrow {
-    color: var(--border);
-    font-size: 0.7rem;
-  }
-
-  .pronoun-bali {
-    font-family: 'Lora', serif;
-    font-size: 1.05rem;
-    color: var(--green-bright);
-    font-weight: 400;
-    text-align: right;
-  }
-
-  .pronoun-note {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.58rem;
-    color: var(--muted);
-    text-align: right;
-    margin-top: 0.15rem;
-  }
+  .pronoun-en { font-size: 0.8rem; color: var(--muted); font-weight: 400; min-width: 50px; }
+  .pronoun-arrow { color: var(--border); font-size: 0.7rem; }
+  .pronoun-indo { font-family: 'Lora', serif; font-size: 1.05rem; color: var(--green-bright); font-weight: 400; text-align: right; }
+  .pronoun-note { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--muted); text-align: right; margin-top: 0.15rem; }
 
   /* ── VERB TABLE ── */
-  .verb-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .verb-table thead th {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-align: left;
-    padding: 0.4rem 0.8rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .verb-table tbody tr {
-    border-bottom: 1px solid rgba(42,61,36,0.5);
-    transition: background 0.1s;
-  }
-
+  .verb-table { width: 100%; border-collapse: collapse; }
+  .verb-table thead th { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 0.4rem 0.8rem; border-bottom: 1px solid var(--border); }
+  .verb-table tbody tr { border-bottom: 1px solid rgba(42,61,36,0.5); transition: background 0.1s; }
   .verb-table tbody tr:hover { background: var(--surface2); }
-
-  .verb-table td {
-    padding: 0.75rem 0.8rem;
-    vertical-align: middle;
-  }
-
+  .verb-table td { padding: 0.75rem 0.8rem; vertical-align: middle; }
   .td-en { color: var(--muted); font-size: 0.82rem; }
-
-  .td-bali {
-    font-family: 'Lora', serif;
-    font-size: 1.05rem;
-    color: var(--green-bright);
-  }
-
-  .td-pron {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--rust);
-  }
-
-  .td-note {
-    font-size: 0.75rem;
-    color: var(--muted);
-    font-style: italic;
-  }
+  .td-indo { font-family: 'Lora', serif; font-size: 1.05rem; color: var(--green-bright); }
+  .td-pron { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--rust); white-space: nowrap; }
+  .td-note { color: var(--muted); font-size: 0.8rem; font-style: italic; }
 
   /* ── EXAMPLE SENTENCES ── */
-  .examples {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .ex-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 0.85rem 1.1rem;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 0.6rem 1rem;
-    align-items: start;
-    transition: border-color 0.15s;
-  }
-
+  .examples { display: flex; flex-direction: column; gap: 0.5rem; }
+  .ex-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.85rem 1.1rem; display: grid; grid-template-columns: auto 1fr auto; gap: 0.6rem 1rem; align-items: start; transition: border-color 0.15s; }
   .ex-card:hover { border-color: rgba(106,191,105,0.4); }
-
-  .ex-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.58rem;
-    color: var(--green);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding-top: 0.15rem;
-    white-space: nowrap;
-  }
-
-  .ex-content {}
-
-  .ex-bali {
-    font-family: 'Lora', serif;
-    font-size: 1.05rem;
-    color: var(--ink);
-    margin-bottom: 0.2rem;
-  }
-
-  .ex-bali .s { color: var(--green-bright); }
-  .ex-bali .v { color: var(--yellow); }
-  .ex-bali .t { color: var(--muted); }
-  .ex-bali .neg { color: var(--rust); }
-
-  .ex-rom {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    margin-bottom: 0.15rem;
-  }
-
-  .ex-en {
-    font-size: 0.78rem;
-    color: var(--muted);
-  }
-
-  .ex-badge {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.55rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.2rem 0.45rem;
-    border-radius: 3px;
-    white-space: nowrap;
-    align-self: start;
-  }
-
+  .ex-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--green); letter-spacing: 0.15em; text-transform: uppercase; padding-top: 0.15rem; white-space: nowrap; }
+  .ex-indo { font-family: 'Lora', serif; font-size: 1.05rem; color: var(--ink); margin-bottom: 0.2rem; }
+  .ex-indo .s { color: var(--green-bright); }
+  .ex-indo .v { color: var(--yellow); }
+  .ex-indo .t { color: var(--muted); }
+  .ex-indo .neg { color: var(--rust); }
+  .ex-pron { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); margin-bottom: 0.15rem; white-space: nowrap; }
+  .ex-en { font-size: 0.78rem; color: var(--muted); }
+  .ex-badge { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.45rem; border-radius: 3px; white-space: nowrap; align-self: start; }
   .badge-pos { background: rgba(106,191,105,0.12); color: var(--green); border: 1px solid rgba(106,191,105,0.25); }
   .badge-neg { background: rgba(224,112,80,0.12); color: var(--rust); border: 1px solid rgba(224,112,80,0.25); }
   .badge-q   { background: rgba(240,208,96,0.12); color: var(--yellow); border: 1px solid rgba(240,208,96,0.25); }
 
   /* ── QUESTION TABLE ── */
-  .q-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .q-table thead th {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-align: left;
-    padding: 0.4rem 0.8rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .q-table tbody tr {
-    border-bottom: 1px solid rgba(42,61,36,0.5);
-    transition: background 0.1s;
-  }
-
+  .q-table { width: 100%; border-collapse: collapse; }
+  .q-table thead th { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 0.4rem 0.8rem; border-bottom: 1px solid var(--border); }
+  .q-table tbody tr { border-bottom: 1px solid rgba(42,61,36,0.5); transition: background 0.1s; }
   .q-table tbody tr:hover { background: var(--surface2); }
-
   .q-table td { padding: 0.75rem 0.8rem; vertical-align: top; }
-
-  .q-word {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    color: var(--yellow);
-    text-transform: uppercase;
-  }
+  .q-word { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.12em; color: var(--yellow); text-transform: uppercase; }
 
   /* ── VOCAB PILLS ── */
-  .vocab-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 0.5rem;
-  }
-
-  .vocab-pill {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    padding: 0.65rem 0.9rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 0.5rem;
-    transition: border-color 0.15s;
-  }
-
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem; }
+  .vocab-pill { background: var(--surface); border: 1px solid var(--border); border-radius: 5px; padding: 0.65rem 0.9rem; display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; transition: border-color 0.15s; }
   .vocab-pill:hover { border-color: rgba(106,191,105,0.4); }
-
-  .vp-bali {
-    font-family: 'Lora', serif;
-    font-size: 0.95rem;
-    color: var(--green-bright);
-  }
-
-  .vp-en {
-    font-size: 0.75rem;
-    color: var(--muted);
-    text-align: right;
-  }
+  .vp-indo { font-family: 'Lora', serif; font-size: 0.95rem; color: var(--green-bright); }
+  .vp-en { font-size: 0.75rem; color: var(--muted); text-align: right; }
 
   /* ── DRILL BOX ── */
-  .drill-box {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--yellow);
-    border-radius: 0 6px 6px 0;
-    padding: 1.2rem 1.4rem;
-  }
+  .drill-box { background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--yellow); border-radius: 0 6px 6px 0; padding: 1.2rem 1.4rem; }
+  .drill-title { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--yellow); margin-bottom: 0.8rem; }
+  .drill-list { list-style: none; counter-reset: drill; display: flex; flex-direction: column; gap: 0.55rem; }
+  .drill-list li { counter-increment: drill; display: flex; gap: 0.7rem; align-items: baseline; font-size: 0.85rem; line-height: 1.55; color: var(--text); }
+  .drill-list li::before { content: counter(drill, decimal-leading-zero); font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--yellow); flex-shrink: 0; }
+  .drill-list li em { color: var(--green-bright); font-style: italic; }
 
-  .drill-title {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--yellow);
-    margin-bottom: 0.8rem;
-  }
-
-  .drill-list {
-    list-style: none;
-    counter-reset: drill;
-    display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
-  }
-
-  .drill-list li {
-    counter-increment: drill;
-    display: flex;
-    gap: 0.7rem;
-    align-items: baseline;
-    font-size: 0.85rem;
-    line-height: 1.55;
-    color: var(--text);
-  }
-
-  .drill-list li::before {
-    content: counter(drill, decimal-leading-zero);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    color: var(--yellow);
-    flex-shrink: 0;
-  }
-
-  /* ── FROM NOTES TAG ── */
-  .from-notes {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.55rem;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    text-transform: uppercase;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 0.15rem 0.4rem;
-    border-radius: 2px;
-    margin-left: 0.4rem;
-    vertical-align: middle;
-  }
-
-  .from-notes::before {
-    content: '✎';
-    font-size: 0.6rem;
-  }
-
-  /* ── NEGATION HIGHLIGHT ── */
-  .neg-box {
-    background: rgba(224,112,80,0.08);
-    border: 1px solid rgba(224,112,80,0.2);
-    border-radius: 6px;
-    padding: 1rem 1.2rem;
-    font-size: 0.85rem;
-    line-height: 1.7;
-    color: var(--text);
-  }
-
-  .neg-box .label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--rust);
-    margin-bottom: 0.4rem;
-  }
-
-  .highlight-word {
-    font-family: 'Lora', serif;
-    font-size: 1.1rem;
-    color: var(--rust);
-    font-style: italic;
-  }
+  /* ── NEGATION BOX ── */
+  .neg-box { background: rgba(224,112,80,0.08); border: 1px solid rgba(224,112,80,0.2); border-radius: 6px; padding: 1rem 1.2rem; font-size: 0.85rem; line-height: 1.7; color: var(--text); }
+  .neg-box .label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rust); margin-bottom: 0.4rem; }
+  .highlight-word { font-family: 'Lora', serif; font-size: 1.1rem; color: var(--rust); font-style: italic; }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 600px) {
@@ -574,6 +150,7 @@
     .ex-badge { display: none; }
     header { padding: 2rem 1.2rem 1.5rem; }
     .wrap { padding: 1.5rem 1.2rem; gap: 2rem; }
+    .back-bar { padding: 0.75rem 1.2rem; }
   }
 </style>
 </head>
@@ -589,7 +166,7 @@
   <div class="header-inner">
     <div class="tag">Tutor Session · Lesson 1 Recap</div>
     <h1>Sentence Structure,<br>Pronouns &amp; <em>Core Verbs</em></h1>
-    <div class="header-meta">Based on your handwritten notes &nbsp;·&nbsp; Basa Bali · Madia Register</div>
+    <div class="header-meta">Based on your handwritten notes &nbsp;·&nbsp; Bahasa Indonesia · Formal &amp; Informal</div>
   </div>
 </header>
 
@@ -615,13 +192,13 @@
       </div>
 
       <div class="formula-note">
-        <strong>Key rule:</strong> Balinese follows the same Subject-Verb-Object order as English. This makes building sentences intuitive from the start.
+        <strong>Key rule:</strong> Indonesian follows Subject-Verb-Object order — the same as English. This makes building sentences immediately intuitive.
       </div>
       <div class="formula-note">
-        <strong>Time words</strong> like <em>mani</em> (tomorrow) and <em>ibi</em> (yesterday) go at the <strong>end</strong> of the sentence — not the beginning like in English. Your tutor showed this clearly with the sentence example at the bottom of the first page.
+        <strong>Time words</strong> like <em>besok</em> (tomorrow) and <em>kemarin</em> (yesterday) go at the <strong>beginning or end</strong> of the sentence. Putting them at the front adds emphasis; at the end is more neutral.
       </div>
       <div class="formula-note">
-        <strong>No verb conjugation for tense.</strong> The verb doesn't change form. Time is expressed entirely by adding a time word. "Tiang ngajeng" means "I eat" — add "ibi" and it becomes "I ate yesterday." Add "mani" and it becomes "I will eat tomorrow."
+        <strong>No verb conjugation for tense.</strong> The verb never changes form. Tense is expressed through time words and markers: <em>sudah</em> (already/past), <em>sedang</em> (currently), <em>akan</em> (will). Add <em>kemarin</em> and it becomes past. Add <em>besok</em> and it becomes future.
       </div>
     </div>
   </section>
@@ -630,79 +207,85 @@
   <section class="section">
     <div class="section-head">
       <span class="section-num">02</span>
-      <h2 class="section-title">Pronouns <span class="from-notes">from your notes</span></h2>
+      <h2 class="section-title">Pronouns</h2>
       <div class="section-rule"></div>
     </div>
 
     <div class="insight" style="margin-bottom:1rem;">
-      <div class="insight-label">Tutor Note</div>
-      Your tutor showed She / He / They all converging on <strong>Ia (Iye)</strong> — Balinese does not distinguish gender in the third person. "Ia" covers he, she, and it. For "they" (2+ people), the form is <strong>Ia mekejang</strong> — the same base word with a plural marker suffix.
+      <div class="insight-label">Key Note</div>
+      Indonesian has <strong>formal and informal</strong> pronouns. <em>Saya</em> (formal I) and <em>aku</em> (informal I) are both correct — context determines which to use. With strangers, elders, or in professional settings, use <em>saya</em> and <em>Anda.</em> With friends and peers, <em>aku</em> and <em>kamu</em> are natural. <em>Dia</em> covers he, she, and it — Indonesian does not distinguish gender in the third person.
     </div>
 
     <div class="pronoun-grid">
       <div class="pronoun-card">
-        <div>
-          <div class="pronoun-en">I</div>
-        </div>
+        <div><div class="pronoun-en">I (formal)</div></div>
         <span class="pronoun-arrow">→</span>
         <div>
-          <div class="pronoun-bali">Tiang</div>
-          <div class="pronoun-note">Madia register · most common</div>
+          <div class="pronoun-indo">Saya</div>
+          <div class="pronoun-note">Use with strangers &amp; elders</div>
         </div>
       </div>
 
       <div class="pronoun-card">
-        <div>
-          <div class="pronoun-en">You</div>
-        </div>
+        <div><div class="pronoun-en">I (informal)</div></div>
         <span class="pronoun-arrow">→</span>
         <div>
-          <div class="pronoun-bali">Ragane</div>
-          <div class="pronoun-note">Polite · use with strangers &amp; elders</div>
+          <div class="pronoun-indo">Aku</div>
+          <div class="pronoun-note">Use with friends &amp; peers</div>
         </div>
       </div>
 
       <div class="pronoun-card">
-        <div>
-          <div class="pronoun-en">She</div>
-        </div>
+        <div><div class="pronoun-en">You (formal)</div></div>
         <span class="pronoun-arrow">→</span>
         <div>
-          <div class="pronoun-bali">Ia &nbsp;<span style="font-size:0.8rem;color:var(--muted)">(Iye)</span></div>
+          <div class="pronoun-indo">Anda</div>
+          <div class="pronoun-note">Polite / professional</div>
+        </div>
+      </div>
+
+      <div class="pronoun-card">
+        <div><div class="pronoun-en">You (informal)</div></div>
+        <span class="pronoun-arrow">→</span>
+        <div>
+          <div class="pronoun-indo">Kamu</div>
+          <div class="pronoun-note">Everyday casual use</div>
+        </div>
+      </div>
+
+      <div class="pronoun-card">
+        <div><div class="pronoun-en">He / She / It</div></div>
+        <span class="pronoun-arrow">→</span>
+        <div>
+          <div class="pronoun-indo">Dia / Ia</div>
           <div class="pronoun-note">No gender distinction</div>
         </div>
       </div>
 
       <div class="pronoun-card">
-        <div>
-          <div class="pronoun-en">He</div>
-        </div>
+        <div><div class="pronoun-en">We (incl. you)</div></div>
         <span class="pronoun-arrow">→</span>
         <div>
-          <div class="pronoun-bali">Ia &nbsp;<span style="font-size:0.8rem;color:var(--muted)">(Iye)</span></div>
-          <div class="pronoun-note">Same as "she"</div>
+          <div class="pronoun-indo">Kita</div>
+          <div class="pronoun-note">Listener is included</div>
         </div>
       </div>
 
       <div class="pronoun-card">
-        <div>
-          <div class="pronoun-en">We</div>
-        </div>
+        <div><div class="pronoun-en">We (excl. you)</div></div>
         <span class="pronoun-arrow">→</span>
         <div>
-          <div class="pronoun-bali">Rage mekejang</div>
-          <div class="pronoun-note">Plural marker: mekejang</div>
+          <div class="pronoun-indo">Kami</div>
+          <div class="pronoun-note">Listener is not included</div>
         </div>
       </div>
 
       <div class="pronoun-card">
-        <div>
-          <div class="pronoun-en">They</div>
-        </div>
+        <div><div class="pronoun-en">They</div></div>
         <span class="pronoun-arrow">→</span>
         <div>
-          <div class="pronoun-bali">Ia mekejang</div>
-          <div class="pronoun-note">(2+) same base + mekejang</div>
+          <div class="pronoun-indo">Mereka</div>
+          <div class="pronoun-note">Same in both registers</div>
         </div>
       </div>
     </div>
@@ -712,100 +295,67 @@
   <section class="section">
     <div class="section-head">
       <span class="section-num">03</span>
-      <h2 class="section-title">Core Verbs <span class="from-notes">from your notes</span></h2>
+      <h2 class="section-title">Core Verbs</h2>
       <div class="section-rule"></div>
     </div>
 
     <table class="verb-table">
       <thead>
-        <tr>
-          <th>English</th>
-          <th>Balinese</th>
-          <th>Pronunciation</th>
-          <th>Note</th>
-        </tr>
+        <tr><th>English</th><th>Indonesian</th><th>Pronunciation</th><th>Note</th></tr>
       </thead>
       <tbody>
-        <tr>
-          <td class="td-en">Eat</td>
-          <td class="td-bali">Ngajeng</td>
-          <td class="td-pron">nga-jeng</td>
-          <td class="td-note">Madia register · your tutor's example verb</td>
-        </tr>
-        <tr>
-          <td class="td-en">Drink</td>
-          <td class="td-bali">Minum</td>
-          <td class="td-pron">mi-num</td>
-          <td class="td-note">Shared with Indonesian</td>
-        </tr>
-        <tr>
-          <td class="td-en">Cook</td>
-          <td class="td-bali">Nyakan</td>
-          <td class="td-pron">nya-kan</td>
-          <td class="td-note">Specifically Balinese</td>
-        </tr>
-        <tr>
-          <td class="td-en">Order (food)</td>
-          <td class="td-bali">Pesan</td>
-          <td class="td-pron">pe-san</td>
-          <td class="td-note">Also used as a noun "an order"</td>
-        </tr>
-        <tr>
-          <td class="td-en">Want / will</td>
-          <td class="td-bali">Lakar</td>
-          <td class="td-pron">la-kar</td>
-          <td class="td-note">Used for intention or future action</td>
-        </tr>
+        <tr><td class="td-en">Eat</td><td class="td-indo">Makan</td><td class="td-pron">ma-kan</td><td class="td-note">Formal: memakan</td></tr>
+        <tr><td class="td-en">Drink</td><td class="td-indo">Minum</td><td class="td-pron">mi-num</td><td class="td-note">Formal: meminum</td></tr>
+        <tr><td class="td-en">Cook</td><td class="td-indo">Masak</td><td class="td-pron">ma-sak</td><td class="td-note">Formal: memasak</td></tr>
+        <tr><td class="td-en">Go</td><td class="td-indo">Pergi</td><td class="td-pron">per-gi</td><td class="td-note">Also: luas in Balinese (different)</td></tr>
+        <tr><td class="td-en">Come</td><td class="td-indo">Datang</td><td class="td-pron">da-tang</td><td class="td-note"></td></tr>
+        <tr><td class="td-en">Order (food)</td><td class="td-indo">Pesan</td><td class="td-pron">pe-san</td><td class="td-note">Also means "message"</td></tr>
+        <tr><td class="td-en">Want to / will</td><td class="td-indo">Mau</td><td class="td-pron">mau</td><td class="td-note">Works in both registers</td></tr>
+        <tr><td class="td-en">Buy</td><td class="td-indo">Beli</td><td class="td-pron">be-li</td><td class="td-note">Formal: membeli</td></tr>
       </tbody>
     </table>
 
     <div class="insight" style="margin-top:1rem;">
-      <div class="insight-label">Register Note</div>
-      Your tutor used <strong>ngajeng</strong> throughout — this is Madia (middle polite) register. The high register word for eat is <em>ngajengang</em>, and the casual register is <em>naar</em>. Stick with <strong>ngajeng</strong> in all everyday conversations for now.
+      <div class="insight-label">Formal vs Casual Verbs</div>
+      In casual spoken Indonesian you will hear bare base verbs: <em>dia makan</em> (she eat). In formal Indonesian or writing, the me- prefix is added: <em>dia memakan.</em> Both are understood and correct in context. As a beginner, use base verbs in conversation — native speakers do too.
     </div>
   </section>
 
-  <!-- SECTION 4: EXAMPLE SENTENCES WITH COLOR CODING -->
+  <!-- SECTION 4: EXAMPLE SENTENCES -->
   <section class="section">
     <div class="section-head">
       <span class="section-num">04</span>
-      <h2 class="section-title">Sentence Examples <span class="from-notes">from your notes</span></h2>
+      <h2 class="section-title">Sentence Examples</h2>
       <div class="section-rule"></div>
     </div>
 
     <div class="examples">
 
       <div class="ex-card">
-        <span class="ex-label">C1</span>
+        <span class="ex-label">Pos</span>
         <div class="ex-content">
-          <div class="ex-bali">
-            <span class="s">Tiang</span> <span class="v">ngajeng</span> <span class="t">ibi</span>
-          </div>
-          <div class="ex-rom">Ti-ang · nga-jeng · i-bi</div>
+          <div class="ex-indo"><span class="s">Saya</span> <span class="v">makan</span> <span class="t">kemarin</span></div>
+          <div class="ex-pron">sa-ya · ma-kan · ke-ma-rin</div>
           <div class="ex-en">I ate yesterday</div>
         </div>
         <span class="ex-badge badge-pos">Positive</span>
       </div>
 
       <div class="ex-card">
-        <span class="ex-label">C1–</span>
+        <span class="ex-label">Neg</span>
         <div class="ex-content">
-          <div class="ex-bali">
-            <span class="s">Tiang</span> <span class="neg">ten</span> <span class="v">ngajeng</span> <span class="t">ibi</span>
-          </div>
-          <div class="ex-rom">Ti-ang · ten · nga-jeng · i-bi</div>
+          <div class="ex-indo"><span class="s">Saya</span> <span class="neg">tidak</span> <span class="v">makan</span> <span class="t">kemarin</span></div>
+          <div class="ex-pron">sa-ya · ti-dak · ma-kan · ke-ma-rin</div>
           <div class="ex-en">I did not eat yesterday</div>
         </div>
         <span class="ex-badge badge-neg">Negative</span>
       </div>
 
       <div class="ex-card">
-        <span class="ex-label">C2?</span>
+        <span class="ex-label">Y/N?</span>
         <div class="ex-content">
-          <div class="ex-bali">
-            <span class="s">Ragane</span> <span class="v">ngajeng</span> <span class="t">ibi</span> <span style="color:var(--yellow)">?</span>
-          </div>
-          <div class="ex-rom">Ra-ga-ne · nga-jeng · i-bi?</div>
+          <div class="ex-indo"><span class="s">Kamu</span> <span class="v">makan</span> <span class="t">kemarin</span>?</div>
+          <div class="ex-pron">ka-mu · ma-kan · ke-ma-rin?</div>
           <div class="ex-en">Did you eat yesterday? (yes/no)</div>
         </div>
         <span class="ex-badge badge-q">Y/N Question</span>
@@ -814,33 +364,39 @@
       <div class="ex-card">
         <span class="ex-label">Wh?</span>
         <div class="ex-content">
-          <div class="ex-bali">
-            <span style="color:var(--yellow)">Dije</span> <span class="s">Ragane</span> <span class="v">ngajeng</span> <span class="t">ibi</span> <span style="color:var(--yellow)">?</span>
-          </div>
-          <div class="ex-rom">Di-je · ra-ga-ne · nga-jeng · i-bi?</div>
+          <div class="ex-indo" style="color:var(--yellow)">Di mana <span style="color:var(--ink)"><span class="s">kamu</span> <span class="v">makan</span> <span class="t">kemarin</span>?</span></div>
+          <div class="ex-pron">di-ma-na · ka-mu · ma-kan · ke-ma-rin?</div>
           <div class="ex-en">Where did you eat yesterday?</div>
         </div>
         <span class="ex-badge badge-q">Wh-Question</span>
       </div>
 
       <div class="ex-card">
-        <span class="ex-label">C1</span>
+        <span class="ex-label">Fut</span>
         <div class="ex-content">
-          <div class="ex-bali">
-            <span class="s">Tiang</span> <span class="v">lakar pesan</span> <span style="color:var(--rust)">nasi campur besik</span>
-          </div>
-          <div class="ex-rom">Ti-ang · la-kar pe-san · na-si cam-pur be-sik</div>
-          <div class="ex-en">I will order one nasi campur</div>
+          <div class="ex-indo"><span class="s">Saya</span> <span class="v">mau pesan</span> <span style="color:var(--rust)">nasi campur satu</span></div>
+          <div class="ex-pron">sa-ya · mau · pe-san · na-si · cam-pur · sa-tu</div>
+          <div class="ex-en">I want to order one nasi campur</div>
         </div>
         <span class="ex-badge badge-pos">Positive</span>
       </div>
 
+      <div class="ex-card">
+        <span class="ex-label">Pos</span>
+        <div class="ex-content">
+          <div class="ex-indo"><span class="s">Saya</span> <span class="v">makan</span> <span class="t">besok</span></div>
+          <div class="ex-pron">sa-ya · ma-kan · be-sok</div>
+          <div class="ex-en">I will eat tomorrow</div>
+        </div>
+        <span class="ex-badge badge-pos">Future</span>
+      </div>
+
     </div>
 
-    <div style="margin-top: 1rem;">
+    <div style="margin-top:1rem;">
       <div class="neg-box">
-        <div class="label">Negation</div>
-        To make any sentence negative, insert <span class="highlight-word">ten</span> directly after the subject, before the verb. Your tutor wrote this in red — it is inserted cleanly: <strong>Tiang &rarr; Tiang ten &rarr; Tiang ten ngajeng.</strong> "Ten" is the everyday (Madia/Kasar) negative. The formal (Alus) equivalent is <em>nenten</em>.
+        <div class="label">Negation — Tidak vs Bukan</div>
+        Indonesian has two negation words. <span class="highlight-word">Tidak</span> negates verbs and adjectives — insert it directly before the verb: <strong>Saya → Saya tidak → Saya tidak makan.</strong> <span class="highlight-word">Bukan</span> negates nouns and identity: <strong>Ini bukan nasi</strong> (this is not rice). In casual speech, <em>nggak</em> or <em>gak</em> replaces both. Getting tidak/bukan right marks you as a careful speaker.
       </div>
     </div>
   </section>
@@ -849,75 +405,97 @@
   <section class="section">
     <div class="section-head">
       <span class="section-num">05</span>
-      <h2 class="section-title">Question Words <span class="from-notes">from your notes</span></h2>
+      <h2 class="section-title">Question Words</h2>
       <div class="section-rule"></div>
     </div>
 
     <table class="q-table">
       <thead>
-        <tr>
-          <th>Question type</th>
-          <th>Balinese word</th>
-          <th>Position in sentence</th>
-          <th>Example</th>
-        </tr>
+        <tr><th>Question type</th><th>Indonesian</th><th>Position</th><th>Example</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td class="td-en">Yes/No</td>
-          <td><span class="q-word">Y/N ?</span></td>
-          <td class="td-note">Rising intonation only — no extra word needed</td>
-          <td class="td-note">Ragane ngajeng ibi?</td>
+          <td class="td-en">Yes / No</td>
+          <td><span class="q-word">Rising intonation</span></td>
+          <td class="td-note">No extra word needed — rising pitch makes it a question</td>
+          <td class="td-note">Kamu makan kemarin?</td>
         </tr>
         <tr>
-          <td class="td-en">Wh- (general)</td>
-          <td><span class="q-word">Wh ?</span></td>
-          <td class="td-note">Front of sentence</td>
-          <td class="td-note">Dije ragane ngajeng ibi?</td>
-        </tr>
-        <tr>
-          <td class="td-en">Where</td>
-          <td><span class="q-word">Dije</span></td>
+          <td class="td-en">Where (location)</td>
+          <td><span class="q-word">Di mana</span></td>
           <td class="td-note">Sentence-initial</td>
-          <td class="td-note">Dije ragane ngajeng ibi? — Where did you eat yesterday?</td>
+          <td class="td-note">Di mana kamu makan kemarin?</td>
+        </tr>
+        <tr>
+          <td class="td-en">Where (direction)</td>
+          <td><span class="q-word">Ke mana</span></td>
+          <td class="td-note">Sentence-initial</td>
+          <td class="td-note">Ke mana kamu pergi?</td>
+        </tr>
+        <tr>
+          <td class="td-en">What</td>
+          <td><span class="q-word">Apa</span></td>
+          <td class="td-note">Sentence-initial or end</td>
+          <td class="td-note">Kamu makan apa? / Apa yang kamu makan?</td>
+        </tr>
+        <tr>
+          <td class="td-en">Who</td>
+          <td><span class="q-word">Siapa</span></td>
+          <td class="td-note">Sentence-initial</td>
+          <td class="td-note">Siapa yang datang kemarin?</td>
+        </tr>
+        <tr>
+          <td class="td-en">When</td>
+          <td><span class="q-word">Kapan</span></td>
+          <td class="td-note">Sentence-initial</td>
+          <td class="td-note">Kapan kamu datang?</td>
+        </tr>
+        <tr>
+          <td class="td-en">How much / many</td>
+          <td><span class="q-word">Berapa</span></td>
+          <td class="td-note">Before noun or sentence-initial</td>
+          <td class="td-note">Berapa harganya?</td>
         </tr>
       </tbody>
     </table>
 
     <div class="insight" style="margin-top:1rem;">
-      <div class="insight-label">Pattern to learn</div>
-      Your tutor circled <strong>Dije</strong> for emphasis. For yes/no questions, no question word is added — intonation (rising pitch at the end) does the work. For "where" questions, <strong>Dije</strong> fronts the whole sentence, and the rest stays in S-V-O-Time order unchanged.
+      <div class="insight-label">Di mana vs Ke mana</div>
+      This distinction trips up many learners. <strong>Di mana</strong> = where is something located (static). <strong>Ke mana</strong> = where is something going (direction). <em>Di mana rumahmu?</em> (Where is your house?) vs <em>Ke mana kamu pergi?</em> (Where are you going?). The preposition (di = at, ke = to) carries the meaning.
     </div>
   </section>
 
-  <!-- SECTION 6: VOCABULARY FROM PAGE 2 -->
+  <!-- SECTION 6: VOCABULARY -->
   <section class="section">
     <div class="section-head">
       <span class="section-num">06</span>
-      <h2 class="section-title">Vocabulary — Page 2 <span class="from-notes">from your notes</span></h2>
+      <h2 class="section-title">Vocabulary From This Session</h2>
       <div class="section-rule"></div>
     </div>
 
     <div class="vocab-grid">
-      <div class="vocab-pill"><span class="vp-bali">Jumah</span><span class="vp-en">house / home</span></div>
-      <div class="vocab-pill"><span class="vp-bali">Pa on</span><span class="vp-en">kitchen</span></div>
-      <div class="vocab-pill"><span class="vp-bali">Lakar</span><span class="vp-en">will / going to</span></div>
-      <div class="vocab-pill"><span class="vp-bali">Pesan</span><span class="vp-en">order (food)</span></div>
-      <div class="vocab-pill"><span class="vp-bali">Nasi</span><span class="vp-en">rice / cooked rice</span></div>
-      <div class="vocab-pill"><span class="vp-bali">Nasi campur</span><span class="vp-en">mixed rice dish</span></div>
-      <div class="vocab-pill"><span class="vp-bali">Besik</span><span class="vp-en">one (also: number 1)</span></div>
-      <div class="vocab-pill"><span class="vp-bali">Di</span><span class="vp-en">in / on / at (preposition)</span></div>
-      <div class="vocab-pill"><span class="vp-bali">Dije</span><span class="vp-en">where (question word)</span></div>
-      <div class="vocab-pill"><span class="vp-bali">Dan / lan</span><span class="vp-en">and (two forms)</span></div>
-      <div class="vocab-pill"><span class="vp-bali">Dini</span><span class="vp-en">this / here</span></div>
-      <div class="vocab-pill"><span class="vp-bali">Ten</span><span class="vp-en">not / no (everyday)</span></div>
-      <div class="vocab-pill"><span class="vp-bali">Mani</span><span class="vp-en">tomorrow</span></div>
-      <div class="vocab-pill"><span class="vp-bali">Ibi</span><span class="vp-en">yesterday</span></div>
-    </div>
-
-    <div class="insight" style="margin-top:1rem;">
-      <div class="insight-label">Dan vs Lan</div>
-      Your notes show <strong>dan — lan</strong> for "and." Both are used — <em>lan</em> is more distinctly Balinese, while <em>dan</em> is shared with Indonesian. Your tutor likely taught both as they're interchangeable in everyday speech. When in doubt, use <strong>lan</strong>.
+      <div class="vocab-pill"><span class="vp-indo">Saya / Aku</span><span class="vp-en">I (formal / informal)</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Anda / Kamu</span><span class="vp-en">You (formal / informal)</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Dia / Ia</span><span class="vp-en">He / She / It</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Kita</span><span class="vp-en">We (incl. listener)</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Kami</span><span class="vp-en">We (excl. listener)</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Mereka</span><span class="vp-en">They</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Makan</span><span class="vp-en">Eat</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Minum</span><span class="vp-en">Drink</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Masak</span><span class="vp-en">Cook</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Pergi</span><span class="vp-en">Go</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Datang</span><span class="vp-en">Come / arrive</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Pesan</span><span class="vp-en">Order</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Mau</span><span class="vp-en">Want to / will</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Tidak</span><span class="vp-en">Not (verbs/adj)</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Bukan</span><span class="vp-en">Not (nouns)</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Besok</span><span class="vp-en">Tomorrow</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Kemarin</span><span class="vp-en">Yesterday</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Di mana</span><span class="vp-en">Where (location)</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Ke mana</span><span class="vp-en">Where (direction)</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Rumah</span><span class="vp-en">House / home</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Nasi campur</span><span class="vp-en">Mixed rice dish</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Satu</span><span class="vp-en">One</span></div>
     </div>
   </section>
 
@@ -930,14 +508,15 @@
     </div>
 
     <div class="drill-box">
-      <div class="drill-title">Based on this lesson — drill these until automatic</div>
+      <div class="drill-title">Drill these until automatic</div>
       <ul class="drill-list">
-        <li>Say the sentence pattern out loud: <em>Tiang ngajeng ibi. Tiang ten ngajeng ibi. Tiang ngajeng mani.</em> Notice the verb never changes — only the time word and the negation slot shift.</li>
-        <li>Swap the subject through all pronouns: <em>Tiang ngajeng. Ragane ngajeng. Ia ngajeng. Ia mekejang ngajeng.</em> Keep the verb constant.</li>
-        <li>Build the ordering sentence from memory: <em>Tiang lakar pesan nasi campur besik.</em> Then change the number: dua, telu, pat.</li>
-        <li>Practice the where-question: <em>Dije Ragane ngajeng ibi?</em> Then answer it: <em>Tiang ngajeng di jumah ibi.</em> (I ate at home yesterday.)</li>
-        <li>Negate three sentences: take any positive sentence, insert <em>ten</em> after the subject. Drill until the word order feels natural.</li>
-        <li>Swap verbs: <em>Tiang minum ibi. Tiang nyakan mani. Ragane pesan nasi campur?</em></li>
+        <li>Say the core pattern out loud: <em>Saya makan kemarin. Saya tidak makan kemarin. Saya makan besok.</em> The verb never changes — only the time word and negation shift.</li>
+        <li>Swap the subject through all pronouns: <em>Saya makan. Kamu makan. Dia makan. Kita makan. Mereka makan.</em> Notice the verb stays identical every time.</li>
+        <li>Build the ordering sentence from memory: <em>Saya mau pesan nasi campur satu.</em> Then change the number: dua, tiga, empat.</li>
+        <li>Practice the where-question with both forms: <em>Di mana kamu makan kemarin?</em> Then answer: <em>Saya makan di rumah kemarin.</em> (I ate at home yesterday.)</li>
+        <li>Negate three sentences using <em>tidak</em> and three using <em>bukan.</em> Check: is it negating a verb, or a noun?</li>
+        <li>Swap verbs through the same sentence frame: <em>Saya minum kemarin. Saya masak kemarin. Saya pergi kemarin.</em></li>
+        <li>Practice both registers back to back: <em>Saya tidak mau</em> (formal) → <em>Aku nggak mau</em> (casual). Same meaning, completely different feel.</li>
       </ul>
     </div>
   </section>
