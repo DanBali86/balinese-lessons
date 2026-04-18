@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bahasa Indonesia — Learning Plan Phase 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  :root {
+    --bg: #0f1a14;
+    --surface: #162010;
+    --surface2: #1c2a18;
+    --border: #2a3d24;
+    --green: #6abf69;
+    --green-bright: #a8e6a3;
+    --yellow: #f0d060;
+    --rust: #e07050;
+    --text: #d8e8d0;
+    --muted: #7a9a72;
+    --ink: #f0f4ee;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'Jost', sans-serif; font-weight: 300; min-height: 100vh; }
+
+  /* ── BACK BUTTON ── */
+  .back-bar { border-bottom: 1px solid var(--border); padding: 0.75rem 2rem; }
+  .back-bar-inner { max-width: 820px; margin: 0 auto; }
+  .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+  .back-btn:hover { color: var(--green-bright); }
+  .back-btn::before { content: '←'; font-size: 0.85rem; }
+
+  /* ── HEADER ── */
+  header { padding: 3rem 2rem 2rem; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+  header::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at 80% 50%, rgba(106,191,105,0.07) 0%, transparent 65%); pointer-events: none; }
+  .header-inner { max-width: 820px; margin: 0 auto; position: relative; z-index: 1; }
+  .tag { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green); border: 1px solid var(--border); padding: 0.25rem 0.6rem; border-radius: 2px; margin-bottom: 1rem; }
+  .tag::before { content: ''; width: 5px; height: 5px; background: var(--green); border-radius: 50%; display: inline-block; }
+  header h1 { font-family: 'Lora', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 400; line-height: 1.15; color: var(--ink); margin-bottom: 0.5rem; }
+  header h1 em { font-style: italic; color: var(--green-bright); }
+  header p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; max-width: 540px; margin-top: 0.5rem; }
+
+  /* ── PHASE STRIP ── */
+  .phase-strip { border-bottom: 1px solid var(--border); padding: 0 2rem; }
+  .phase-strip-inner { max-width: 820px; margin: 0 auto; display: flex; overflow-x: auto; }
+  .phase-tab { flex: 1; min-width: 140px; padding: 1rem 1.2rem; border-left: 1px solid var(--border); cursor: pointer; transition: background 0.15s; user-select: none; }
+  .phase-tab:first-child { border-left: none; }
+  .phase-tab:hover { background: var(--surface); }
+  .phase-tab.active { background: var(--surface); border-top: 2px solid var(--green); }
+  .phase-tab a { text-decoration: none; color: inherit; display: block; }
+  .phase-tab-num { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 0.25rem; }
+  .phase-tab-title { font-size: 0.82rem; color: var(--ink); font-weight: 400; line-height: 1.3; }
+  .phase-tab-sub { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--muted); margin-top: 0.15rem; }
+
+  /* ── MAIN WRAP ── */
+  .wrap { max-width: 820px; margin: 0 auto; padding: 2.5rem 2rem; display: grid; grid-template-columns: 200px 1fr; gap: 2rem; align-items: start; }
+
+  /* ── SIDEBAR ── */
+  .sidebar { position: sticky; top: 1rem; }
+  .sidebar-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+  .lesson-nav { list-style: none; display: flex; flex-direction: column; gap: 0.2rem; }
+  .lesson-nav li a { display: block; padding: 0.5rem 0.75rem; border-radius: 4px; text-decoration: none; color: var(--muted); font-size: 0.8rem; line-height: 1.3; transition: all 0.15s; border-left: 2px solid transparent; }
+  .lesson-nav li a:hover { background: var(--surface); color: var(--text); }
+  .lesson-nav li a.active { background: var(--surface); color: var(--ink); border-left-color: var(--green); font-weight: 500; }
+  .lesson-nav li a span { display: block; font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--muted); margin-top: 0.1rem; }
+
+  /* ── LESSON PANELS ── */
+  .lesson-panel { display: none; }
+  .lesson-panel.active { display: block; }
+
+  /* ── PROGRESS ── */
+  .progress-wrap { margin-bottom: 1.5rem; }
+  .progress-meta { display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--muted); margin-bottom: 0.4rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .progress-bar { height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--green-bright)); border-radius: 2px; transition: width 0.4s ease; }
+
+  /* ── LESSON HEADER ── */
+  .lesson-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .lesson-num { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; color: var(--green); text-transform: uppercase; white-space: nowrap; }
+  .lesson-title { font-family: 'Lora', serif; font-size: 1.5rem; font-weight: 400; color: var(--ink); line-height: 1.2; }
+
+  /* ── BLOCKS ── */
+  .block { margin-bottom: 1.8rem; }
+  .block-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+  .block-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .intro-text { font-size: 0.88rem; line-height: 1.75; color: var(--text); background: var(--surface); border-left: 3px solid var(--green); padding: 1rem 1.2rem; border-radius: 0 4px 4px 0; }
+  .intro-text em { color: var(--green-bright); font-style: italic; }
+  .intro-text strong { color: var(--ink); font-weight: 500; }
+
+  /* ── VOCAB TABLE ── */
+  .vocab-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .vocab-table thead th { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 0.4rem 0.8rem; border-bottom: 1px solid var(--border); }
+  .vocab-table tbody tr { border-bottom: 1px solid rgba(42,61,36,0.6); transition: background 0.1s; }
+  .vocab-table tbody tr:hover { background: var(--surface2); }
+  .vocab-table td { padding: 0.7rem 0.8rem; vertical-align: top; }
+  .td-indo { font-family: 'Lora', serif; font-size: 1rem; color: var(--green-bright); }
+  .td-pron { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--rust); white-space: nowrap; }
+  .td-en { color: var(--text); font-size: 0.85rem; }
+  .td-note { color: var(--muted); font-size: 0.78rem; font-style: italic; }
+
+  /* ── PHRASE CARDS ── */
+  .phrase-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .phrase-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.85rem 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem 1.2rem; transition: border-color 0.15s; }
+  .phrase-card:hover { border-color: rgba(106,191,105,0.35); }
+  .phrase-indo { font-family: 'Lora', serif; font-size: 1rem; color: var(--green-bright); font-weight: 400; }
+  .phrase-eng { color: var(--text); font-size: 0.85rem; align-self: center; }
+  .phrase-pron { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--rust); }
+  .phrase-note { font-size: 0.75rem; color: var(--muted); font-style: italic; grid-column: 1 / -1; margin-top: 0.1rem; }
+
+  /* ── CULTURE BOX ── */
+  .culture-box { background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--yellow); border-radius: 0 6px 6px 0; padding: 1.1rem 1.3rem; font-size: 0.85rem; line-height: 1.7; color: var(--text); }
+  .culture-box strong { display: block; font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--yellow); margin-bottom: 0.5rem; font-weight: 400; }
+
+  /* ── GRAMMAR BOX ── */
+  .grammar-box { background: var(--surface); border: 1px solid var(--border); border-top: 2px solid var(--green); border-radius: 0 0 6px 6px; padding: 1.1rem 1.3rem; font-size: 0.85rem; line-height: 1.75; color: var(--text); }
+  .grammar-box h4 { font-family: 'Lora', serif; font-size: 1rem; color: var(--green-bright); font-weight: 600; margin-bottom: 0.5rem; }
+  .grammar-box p { margin-bottom: 0.6rem; }
+  .grammar-box p:last-child { margin-bottom: 0; }
+  .grammar-box strong { color: var(--ink); font-weight: 500; }
+  .grammar-box em { color: var(--green-bright); font-style: italic; }
+
+  .example { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 0.5rem 0.8rem; margin: 0.5rem 0; }
+  .example .indo { font-family: 'Lora', serif; color: var(--green-bright); display: block; font-size: 0.95rem; }
+  .example .pron { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--rust); display: block; margin-top: 0.1rem; white-space: nowrap; }
+  .example .eng { font-size: 0.75rem; color: var(--muted); display: block; margin-top: 0.1rem; }
+
+  /* ── PRACTICE LIST ── */
+  .practice-list { list-style: none; counter-reset: practice; display: flex; flex-direction: column; gap: 0.5rem; }
+  .practice-list li { counter-increment: practice; display: flex; gap: 0.75rem; align-items: baseline; font-size: 0.85rem; line-height: 1.6; color: var(--text); }
+  .practice-list li::before { content: counter(practice, decimal-leading-zero); font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--green); flex-shrink: 0; }
+  .practice-list li em { color: var(--green-bright); font-style: italic; }
+
+  /* ── INSIGHT BOX ── */
+  .insight { background: rgba(106,191,105,0.07); border: 1px solid rgba(106,191,105,0.2); border-radius: 6px; padding: 1rem 1.2rem; font-size: 0.85rem; line-height: 1.7; color: var(--text); margin-top: 1rem; }
+  .insight-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green); margin-bottom: 0.4rem; }
+  .insight strong { color: var(--ink); font-weight: 500; }
+  .insight em { color: var(--green-bright); font-style: italic; }
+
+  /* ── DIALOGUE CARDS ── */
+  .dialogue { display: flex; flex-direction: column; gap: 0.6rem; }
+  .d-line { display: grid; grid-template-columns: 60px 1fr; gap: 0.6rem; align-items: start; }
+  .d-speaker { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding-top: 0.2rem; white-space: nowrap; }
+  .d-speaker.a { color: var(--teal, #4a9e9e); }
+  .d-speaker.b { color: var(--yellow); }
+  .d-bubble { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.6rem 0.9rem; }
+  .d-indo { font-family: 'Lora', serif; font-size: 0.95rem; color: var(--ink); }
+  .d-eng { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; }
+
+  /* ── PARTICLE TABLE ── */
+  .particle-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.6rem; }
+  .particle-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.8rem 1rem; transition: border-color 0.15s; }
+  .particle-card:hover { border-color: rgba(106,191,105,0.35); }
+  .particle-word { font-family: 'Lora', serif; font-size: 1.1rem; color: var(--yellow); margin-bottom: 0.3rem; }
+  .particle-desc { font-size: 0.78rem; color: var(--text); line-height: 1.5; }
+  .particle-ex { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--rust); margin-top: 0.3rem; display: block; }
+
+  /* ── FOOTER ── */
+  footer { border-top: 1px solid var(--border); padding: 1.5rem 2rem; text-align: center; }
+  footer p { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 680px) {
+    .wrap { grid-template-columns: 1fr; padding: 1.5rem 1.2rem; gap: 1.5rem; }
+    .sidebar { position: static; }
+    .lesson-nav { flex-direction: row; flex-wrap: wrap; gap: 0.4rem; }
+    .lesson-nav li a { border-left: none; border-bottom: 2px solid transparent; font-size: 0.75rem; padding: 0.4rem 0.6rem; }
+    .lesson-nav li a.active { border-left: none; border-bottom-color: var(--green); }
+    .phrase-card { grid-template-columns: 1fr; }
+    .d-line { grid-template-columns: 50px 1fr; }
+    header { padding: 2.5rem 1.2rem 1.5rem; }
+    .back-bar { padding: 0.75rem 1.2rem; }
+    .phase-strip { padding: 0 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="back-bar">
+  <div class="back-bar-inner">
+    <a class="back-btn" href="index.html">Back to hub</a>
+  </div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <div class="tag">Curriculum · Phase 3</div>
+    <h1><em>Conversation</em></h1>
+    <p>Lessons 21–36. Move from building blocks into flowing, natural Indonesian — storytelling, opinions, particles, passive voice, and real two-way conversation.</p>
+  </div>
+</header>
+
+<div class="phase-strip">
+  <div class="phase-strip-inner">
+    <div class="phase-tab"><a href="learning-plan.html">
+      <div class="phase-tab-num">Phase 1</div>
+      <div class="phase-tab-title">Foundations</div>
+      <div class="phase-tab-sub">Lessons 1–8</div>
+    </a></div>
+    <div class="phase-tab"><a href="learning-plan-2.html">
+      <div class="phase-tab-num">Phase 2</div>
+      <div class="phase-tab-title">Building Blocks</div>
+      <div class="phase-tab-sub">Lessons 9–20</div>
+    </a></div>
+    <div class="phase-tab active">
+      <div class="phase-tab-num">Phase 3</div>
+      <div class="phase-tab-title">Conversation</div>
+      <div class="phase-tab-sub">Lessons 21–36</div>
+    </div>
+    <div class="phase-tab">
+      <div class="phase-tab-num">Phase 4</div>
+      <div class="phase-tab-title">Fluency</div>
+      <div class="phase-tab-sub">Lessons 37+</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <aside class="sidebar">
+    <div class="sidebar-label">Phase 3 · Lessons</div>
+    <ul class="lesson-nav" id="lessonNav">
+      <li><a href="#" class="active" data-lesson="21">21. Connectors &amp; Conjunctions<span>Kata penghubung</span></a></li>
+      <li><a href="#" data-lesson="22">22. Telling Stories<span>Bercerita</span></a></li>
+      <li><a href="#" data-lesson="23">23. Opinions &amp; Preferences<span>Pendapat &amp; selera</span></a></li>
+      <li><a href="#" data-lesson="24">24. Indonesian Particles<span>Partikel: lah, kah, sih, dong, deh</span></a></li>
+      <li><a href="#" data-lesson="25">25. The Ber- Prefix<span>Awalan ber-</span></a></li>
+      <li><a href="#" data-lesson="26">26. The Ter- Prefix<span>Awalan ter-</span></a></li>
+      <li><a href="#" data-lesson="27">27. Passive Voice<span>Kalimat pasif — di-</span></a></li>
+      <li><a href="#" data-lesson="28">28. Requests &amp; Politeness<span>Permintaan sopan</span></a></li>
+      <li><a href="#" data-lesson="29">29. Shopping &amp; Bargaining<span>Berbelanja</span></a></li>
+      <li><a href="#" data-lesson="30">30. Eating Out<span>Makan di luar</span></a></li>
+      <li><a href="#" data-lesson="31">31. Making Plans<span>Membuat rencana</span></a></li>
+      <li><a href="#" data-lesson="32">32. Indonesian Small Talk<span>Ngobrol</span></a></li>
+      <li><a href="#" data-lesson="33">33. Work &amp; Daily Routine<span>Pekerjaan &amp; rutinitas</span></a></li>
+      <li><a href="#" data-lesson="34">34. Health &amp; Emergencies<span>Kesehatan &amp; darurat</span></a></li>
+      <li><a href="#" data-lesson="35">35. Indonesian Media &amp; News<span>Media Indonesia</span></a></li>
+      <li><a href="#" data-lesson="36">36. Phase 3 Review<span>Ulasan</span></a></li>
+    </ul>
+  </aside>
+
+  <main>
+
+    <!-- LESSON 21 -->
+    <div class="lesson-panel active" id="lesson-21">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 21 of 36</span><span>Phase 3 · Conversation</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:58%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 21</span>
+        <h2 class="lesson-title">Connectors &amp; Conjunctions</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Until now most of your sentences have been single-clause. Connectors are what turn those individual sentences into flowing speech. Indonesian conjunctions are mostly short, simple words — and once you have them, your sentences immediately sound more natural and complex. This is the gateway to real conversation.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Core Connectors</div>
+        <table class="vocab-table">
+          <thead><tr><th>Indonesian</th><th>Pronunciation</th><th>English</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="td-indo">Dan</td><td class="td-pron">dan</td><td class="td-en">And</td><td class="td-note">Joins nouns, clauses, ideas</td></tr>
+            <tr><td class="td-indo">Tapi / Tetapi</td><td class="td-pron">ta-pi / te-ta-pi</td><td class="td-en">But</td><td class="td-note">Tapi is the everyday form</td></tr>
+            <tr><td class="td-indo">Atau</td><td class="td-pron">a-tau</td><td class="td-en">Or</td><td class="td-note"></td></tr>
+            <tr><td class="td-indo">Karena</td><td class="td-pron">ka-re-na</td><td class="td-en">Because</td><td class="td-note">Informal: soalnya / abis</td></tr>
+            <tr><td class="td-indo">Jadi</td><td class="td-pron">ja-di</td><td class="td-en">So / therefore / then</td><td class="td-note">One of the most common words in speech</td></tr>
+            <tr><td class="td-indo">Kalau / Jika</td><td class="td-pron">ka-lau / ji-ka</td><td class="td-en">If</td><td class="td-note">Kalau is casual · Jika is formal</td></tr>
+            <tr><td class="td-indo">Walaupun / Meskipun</td><td class="td-pron">wa-lau-pun / mes-ki-pun</td><td class="td-en">Even though / although</td><td class="td-note">Interchangeable</td></tr>
+            <tr><td class="td-indo">Supaya / Agar</td><td class="td-pron">su-pa-ya / a-gar</td><td class="td-en">So that / in order to</td><td class="td-note">Supaya is casual · Agar is formal</td></tr>
+            <tr><td class="td-indo">Sebelum</td><td class="td-pron">se-be-lum</td><td class="td-en">Before</td><td class="td-note"></td></tr>
+            <tr><td class="td-indo">Sesudah / Setelah</td><td class="td-pron">se-su-dah / se-te-lah</td><td class="td-en">After</td><td class="td-note">Setelah is more common in speech</td></tr>
+            <tr><td class="td-indo">Ketika / Waktu</td><td class="td-pron">ke-ti-ka / wak-tu</td><td class="td-en">When (at the time that)</td><td class="td-note">Waktu is more casual</td></tr>
+            <tr><td class="td-indo">Lalu / Kemudian</td><td class="td-pron">la-lu / ke-mu-di-an</td><td class="td-en">Then / after that</td><td class="td-note">Lalu is the everyday word</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Compound Sentences in Action</div>
+        <div class="phrase-list">
+          <div class="phrase-card">
+            <div class="phrase-indo">Saya lapar tapi tidak mau makan</div>
+            <div class="phrase-eng">I'm hungry but I don't want to eat</div>
+            <div class="phrase-pron">sa-ya · la-par · ta-pi · ti-dak · mau · ma-kan</div>
+            <div class="phrase-note">Tapi joins two contrasting clauses</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Saya belajar bahasa Indonesia karena tinggal di Bali</div>
+            <div class="phrase-eng">I'm learning Indonesian because I live in Bali</div>
+            <div class="phrase-pron">sa-ya · be-la-jar · ba-ha-sa · in-do-ne-si-a · ka-re-na · ting-gal · di · ba-li</div>
+            <div class="phrase-note">Karena introduces the reason</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Kalau hujan, saya tidak pergi</div>
+            <div class="phrase-eng">If it rains, I won't go</div>
+            <div class="phrase-pron">ka-lau · hu-jan · sa-ya · ti-dak · per-gi</div>
+            <div class="phrase-note">Kalau clause comes first in Indonesian</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Saya mandi dulu, lalu sarapan</div>
+            <div class="phrase-eng">I showered first, then had breakfast</div>
+            <div class="phrase-pron">sa-ya · man-di · du-lu · la-lu · sa-ra-pan</div>
+            <div class="phrase-note">Dulu = first · Lalu = then</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Walaupun capek, saya tetap kerja</div>
+            <div class="phrase-eng">Even though I'm tired, I still work</div>
+            <div class="phrase-pron">wa-lau-pun · ca-pek · sa-ya · te-tap · ker-ja</div>
+            <div class="phrase-note">Tetap = still / nonetheless</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Practice</div>
+        <ul class="practice-list">
+          <li>Take any two sentences you already know and join them with <em>dan, tapi, karena,</em> or <em>jadi.</em> Start simple and build up.</li>
+          <li>Practise the if-then structure: <em>Kalau … saya …</em> Make five different if-then sentences about your daily life.</li>
+          <li>Use <em>sebelum</em> and <em>setelah</em> to describe your morning routine: <em>Sebelum makan, saya minum kopi.</em></li>
+          <li><em>Jadi</em> is the word you will hear most in natural Indonesian speech — it fills the role of "so," "well," "then," and "therefore." Start noticing it everywhere.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LESSON 22 -->
+    <div class="lesson-panel" id="lesson-22">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 22 of 36</span><span>Phase 3 · Conversation</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:61%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 22</span>
+        <h2 class="lesson-title">Telling Stories</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Storytelling in Indonesian uses time markers, sequence words, and aspect markers to build a narrative. Since verbs don't conjugate, the story is held together entirely by these words. Once you master the sequence, you can recount anything that happened — a trip, a meal, a conversation, an incident — in natural, flowing Indonesian.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Narrative Vocabulary</div>
+        <table class="vocab-table">
+          <thead><tr><th>Indonesian</th><th>Pronunciation</th><th>English</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td class="td-indo">Tadi</td><td class="td-pron">ta-di</td><td class="td-en">Earlier / just now</td><td class="td-note">Today, earlier — very common</td></tr>
+            <tr><td class="td-indo">Tadi pagi</td><td class="td-pron">ta-di · pa-gi</td><td class="td-en">This morning (earlier)</td><td class="td-note"></td></tr>
+            <tr><td class="td-indo">Kemarin</td><td class="td-pron">ke-ma-rin</td><td class="td-en">Yesterday</td><td class="td-note"></td></tr>
+            <tr><td class="td-indo">Kemarin malam</td><td class="td-pron">ke-ma-rin · ma-lam</td><td class="td-en">Last night</td><td class="td-note"></td></tr>
+            <tr><td class="td-indo">Minggu lalu</td><td class="td-pron">ming-gu · la-lu</td><td class="td-en">Last week</td><td class="td-note">Lalu after time word = last</td></tr>
+            <tr><td class="td-indo">Bulan lalu</td><td class="td-pron">bu-lan · la-lu</td><td class="td-en">Last month</td><td class="td-note"></td></tr>
+            <tr><td class="td-indo">Pertama</td><td class="td-pron">per-ta-ma</td><td class="td-en">First</td><td class="td-note">Pertama-tama = first of all</td></tr>
+            <tr><td class="td-indo">Lalu / Kemudian</td><td class="td-pron">la-lu / ke-mu-di-an</td><td class="td-en">Then / after that</td><td class="td-note"></td></tr>
+            <tr><td class="td-indo">Akhirnya</td><td class="td-pron">a-khir-nya</td><td class="td-en">Finally / in the end</td><td class="td-note">Akhir = end + -nya</td></tr>
+            <tr><td class="td-indo">Tiba-tiba</td><td class="td-pron">ti-ba · ti-ba</td><td class="td-en">Suddenly</td><td class="td-note">Repeated for emphasis</td></tr>
+            <tr><td class="td-indo">Ternyata</td><td class="td-pron">ter-nya-ta</td><td class="td-en">It turned out that / apparently</td><td class="td-note">Essential storytelling word</td></tr>
+            <tr><td class="td-indo">Waktu itu</td><td class="td-pron">wak-tu · i-tu</td><td class="td-en">At that time</td><td class="td-note"></td></tr>
+            <tr><td class="td-indo">Setelah itu</td><td class="td-pron">se-te-lah · i-tu</td><td class="td-en">After that</td><td class="td-note"></td></tr>
+            <tr><td class="td-indo">Sempat</td><td class="td-pron">sem-pat</td><td class="td-en">Managed to / had the chance to</td><td class="td-note">Very useful narrative word</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Sample Story</div>
+        <div class="dialogue">
+          <div class="d-line">
+            <span class="d-speaker">Story</span>
+            <div class="d-bubble">
+              <div class="d-indo">Kemarin saya pergi ke pasar. Pertama-tama saya beli buah, lalu saya makan nasi campur di warung dekat sana. Tiba-tiba hujan deras. Akhirnya saya pulang naik ojek. Ternyata ojeknya orang Bali asli — jadi kami ngobrol pakai bahasa Indonesia.</div>
+              <div class="d-eng">Yesterday I went to the market. First I bought fruit, then I ate nasi campur at a nearby warung. Suddenly it rained heavily. In the end I went home by ojek. It turned out the driver was a local Balinese — so we chatted in Indonesian.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Insight</div>
+        <div class="insight">
+          <div class="insight-label">Ternyata</div>
+          <em>Ternyata</em> is one of the most characteristically Indonesian words in storytelling. It introduces a revelation or surprise — "it turned out that…" or "apparently…". Native speakers use it constantly when recounting events. If you use <em>ternyata</em> naturally in a story, Indonesians will immediately feel you understand how their language flows.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Practice</div>
+        <ul class="practice-list">
+          <li>Recount yesterday in Indonesian using at least five narrative words: <em>kemarin, pertama, lalu, akhirnya, ternyata.</em></li>
+          <li>Tell a story about something that went wrong — use <em>tiba-tiba</em> for the turning point.</li>
+          <li>Practise <em>ternyata</em> — find three things from your week that could be introduced with "it turned out that…" and say them in Indonesian.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LESSON 23 -->
+    <div class="lesson-panel" id="lesson-23">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 23 of 36</span><span>Phase 3 · Conversation</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:64%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 23</span>
+        <h2 class="lesson-title">Opinions &amp; Preferences</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Expressing opinions is where language becomes genuinely personal. Indonesian has a range of opinion phrases from very direct to very hedged — and choosing between them is as much cultural as linguistic. Indonesians tend to express disagreement indirectly to preserve face, while enthusiasm and praise are expressed freely and openly.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Opinion Phrases</div>
+        <table class="vocab-table">
+          <thead><tr><th>Indonesian</th><th>Pronunciation</th><th>English</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="td-indo">Menurut saya</td><td class="td-pron">me-nu-rut · sa-ya</td><td class="td-en">In my opinion / I think</td><td class="td-note">The standard opinion opener</td></tr>
+            <tr><td class="td-indo">Saya rasa</td><td class="td-pron">sa-ya · ra-sa</td><td class="td-en">I feel / I think</td><td class="td-note">Slightly softer than menurut saya</td></tr>
+            <tr><td class="td-indo">Saya pikir</td><td class="td-pron">sa-ya · pi-kir</td><td class="td-en">I think (cognitively)</td><td class="td-note">More rational/analytical tone</td></tr>
+            <tr><td class="td-indo">Saya setuju</td><td class="td-pron">sa-ya · se-tu-ju</td><td class="td-en">I agree</td><td class="td-note"></td></tr>
+            <tr><td class="td-indo">Saya tidak setuju</td><td class="td-pron">sa-ya · ti-dak · se-tu-ju</td><td class="td-en">I disagree</td><td class="td-note">Use carefully — can feel blunt</td></tr>
+            <tr><td class="td-indo">Suka</td><td class="td-pron">su-ka</td><td class="td-en">Like</td><td class="td-note">Saya suka = I like</td></tr>
+            <tr><td class="td-indo">Tidak suka</td><td class="td-pron">ti-dak · su-ka</td><td class="td-en">Don't like</td><td class="td-note"></td></tr>
+            <tr><td class="td-indo">Lebih suka</td><td class="td-pron">le-bih · su-ka</td><td class="td-en">Prefer</td><td class="td-note">Lebih = more</td></tr>
+            <tr><td class="td-indo">Paling suka</td><td class="td-pron">pa-ling · su-ka</td><td class="td-en">Like the most / favourite</td><td class="td-note">Paling = most</td></tr>
+            <tr><td class="td-indo">Bagus / Keren</td><td class="td-pron">ba-gus / ke-ren</td><td class="td-en">Good / cool / great</td><td class="td-note">Keren is very commonly used</td></tr>
+            <tr><td class="td-indo">Kurang</td><td class="td-pron">ku-rang</td><td class="td-en">Not quite / lacking / less than ideal</td><td class="td-note">The polite way to say something is not good</td></tr>
+            <tr><td class="td-indo">Lumayan</td><td class="td-pron">lu-ma-yan</td><td class="td-en">Pretty good / decent / not bad</td><td class="td-note">The Indonesian "bof" — manages expectations</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Comparing &amp; Contrasting</div>
+        <div class="grammar-box">
+          <h4>Lebih … daripada / dari</h4>
+          <p>To compare two things, use <strong>lebih</strong> (more) + adjective + <strong>daripada / dari</strong> (than):</p>
+          <div class="example">
+            <span class="indo">Kopi ini lebih enak daripada yang kemarin</span>
+            <span class="pron">ko-pi · i-ni · le-bih · e-nak · da-ri-pa-da · yang · ke-ma-rin</span>
+            <span class="eng">This coffee is more delicious than yesterday's</span>
+          </div>
+          <div class="example">
+            <span class="indo">Saya lebih suka nasi goreng dari mie goreng</span>
+            <span class="pron">sa-ya · le-bih · su-ka · na-si · go-reng · da-ri · mi-e · go-reng</span>
+            <span class="eng">I prefer fried rice to fried noodles</span>
+          </div>
+          <p>For superlatives, use <strong>paling</strong> (most) before the adjective:</p>
+          <div class="example">
+            <span class="indo">Ini yang paling enak yang pernah saya makan</span>
+            <span class="pron">i-ni · yang · pa-ling · e-nak · yang · per-nah · sa-ya · ma-kan</span>
+            <span class="eng">This is the most delicious thing I've ever eaten</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Culture Note</div>
+        <div class="culture-box">
+          <strong>Kurang &amp; Lumayan — The Art of Indirect Feedback</strong>
+          Indonesians rarely say something is bad directly. Instead, <em>kurang</em> (lacking / not quite) does the work — "kurang enak" means "not that tasty" without being harsh. <em>Lumayan</em> (decent / pretty good) manages expectations politely. If someone asks how your Indonesian is and you say "lumayan," they know you're being modest. If they say your cooking is "lumayan," they might mean it's just okay. Reading the difference is part of cultural fluency.
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 24 -->
+    <div class="lesson-panel" id="lesson-24">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 24 of 36</span><span>Phase 3 · Conversation</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:67%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 24</span>
+        <h2 class="lesson-title">Indonesian Particles</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Indonesian has a set of small particles — <em>lah, kah, sih, dong, deh, kok, ya</em> — that have no direct English equivalent but appear constantly in spoken Indonesian. They add tone, attitude, emphasis, and social meaning to sentences. Without them, Indonesian sounds technically correct but flat. With them, you sound like a real speaker. This is one of the most distinctive features of the language.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">The Particles</div>
+        <div class="particle-grid">
+          <div class="particle-card">
+            <div class="particle-word">Lah</div>
+            <div class="particle-desc">Softens a statement or command. Makes it sound less abrupt, more reassuring.</div>
+            <span class="particle-ex">Sudahlah → Just let it go / It's fine</span>
+            <span class="particle-ex">Pergi lah → Just go (friendly push)</span>
+          </div>
+          <div class="particle-card">
+            <div class="particle-word">Kah</div>
+            <div class="particle-desc">Turns a statement into a formal question. Rarely used in casual speech.</div>
+            <span class="particle-ex">Apakah kamu makan? → Did you eat? (formal)</span>
+            <span class="particle-ex">Benarkah? → Is that true? (formal)</span>
+          </div>
+          <div class="particle-card">
+            <div class="particle-word">Sih</div>
+            <div class="particle-desc">Adds mild exasperation, curiosity, or emphasis. Often signals slight frustration or pressing for an answer.</div>
+            <span class="particle-ex">Kenapa sih? → Why though? / What's the deal?</span>
+            <span class="particle-ex">Apa sih itu? → What even is that?</span>
+          </div>
+          <div class="particle-card">
+            <div class="particle-word">Dong</div>
+            <div class="particle-desc">Makes a request or suggestion more persuasive or friendly. Like "come on" in English.</div>
+            <span class="particle-ex">Bantu dong → Help me, come on</span>
+            <span class="particle-ex">Ikut dong → Come along, will you?</span>
+          </div>
+          <div class="particle-card">
+            <div class="particle-word">Deh</div>
+            <div class="particle-desc">Signals reluctant agreement or a softened concession. "Fine," "alright then," or "go ahead."</div>
+            <span class="particle-ex">Iya deh → Alright fine</span>
+            <span class="particle-ex">Terserah deh → Whatever, up to you</span>
+          </div>
+          <div class="particle-card">
+            <div class="particle-word">Kok</div>
+            <div class="particle-desc">Expresses mild surprise or contradiction. "But…" or "How come…"</div>
+            <span class="particle-ex">Kok bisa? → How is that possible?</span>
+            <span class="particle-ex">Kok mahal? → How come it's expensive?</span>
+          </div>
+          <div class="particle-card">
+            <div class="particle-word">Ya</div>
+            <div class="particle-desc">The most versatile particle — seeks agreement, softens requests, confirms understanding.</div>
+            <span class="particle-ex">Iya ya → Yeah right? / I know right</span>
+            <span class="particle-ex">Tolong ya → Please, okay?</span>
+          </div>
+          <div class="particle-card">
+            <div class="particle-word">Nih / Tuh</div>
+            <div class="particle-desc">Nih = here (pointing at something). Tuh = there / see? (drawing attention).</div>
+            <span class="particle-ex">Nih → Here you go / here it is</span>
+            <span class="particle-ex">Tuh kan? → See? I told you so</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Particles in Natural Dialogue</div>
+        <div class="dialogue">
+          <div class="d-line">
+            <span class="d-speaker a">A</span>
+            <div class="d-bubble">
+              <div class="d-indo">Kok belum makan sih?</div>
+              <div class="d-eng">How come you haven't eaten yet?</div>
+            </div>
+          </div>
+          <div class="d-line">
+            <span class="d-speaker b">B</span>
+            <div class="d-bubble">
+              <div class="d-indo">Lagi sibuk nih. Makan nanti deh.</div>
+              <div class="d-eng">I'm busy right now. I'll eat later, fine.</div>
+            </div>
+          </div>
+          <div class="d-line">
+            <span class="d-speaker a">A</span>
+            <div class="d-bubble">
+              <div class="d-indo">Makan dong, penting tuh!</div>
+              <div class="d-eng">Come on, eat — it's important!</div>
+            </div>
+          </div>
+          <div class="d-line">
+            <span class="d-speaker b">B</span>
+            <div class="d-bubble">
+              <div class="d-indo">Iya iya, sudahlah.</div>
+              <div class="d-eng">Okay okay, alright already.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Practice</div>
+        <ul class="practice-list">
+          <li>Start by noticing particles in Indonesian conversation, TV, or YouTube. They will be everywhere once you know what to listen for.</li>
+          <li>Practise <em>dong</em> — make five requests using it. It immediately makes you sound more like a natural speaker.</li>
+          <li>Use <em>kok</em> to express surprise at something today: <em>Kok mahal banget?</em> (How come it's so expensive?)</li>
+          <li>End a few sentences with <em>ya</em> as a soft confirmation-seeker. Notice how it changes the tone compared to saying nothing.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LESSON 25 -->
+    <div class="lesson-panel" id="lesson-25">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 25 of 36</span><span>Phase 3 · Conversation</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:69%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 25</span>
+        <h2 class="lesson-title">The Ber- Prefix</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          The <em>ber-</em> prefix is the second major verb prefix after <em>me-.</em> It creates intransitive verbs — verbs that describe a state, activity, or action the subject does without a direct object. You met <em>bertemu</em> (to meet) in Lesson 14 — that's a ber- verb. Many essential everyday verbs use this prefix.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">How Ber- Works</div>
+        <div class="grammar-box">
+          <h4>Base word → Ber- verb</h4>
+          <p><strong>Ber-</strong> attaches to the front of a base word. If the base starts with "r", the prefix becomes <strong>be-</strong> only (no doubling). The resulting verb is always intransitive — no direct object follows it.</p>
+          <div class="example">
+            <span class="indo">bicara → berbicara</span>
+            <span class="pron">bi-ca-ra → ber-bi-ca-ra</span>
+            <span class="eng">talk → to speak / to have a conversation</span>
+          </div>
+          <div class="example">
+            <span class="indo">kerja → bekerja</span>
+            <span class="pron">ker-ja → be-ker-ja</span>
+            <span class="eng">work → to work</span>
+          </div>
+          <div class="example">
+            <span class="indo">renang → berenang</span>
+            <span class="pron">re-nang → be-re-nang</span>
+            <span class="eng">swim → to swim</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Essential Ber- Verbs</div>
+        <table class="vocab-table">
+          <thead><tr><th>Ber- Verb</th><th>Pronunciation</th><th>English</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="td-indo">Berbicara</td><td class="td-pron">ber-bi-ca-ra</td><td class="td-en">To speak / talk</td><td class="td-note">More formal than ngomong</td></tr>
+            <tr><td class="td-indo">Bekerja</td><td class="td-pron">be-ker-ja</td><td class="td-en">To work</td><td class="td-note">Kerja alone is also used casually</td></tr>
+            <tr><td class="td-indo">Belajar</td><td class="td-pron">be-la-jar</td><td class="td-en">To study / learn</td><td class="td-note">One of the most common ber- verbs</td></tr>
+            <tr><td class="td-indo">Berlari</td><td class="td-pron">ber-la-ri</td><td class="td-en">To run</td><td class="td-note"></td></tr>
+            <tr><td class="td-indo">Berenang</td><td class="td-pron">be-re-nang</td><td class="td-en">To swim</td><td class="td-note"></td></tr>
+            <tr><td class="td-indo">Bertemu</td><td class="td-pron">ber-te-mu</td><td class="td-en">To meet</td><td class="td-note">Bertemu dengan = to meet with</td></tr>
+            <tr><td class="td-indo">Berjalan</td><td class="td-pron">ber-ja-lan</td><td class="td-en">To walk</td><td class="td-note"></td></tr>
+            <tr><td class="td-indo">Bermain</td><td class="td-pron">ber-ma-in</td><td class="td-en">To play</td><td class="td-note"></td></tr>
+            <tr><td class="td-indo">Berbelanja</td><td class="td-pron">ber-be-lan-ja</td><td class="td-en">To shop</td><td class="td-note"></td></tr>
+            <tr><td class="td-indo">Berwisata</td><td class="td-pron">ber-wi-sa-ta</td><td class="td-en">To travel / do tourism</td><td class="td-note">Wisata = tourism</td></tr>
+            <tr><td class="td-indo">Berharap</td><td class="td-pron">ber-ha-rap</td><td class="td-en">To hope</td><td class="td-note">Harap = hope/request</td></tr>
+            <tr><td class="td-indo">Bersama</td><td class="td-pron">ber-sa-ma</td><td class="td-en">Together / with</td><td class="td-note">Also used as a preposition</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Practice</div>
+        <ul class="practice-list">
+          <li>Note that <em>belajar</em> is already a ber- verb — you have been using it from the start. Recognise which other verbs you already know are ber- verbs.</li>
+          <li>Build sentences: <em>Saya bekerja di Bali. Saya belajar bahasa Indonesia setiap hari. Kita bisa bertemu besok.</em></li>
+          <li>Compare: <em>Saya berbicara bahasa Indonesia</em> (formal) vs <em>Saya ngomong bahasa Indonesia</em> (casual). Both are correct in the right context.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LESSON 26 -->
+    <div class="lesson-panel" id="lesson-26">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 26 of 36</span><span>Phase 3 · Conversation</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:72%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 26</span>
+        <h2 class="lesson-title">The Ter- Prefix</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          The <em>ter-</em> prefix has two distinct uses — and both come up constantly. First, it creates <strong>superlatives</strong> (the most, the biggest, the best). Second, it creates <strong>accidental or involuntary verbs</strong> (to accidentally do something, or something that happened without intention). Both are essential for natural speech.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Ter- for Superlatives</div>
+        <div class="grammar-box">
+          <h4>Ter- + adjective = the most ___</h4>
+          <div class="example">
+            <span class="indo">terbesar</span>
+            <span class="pron">ter-be-sar</span>
+            <span class="eng">the biggest (besar = big)</span>
+          </div>
+          <div class="example">
+            <span class="indo">terenak</span>
+            <span class="pron">ter-e-nak</span>
+            <span class="eng">the most delicious</span>
+          </div>
+          <div class="example">
+            <span class="indo">terdekat</span>
+            <span class="pron">ter-de-kat</span>
+            <span class="eng">the nearest (you already used this in directions!)</span>
+          </div>
+          <div class="example">
+            <span class="indo">terbaik</span>
+            <span class="pron">ter-ba-ik</span>
+            <span class="eng">the best</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Ter- for Accidental Actions</div>
+        <div class="grammar-box">
+          <h4>Ter- + verb = accidentally / unintentionally</h4>
+          <div class="example">
+            <span class="indo">Saya terjatuh</span>
+            <span class="pron">sa-ya · ter-ja-tuh</span>
+            <span class="eng">I fell (accidentally) — jatuh = fall</span>
+          </div>
+          <div class="example">
+            <span class="indo">Pintu terbuka</span>
+            <span class="pron">pin-tu · ter-bu-ka</span>
+            <span class="eng">The door opened (by itself / accidentally)</span>
+          </div>
+          <div class="example">
+            <span class="indo">Saya tertidur di sofa</span>
+            <span class="pron">sa-ya · ter-ti-dur · di · so-fa</span>
+            <span class="eng">I fell asleep on the sofa (unintentionally)</span>
+          </div>
+          <div class="example">
+            <span class="indo">Kopi itu terminum</span>
+            <span class="pron">ko-pi · i-tu · ter-mi-num</span>
+            <span class="eng">The coffee got drunk (by accident / somehow)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Practice</div>
+        <ul class="practice-list">
+          <li>Use ter- superlatives to describe things in your life: <em>Warung terenak di sini, kopi terbaik yang pernah saya minum.</em></li>
+          <li>Practise accidental ter- verbs by recounting something that happened without intention this week.</li>
+          <li>Notice that <em>ternyata</em> (from Lesson 22) is also a ter- word — from <em>nyata</em> (real/clear). It "became apparent" — an involuntary realisation. The prefix is everywhere.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LESSON 27 -->
+    <div class="lesson-panel" id="lesson-27">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 27 of 36</span><span>Phase 3 · Conversation</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 27</span>
+        <h2 class="lesson-title">Passive Voice with Di-</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Indonesian uses the passive voice far more frequently than English. The <em>di-</em> prefix creates passive verbs — the object of an action becomes the subject. This is not just a formal construction: Indonesians use it constantly in everyday speech, sometimes more often than the active voice. Understanding it is essential for comprehension.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Active vs Passive</div>
+        <div class="grammar-box">
+          <h4>Me- (active) → Di- (passive)</h4>
+          <p>The pattern is simple: where <em>me-</em> makes an active verb, <em>di-</em> makes the passive equivalent. The object of the active sentence becomes the subject of the passive sentence.</p>
+          <div class="example">
+            <span class="indo">Saya membeli nasi goreng (active)</span>
+            <span class="pron">sa-ya · mem-be-li · na-si · go-reng</span>
+            <span class="eng">I bought the fried rice</span>
+          </div>
+          <div class="example">
+            <span class="indo">Nasi goreng dibeli saya (passive)</span>
+            <span class="pron">na-si · go-reng · di-be-li · sa-ya</span>
+            <span class="eng">The fried rice was bought by me</span>
+          </div>
+          <div class="example">
+            <span class="indo">Rumah itu dibangun tahun 1990</span>
+            <span class="pron">ru-mah · i-tu · di-ba-ngun · ta-hun · 1990</span>
+            <span class="eng">That house was built in 1990</span>
+          </div>
+          <div class="example">
+            <span class="indo">Bahasa Indonesia dipakai di seluruh Indonesia</span>
+            <span class="pron">ba-ha-sa · in-do-ne-si-a · di-pa-kai · di · se-lu-ruh · in-do-ne-si-a</span>
+            <span class="eng">Indonesian is used throughout Indonesia</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Common Di- Verbs</div>
+        <table class="vocab-table">
+          <thead><tr><th>Di- Verb</th><th>Pronunciation</th><th>English</th></tr></thead>
+          <tbody>
+            <tr><td class="td-indo">Dimakan</td><td class="td-pron">di-ma-kan</td><td class="td-en">Is eaten / was eaten</td></tr>
+            <tr><td class="td-indo">Diminum</td><td class="td-pron">di-mi-num</td><td class="td-en">Is drunk / was drunk</td></tr>
+            <tr><td class="td-indo">Dibuat</td><td class="td-pron">di-bu-at</td><td class="td-en">Is made / was made</td></tr>
+            <tr><td class="td-indo">Dijual</td><td class="td-pron">di-ju-al</td><td class="td-en">Is sold / for sale</td></tr>
+            <tr><td class="td-indo">Dibeli</td><td class="td-pron">di-be-li</td><td class="td-en">Is bought / was bought</td></tr>
+            <tr><td class="td-indo">Dipakai</td><td class="td-pron">di-pa-kai</td><td class="td-en">Is used / was used</td></tr>
+            <tr><td class="td-indo">Dikirim</td><td class="td-pron">di-ki-rim</td><td class="td-en">Is sent / was sent</td></tr>
+            <tr><td class="td-indo">Ditutup</td><td class="td-pron">di-tu-tup</td><td class="td-en">Is closed</td></tr>
+            <tr><td class="td-indo">Dibuka</td><td class="td-pron">di-bu-ka</td><td class="td-en">Is opened</td></tr>
+            <tr><td class="td-indo">Dilarang</td><td class="td-pron">di-la-rang</td><td class="td-en">Is forbidden / prohibited</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Insight</div>
+        <div class="insight">
+          <div class="insight-label">Dilarang</div>
+          You will see <em>Dilarang …</em> on signs everywhere in Indonesia and Bali — <em>Dilarang merokok</em> (No smoking), <em>Dilarang masuk</em> (No entry), <em>Dilarang parkir</em> (No parking). It literally means "is forbidden to…" — a passive construction used for rules and prohibitions. Recognising it is immediately practical.
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 28 -->
+    <div class="lesson-panel" id="lesson-28">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 28 of 36</span><span>Phase 3 · Conversation</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:78%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 28</span>
+        <h2 class="lesson-title">Requests &amp; Politeness</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Making polite requests is one of the most practical skills at this stage. Indonesian politeness works through specific words and softeners rather than grammatical complexity — the same sentence can range from rude to very formal depending on which words you choose to wrap around the core request.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Politeness Vocabulary</div>
+        <table class="vocab-table">
+          <thead><tr><th>Indonesian</th><th>Pronunciation</th><th>English</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="td-indo">Tolong</td><td class="td-pron">to-long</td><td class="td-en">Please (for requests)</td><td class="td-note">Placed before the verb</td></tr>
+            <tr><td class="td-indo">Mohon</td><td class="td-pron">mo-hon</td><td class="td-en">Please (formal/earnest)</td><td class="td-note">More formal than tolong</td></tr>
+            <tr><td class="td-indo">Minta</td><td class="td-pron">min-ta</td><td class="td-en">To request / can I have</td><td class="td-note">Minta … = I'd like … (casual)</td></tr>
+            <tr><td class="td-indo">Boleh</td><td class="td-pron">bo-leh</td><td class="td-en">May / allowed to</td><td class="td-note">Boleh saya …? = May I …?</td></tr>
+            <tr><td class="td-indo">Silakan</td><td class="td-pron">si-la-kan</td><td class="td-en">Please go ahead / be my guest</td><td class="td-note">Said when inviting someone to do something</td></tr>
+            <tr><td class="td-indo">Dengan senang hati</td><td class="td-pron">de-ngan · se-nang · ha-ti</td><td class="td-en">With pleasure</td><td class="td-note">Lit. "with a happy heart"</td></tr>
+            <tr><td class="td-indo">Maaf mengganggu</td><td class="td-pron">ma-af · meng-gang-gu</td><td class="td-en">Sorry to disturb / excuse the interruption</td><td class="td-note">Polite opener before a request</td></tr>
+            <tr><td class="td-indo">Kalau boleh tahu</td><td class="td-pron">ka-lau · bo-leh · ta-hu</td><td class="td-en">If I may ask / if you don't mind me asking</td><td class="td-note">Very polite question opener</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Request Patterns</div>
+        <div class="phrase-list">
+          <div class="phrase-card">
+            <div class="phrase-indo">Tolong bantu saya</div>
+            <div class="phrase-eng">Please help me</div>
+            <div class="phrase-pron">to-long · ban-tu · sa-ya</div>
+            <div class="phrase-note">Tolong goes before the verb</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Boleh saya duduk di sini?</div>
+            <div class="phrase-eng">May I sit here?</div>
+            <div class="phrase-pron">bo-leh · sa-ya · du-duk · di · si-ni?</div>
+            <div class="phrase-note">Boleh saya = the polite permission structure</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Minta air putih satu</div>
+            <div class="phrase-eng">Can I have one glass of water</div>
+            <div class="phrase-pron">min-ta · a-ir · pu-tih · sa-tu</div>
+            <div class="phrase-note">Natural warung/restaurant ordering phrase</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Kalau boleh tahu, ini berapa harganya?</div>
+            <div class="phrase-eng">If you don't mind me asking, how much is this?</div>
+            <div class="phrase-pron">ka-lau · bo-leh · ta-hu · i-ni · be-ra-pa · har-ga-nya?</div>
+            <div class="phrase-note">The most elegant way to ask a price</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Maaf mengganggu, bisa tanya sebentar?</div>
+            <div class="phrase-eng">Sorry to disturb, can I ask something quickly?</div>
+            <div class="phrase-pron">ma-af · meng-gang-gu · bi-sa · ta-nya · se-ben-tar?</div>
+            <div class="phrase-note">The gold standard polite opener with strangers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 29 -->
+    <div class="lesson-panel" id="lesson-29">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 29 of 36</span><span>Phase 3 · Conversation</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:81%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 29</span>
+        <h2 class="lesson-title">Shopping &amp; Bargaining</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          You covered basic market vocabulary in Phase 2. This lesson takes you to full bargaining fluency — the complete negotiation arc from browsing to purchase, including how to politely push back, make counteroffers, and close a deal. Bargaining is a social ritual in Indonesian markets, not just a transaction.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Full Bargaining Dialogue</div>
+        <div class="dialogue">
+          <div class="d-line">
+            <span class="d-speaker a">You</span>
+            <div class="d-bubble">
+              <div class="d-indo">Permisi, ini berapa harganya?</div>
+              <div class="d-eng">Excuse me, how much is this?</div>
+            </div>
+          </div>
+          <div class="d-line">
+            <span class="d-speaker b">Seller</span>
+            <div class="d-bubble">
+              <div class="d-indo">Seratus lima puluh ribu.</div>
+              <div class="d-eng">150,000 Rupiah.</div>
+            </div>
+          </div>
+          <div class="d-line">
+            <span class="d-speaker a">You</span>
+            <div class="d-bubble">
+              <div class="d-indo">Wah, mahal sekali. Bisa kurang tidak?</div>
+              <div class="d-eng">Wow, that's very expensive. Can you lower it?</div>
+            </div>
+          </div>
+          <div class="d-line">
+            <span class="d-speaker b">Seller</span>
+            <div class="d-bubble">
+              <div class="d-indo">Ini harga bagus sudah. Seratus dua puluh ribu, final.</div>
+              <div class="d-eng">This is already a good price. 120,000, final.</div>
+            </div>
+          </div>
+          <div class="d-line">
+            <span class="d-speaker a">You</span>
+            <div class="d-bubble">
+              <div class="d-indo">Bagaimana kalau sembilan puluh ribu? Saya beli dua sekalian.</div>
+              <div class="d-eng">How about 90,000? I'll buy two at the same time.</div>
+            </div>
+          </div>
+          <div class="d-line">
+            <span class="d-speaker b">Seller</span>
+            <div class="d-bubble">
+              <div class="d-indo">Oke deh, seratus ribu untuk dua ya.</div>
+              <div class="d-eng">Okay fine, 100,000 for two then.</div>
+            </div>
+          </div>
+          <div class="d-line">
+            <span class="d-speaker a">You</span>
+            <div class="d-bubble">
+              <div class="d-indo">Deal. Ini uangnya. Ada kembalian tidak?</div>
+              <div class="d-eng">Deal. Here's the money. Do you have change?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Key Bargaining Phrases</div>
+        <div class="phrase-list">
+          <div class="phrase-card">
+            <div class="phrase-indo">Bagaimana kalau … ?</div>
+            <div class="phrase-eng">How about … ? (counteroffer)</div>
+            <div class="phrase-pron">ba-gai-ma-na · ka-lau …?</div>
+            <div class="phrase-note">The most natural way to make a counteroffer</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Saya beli dua sekalian</div>
+            <div class="phrase-eng">I'll buy two at the same time</div>
+            <div class="phrase-pron">sa-ya · be-li · du-a · se-ka-li-an</div>
+            <div class="phrase-note">Sekalian = at the same time / might as well</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Harga terbaik berapa?</div>
+            <div class="phrase-eng">What's your best price?</div>
+            <div class="phrase-pron">har-ga · ter-ba-ik · be-ra-pa?</div>
+            <div class="phrase-note">Using ter- superlative from Lesson 26</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Saya lihat-lihat dulu ya</div>
+            <div class="phrase-eng">Let me just have a look first</div>
+            <div class="phrase-pron">sa-ya · li-hat · li-hat · du-lu · ya</div>
+            <div class="phrase-note">Repeated verb = doing something casually/browsing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 30 -->
+    <div class="lesson-panel" id="lesson-30">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 30 of 36</span><span>Phase 3 · Conversation</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:83%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 30</span>
+        <h2 class="lesson-title">Eating Out</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          You have the basic food vocabulary from Phase 1. This lesson takes you through a full restaurant or warung experience in Indonesian — from arriving and ordering to complimenting the food and paying. This is one of the most immediately useful conversation sets in daily life in Bali.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Restaurant Vocabulary</div>
+        <table class="vocab-table">
+          <thead><tr><th>Indonesian</th><th>Pronunciation</th><th>English</th></tr></thead>
+          <tbody>
+            <tr><td class="td-indo">Meja</td><td class="td-pron">me-ja</td><td class="td-en">Table</td></tr>
+            <tr><td class="td-indo">Kursi</td><td class="td-pron">kur-si</td><td class="td-en">Chair</td></tr>
+            <tr><td class="td-indo">Menu</td><td class="td-pron">me-nu</td><td class="td-en">Menu</td></tr>
+            <tr><td class="td-indo">Pesanan</td><td class="td-pron">pe-sa-nan</td><td class="td-en">Order (the noun)</td></tr>
+            <tr><td class="td-indo">Porsi</td><td class="td-pron">por-si</td><td class="td-en">Portion / serving</td></tr>
+            <tr><td class="td-indo">Sarapan</td><td class="td-pron">sa-ra-pan</td><td class="td-en">Breakfast</td></tr>
+            <tr><td class="td-indo">Makan siang</td><td class="td-pron">ma-kan · si-ang</td><td class="td-en">Lunch</td></tr>
+            <tr><td class="td-indo">Makan malam</td><td class="td-pron">ma-kan · ma-lam</td><td class="td-en">Dinner</td></tr>
+            <tr><td class="td-indo">Bon / Tagihan</td><td class="td-pron">bon / ta-gi-han</td><td class="td-en">Bill</td></tr>
+            <tr><td class="td-indo">Bayar</td><td class="td-pron">ba-yar</td><td class="td-en">Pay</td></tr>
+            <tr><td class="td-indo">Bungkus</td><td class="td-pron">bung-kus</td><td class="td-en">Takeaway / wrap it up</td></tr>
+            <tr><td class="td-indo">Di sini / Di tempat</td><td class="td-pron">di · si-ni / di · tem-pat</td><td class="td-en">Eat in / dine in</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Full Restaurant Dialogue</div>
+        <div class="dialogue">
+          <div class="d-line">
+            <span class="d-speaker a">You</span>
+            <div class="d-bubble">
+              <div class="d-indo">Permisi, masih ada tempat?</div>
+              <div class="d-eng">Excuse me, is there still space?</div>
+            </div>
+          </div>
+          <div class="d-line">
+            <span class="d-speaker b">Staff</span>
+            <div class="d-bubble">
+              <div class="d-indo">Ada, silakan duduk.</div>
+              <div class="d-eng">Yes, please sit down.</div>
+            </div>
+          </div>
+          <div class="d-line">
+            <span class="d-speaker a">You</span>
+            <div class="d-bubble">
+              <div class="d-indo">Minta menunya dulu ya.</div>
+              <div class="d-eng">Can I see the menu first?</div>
+            </div>
+          </div>
+          <div class="d-line">
+            <span class="d-speaker a">You</span>
+            <div class="d-bubble">
+              <div class="d-indo">Saya pesan nasi goreng ayam satu, dan es teh manis satu. Jangan terlalu pedas ya.</div>
+              <div class="d-eng">I'll order one chicken fried rice, and one sweet iced tea. Not too spicy please.</div>
+            </div>
+          </div>
+          <div class="d-line">
+            <span class="d-speaker a">You</span>
+            <div class="d-bubble">
+              <div class="d-indo">Enak sekali! Minta bon-nya sekalian.</div>
+              <div class="d-eng">Delicious! Can I get the bill while you're at it.</div>
+            </div>
+          </div>
+          <div class="d-line">
+            <span class="d-speaker a">You</span>
+            <div class="d-bubble">
+              <div class="d-indo">Bayar pakai kartu bisa?</div>
+              <div class="d-eng">Can I pay by card?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 31 -->
+    <div class="lesson-panel" id="lesson-31">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 31 of 36</span><span>Phase 3 · Conversation</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:86%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 31</span>
+        <h2 class="lesson-title">Making Plans</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Making, accepting, declining, and rescheduling plans is core conversation territory. Indonesian has elegant ways to invite, suggest, agree, and politely say no — and the particles from Lesson 24 come into full play here.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Planning Vocabulary</div>
+        <table class="vocab-table">
+          <thead><tr><th>Indonesian</th><th>Pronunciation</th><th>English</th></tr></thead>
+          <tbody>
+            <tr><td class="td-indo">Rencana</td><td class="td-pron">ren-ca-na</td><td class="td-en">Plan</td></tr>
+            <tr><td class="td-indo">Janji</td><td class="td-pron">jan-ji</td><td class="td-en">Promise / appointment</td></tr>
+            <tr><td class="td-indo">Janjian</td><td class="td-pron">jan-ji-an</td><td class="td-en">To have arranged to meet</td></tr>
+            <tr><td class="td-indo">Yuk / Ayo</td><td class="td-pron">yuk / a-yo</td><td class="td-en">Let's go / come on (invitation)</td></tr>
+            <tr><td class="td-indo">Gimana kalau…</td><td class="td-pron">gi-ma-na · ka-lau</td><td class="td-en">How about… (suggestion)</td></tr>
+            <tr><td class="td-indo">Nanti</td><td class="td-pron">nan-ti</td><td class="td-en">Later</td></tr>
+            <tr><td class="td-indo">Sebentar lagi</td><td class="td-pron">se-ben-tar · la-gi</td><td class="td-en">In a little while</td></tr>
+            <tr><td class="td-indo">Tidak bisa</td><td class="td-pron">ti-dak · bi-sa</td><td class="td-en">Can't make it</td></tr>
+            <tr><td class="td-indo">Lain kali</td><td class="td-pron">la-in · ka-li</td><td class="td-en">Another time / next time</td></tr>
+            <tr><td class="td-indo">Setuju</td><td class="td-pron">se-tu-ju</td><td class="td-en">Agreed / sounds good</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Making &amp; Declining Plans</div>
+        <div class="phrase-list">
+          <div class="phrase-card">
+            <div class="phrase-indo">Yuk makan bareng nanti malam!</div>
+            <div class="phrase-eng">Let's eat together tonight!</div>
+            <div class="phrase-pron">yuk · ma-kan · ba-reng · nan-ti · ma-lam</div>
+            <div class="phrase-note">Bareng = together (casual) · Yuk = the casual let's go</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Gimana kalau ketemu jam tiga?</div>
+            <div class="phrase-eng">How about we meet at 3 o'clock?</div>
+            <div class="phrase-pron">gi-ma-na · ka-lau · ke-te-mu · jam · ti-ga</div>
+            <div class="phrase-note">Ketemu = informal shortening of bertemu</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Maaf, besok saya tidak bisa. Lain kali ya?</div>
+            <div class="phrase-eng">Sorry, I can't tomorrow. Another time?</div>
+            <div class="phrase-pron">ma-af · be-sok · sa-ya · ti-dak · bi-sa · la-in · ka-li · ya?</div>
+            <div class="phrase-note">Polite decline with a door left open</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Oke, kita janjian jam dua di sana ya.</div>
+            <div class="phrase-eng">Okay, let's arrange to meet at 2pm there.</div>
+            <div class="phrase-pron">o-ke · ki-ta · jan-ji-an · jam · du-a · di · sa-na · ya</div>
+            <div class="phrase-note">Janjian = the act of making an arrangement</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 32 -->
+    <div class="lesson-panel" id="lesson-32">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 32 of 36</span><span>Phase 3 · Conversation</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:89%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 32</span>
+        <h2 class="lesson-title">Indonesian Small Talk</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          <em>Ngobrol</em> — casual Indonesian chitchat — is the conversational glue of daily life. Indonesians are warm, socially engaged, and love talking. Mastering a handful of small-talk topics will open far more doors than any amount of grammar study. These are the conversations that happen at warungs, in ojeks, at the market, and with neighbours every single day.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Classic Small-Talk Topics &amp; Phrases</div>
+        <div class="phrase-list">
+          <div class="phrase-card">
+            <div class="phrase-indo">Sudah lama di Bali?</div>
+            <div class="phrase-eng">Have you been in Bali long?</div>
+            <div class="phrase-pron">su-dah · la-ma · di · ba-li?</div>
+            <div class="phrase-note">The most common opener for foreigners</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Suka Bali?</div>
+            <div class="phrase-eng">Do you like Bali?</div>
+            <div class="phrase-pron">su-ka · ba-li?</div>
+            <div class="phrase-note">Answer: Suka banget! / Sangat suka!</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Kerja apa di sini?</div>
+            <div class="phrase-eng">What do you do here?</div>
+            <div class="phrase-pron">ker-ja · a-pa · di · si-ni?</div>
+            <div class="phrase-note">Very natural, not intrusive — just friendly curiosity</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Sudah coba nasi jinggo?</div>
+            <div class="phrase-eng">Have you tried nasi jinggo yet?</div>
+            <div class="phrase-pron">su-dah · co-ba · na-si · jing-go?</div>
+            <div class="phrase-note">Food recommendations are a primary social currency</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Bahasa Indonesianya bagus!</div>
+            <div class="phrase-eng">Your Indonesian is good!</div>
+            <div class="phrase-pron">ba-ha-sa · in-do-ne-si-a-nya · ba-gus!</div>
+            <div class="phrase-note">You will hear this — the correct response is "Masih belajar" (still learning)</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Masih belajar, tapi suka sekali</div>
+            <div class="phrase-eng">Still learning, but I really love it</div>
+            <div class="phrase-pron">ma-sih · be-la-jar · ta-pi · su-ka · se-ka-li</div>
+            <div class="phrase-note">The perfect humble response to compliments on your Indonesian</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Culture Note</div>
+        <div class="culture-box">
+          <strong>Ngobrol — The Value of Casual Connection</strong>
+          In Indonesian culture, taking a few minutes to chat — even briefly — is not wasted time. It is relationship-building. A foreigner who attempts Indonesian small talk, even imperfectly, is showing respect and genuine interest. Indonesians will almost always respond with warmth, patience, and encouragement. The phrase <em>masih belajar</em> (still learning) is your best friend — say it with a smile and people will immediately become your teachers.
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 33 -->
+    <div class="lesson-panel" id="lesson-33">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 33 of 36</span><span>Phase 3 · Conversation</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:92%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 33</span>
+        <h2 class="lesson-title">Work &amp; Daily Routine</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Talking about work and daily routine is essential for anyone living in Bali long-term. This vocabulary covers professions, workplace language, and how to describe your day — all core territory for the kind of conversations you'll have with neighbours, staff, and local contacts.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Work &amp; Routine Vocabulary</div>
+        <table class="vocab-table">
+          <thead><tr><th>Indonesian</th><th>Pronunciation</th><th>English</th></tr></thead>
+          <tbody>
+            <tr><td class="td-indo">Pekerjaan</td><td class="td-pron">pe-ker-ja-an</td><td class="td-en">Job / work / occupation</td></tr>
+            <tr><td class="td-indo">Kantor</td><td class="td-pron">kan-tor</td><td class="td-en">Office</td></tr>
+            <tr><td class="td-indo">Bisnis</td><td class="td-pron">bis-nis</td><td class="td-en">Business</td></tr>
+            <tr><td class="td-indo">Wiraswasta</td><td class="td-pron">wi-ra-swas-ta</td><td class="td-en">Self-employed / entrepreneur</td></tr>
+            <tr><td class="td-indo">Karyawan</td><td class="td-pron">kar-ya-wan</td><td class="td-en">Employee</td></tr>
+            <tr><td class="td-indo">Bos / Atasan</td><td class="td-pron">bos / a-ta-san</td><td class="td-en">Boss / superior</td></tr>
+            <tr><td class="td-indo">Rapat</td><td class="td-pron">ra-pat</td><td class="td-en">Meeting</td></tr>
+            <tr><td class="td-indo">Libur</td><td class="td-pron">li-bur</td><td class="td-en">Day off / holiday</td></tr>
+            <tr><td class="td-indo">Bangun pagi</td><td class="td-pron">ba-ngun · pa-gi</td><td class="td-en">Wake up early</td></tr>
+            <tr><td class="td-indo">Sarapan</td><td class="td-pron">sa-ra-pan</td><td class="td-en">Have breakfast</td></tr>
+            <tr><td class="td-indo">Berangkat</td><td class="td-pron">be-rang-kat</td><td class="td-en">Set off / depart</td></tr>
+            <tr><td class="td-indo">Pulang kerja</td><td class="td-pron">pu-lang · ker-ja</td><td class="td-en">Finish work / come home from work</td></tr>
+            <tr><td class="td-indo">Istirahat</td><td class="td-pron">is-ti-ra-hat</td><td class="td-en">Rest / break</td></tr>
+            <tr><td class="td-indo">Setiap hari</td><td class="td-pron">se-ti-ap · ha-ri</td><td class="td-en">Every day</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Describing Your Routine</div>
+        <div class="phrase-list">
+          <div class="phrase-card">
+            <div class="phrase-indo">Setiap hari saya bangun jam enam, lalu olahraga</div>
+            <div class="phrase-eng">Every day I wake up at 6, then exercise</div>
+            <div class="phrase-pron">se-ti-ap · ha-ri · sa-ya · ba-ngun · jam · e-nam · la-lu · o-lah-ra-ga</div>
+            <div class="phrase-note">Olahraga = exercise / sport</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Saya kerja dari rumah</div>
+            <div class="phrase-eng">I work from home</div>
+            <div class="phrase-pron">sa-ya · ker-ja · da-ri · ru-mah</div>
+            <div class="phrase-note">Very relevant for digital nomads in Bali</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Hari ini saya tidak ada rapat</div>
+            <div class="phrase-eng">Today I don't have any meetings</div>
+            <div class="phrase-pron">ha-ri · i-ni · sa-ya · ti-dak · a-da · ra-pat</div>
+            <div class="phrase-note">Ada used for "having" appointments/events</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 34 -->
+    <div class="lesson-panel" id="lesson-34">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 34 of 36</span><span>Phase 3 · Conversation</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:94%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 34</span>
+        <h2 class="lesson-title">Health &amp; Emergencies</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Health vocabulary in Phase 1 covered the basics. This lesson gives you the full vocabulary needed for a medical situation — describing symptoms, asking for help, navigating a clinic or pharmacy, and handling emergencies. These are words you hope never to need but must know when living abroad.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Medical Vocabulary</div>
+        <table class="vocab-table">
+          <thead><tr><th>Indonesian</th><th>Pronunciation</th><th>English</th></tr></thead>
+          <tbody>
+            <tr><td class="td-indo">Klinik</td><td class="td-pron">kli-nik</td><td class="td-en">Clinic</td></tr>
+            <tr><td class="td-indo">IGD / UGD</td><td class="td-pron">i-ge-de / u-ge-de</td><td class="td-en">Emergency room</td></tr>
+            <tr><td class="td-indo">Resep</td><td class="td-pron">re-sep</td><td class="td-en">Prescription</td></tr>
+            <tr><td class="td-indo">Alergi</td><td class="td-pron">a-ler-gi</td><td class="td-en">Allergy</td></tr>
+            <tr><td class="td-indo">Mual</td><td class="td-pron">mu-al</td><td class="td-en">Nauseous</td></tr>
+            <tr><td class="td-indo">Muntah</td><td class="td-pron">mun-tah</td><td class="td-en">Vomit</td></tr>
+            <tr><td class="td-indo">Diare</td><td class="td-pron">di-a-re</td><td class="td-en">Diarrhoea</td></tr>
+            <tr><td class="td-indo">Pusing</td><td class="td-pron">pu-sing</td><td class="td-en">Dizzy / lightheaded</td></tr>
+            <tr><td class="td-indo">Luka</td><td class="td-pron">lu-ka</td><td class="td-en">Wound / injury</td></tr>
+            <tr><td class="td-indo">Patah</td><td class="td-pron">pa-tah</td><td class="td-en">Broken (bone)</td></tr>
+            <tr><td class="td-indo">Pingsan</td><td class="td-pron">ping-san</td><td class="td-en">Faint / pass out</td></tr>
+            <tr><td class="td-indo">Tolong!</td><td class="td-pron">to-long!</td><td class="td-en">Help!</td></tr>
+            <tr><td class="td-indo">Darurat</td><td class="td-pron">da-ru-rat</td><td class="td-en">Emergency</td></tr>
+            <tr><td class="td-indo">Ambulans</td><td class="td-pron">am-bu-lans</td><td class="td-en">Ambulance</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Emergency Phrases</div>
+        <div class="phrase-list">
+          <div class="phrase-card">
+            <div class="phrase-indo">Tolong! Saya butuh bantuan!</div>
+            <div class="phrase-eng">Help! I need help!</div>
+            <div class="phrase-pron">to-long! · sa-ya · bu-tuh · ban-tu-an!</div>
+            <div class="phrase-note">Butuh = need (urgent) · Bantuan = help/assistance</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Saya alergi terhadap …</div>
+            <div class="phrase-eng">I am allergic to …</div>
+            <div class="phrase-pron">sa-ya · a-ler-gi · ter-ha-dap …</div>
+            <div class="phrase-note">Terhadap = toward / regarding</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Perut saya sakit sekali</div>
+            <div class="phrase-eng">My stomach hurts a lot</div>
+            <div class="phrase-pron">pe-rut · sa-ya · sa-kit · se-ka-li</div>
+            <div class="phrase-note">Body part + saya + sakit = that part hurts</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-indo">Bisa panggil dokter?</div>
+            <div class="phrase-eng">Can you call a doctor?</div>
+            <div class="phrase-pron">bi-sa · pang-gil · dok-ter?</div>
+            <div class="phrase-note">Panggil = to call / summon</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 35 -->
+    <div class="lesson-panel" id="lesson-35">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 35 of 36</span><span>Phase 3 · Conversation</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:97%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 35</span>
+        <h2 class="lesson-title">Indonesian Media &amp; News</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          Engaging with Indonesian media — news, social media, YouTube, podcasts — is one of the fastest ways to accelerate from conversational to fluent. Indonesian media uses formal Bahasa Indonesia, which is worth distinguishing from the casual spoken language you use daily. This lesson bridges that gap and gives you the vocabulary to engage with Indonesian content independently.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Media &amp; News Vocabulary</div>
+        <table class="vocab-table">
+          <thead><tr><th>Indonesian</th><th>Pronunciation</th><th>English</th></tr></thead>
+          <tbody>
+            <tr><td class="td-indo">Berita</td><td class="td-pron">be-ri-ta</td><td class="td-en">News</td></tr>
+            <tr><td class="td-indo">Koran</td><td class="td-pron">ko-ran</td><td class="td-en">Newspaper</td></tr>
+            <tr><td class="td-indo">Majalah</td><td class="td-pron">ma-ja-lah</td><td class="td-en">Magazine</td></tr>
+            <tr><td class="td-indo">Siaran</td><td class="td-pron">si-a-ran</td><td class="td-en">Broadcast</td></tr>
+            <tr><td class="td-indo">Kanal</td><td class="td-pron">ka-nal</td><td class="td-en">Channel</td></tr>
+            <tr><td class="td-indo">Unggah</td><td class="td-pron">ung-gah</td><td class="td-en">Upload</td></tr>
+            <tr><td class="td-indo">Unduh</td><td class="td-pron">un-duh</td><td class="td-en">Download</td></tr>
+            <tr><td class="td-indo">Konten</td><td class="td-pron">kon-ten</td><td class="td-en">Content</td></tr>
+            <tr><td class="td-indo">Viral</td><td class="td-pron">vi-ral</td><td class="td-en">Viral</td></tr>
+            <tr><td class="td-indo">Trending</td><td class="td-pron">tren-ding</td><td class="td-en">Trending</td></tr>
+            <tr><td class="td-indo">Komentar</td><td class="td-pron">ko-men-tar</td><td class="td-en">Comment</td></tr>
+            <tr><td class="td-indo">Suka / Like</td><td class="td-pron">su-ka</td><td class="td-en">Like (social media)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Recommended Indonesian Media</div>
+        <div class="grammar-box">
+          <h4>How to use media for language learning</h4>
+          <p><strong>YouTube:</strong> Search for Indonesian content with subtitles. Start with channels that have Indonesian captions — you can read along as you listen. Vlogs, cooking channels, and travel content use natural conversational Indonesian.</p>
+          <p><strong>Podcasts:</strong> "Podcast Subjektif," "On The Way," and Indonesian news podcasts use clear, standard Indonesian — good for training your ear to formal speech.</p>
+          <p><strong>Instagram / TikTok:</strong> Follow Indonesian accounts in topics you already care about. Captions and comments are written in natural, casual Indonesian — excellent for absorbing particles, slang, and how sentences actually look in writing.</p>
+          <p><strong>WhatsApp:</strong> If you have Indonesian contacts, reading and responding to messages is one of the most effective immersion tools available. Even emoji reactions require understanding context.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 36 -->
+    <div class="lesson-panel" id="lesson-36">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Lesson 36 of 36</span><span>Phase 3 · Conversation</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <div class="lesson-header">
+        <span class="lesson-num">Lesson 36</span>
+        <h2 class="lesson-title">Phase 3 Review</h2>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Overview</div>
+        <div class="intro-text">
+          You have now completed 36 lessons across three phases. At this point you have the vocabulary, grammar, and conversational tools to handle most everyday situations in Indonesia confidently. This review consolidates Phase 3 and sets the direction for Phase 4 — fluency.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Self-Test Checklist</div>
+        <ul class="practice-list">
+          <li>Tell a story about something that happened last week using at least five narrative words: tadi, kemarin, lalu, tiba-tiba, akhirnya, ternyata.</li>
+          <li>Join ten pairs of sentences using different connectors: dan, tapi, karena, jadi, kalau, walaupun, sebelum, setelah, ketika, lalu.</li>
+          <li>Express an opinion on three topics using menurut saya, saya rasa, lebih suka, and paling suka. Include a comparison using lebih … daripada.</li>
+          <li>Use five particles naturally in sentences: dong, sih, kok, deh, ya. Explain what each one adds to the tone.</li>
+          <li>Give five examples of ber- verbs in sentences. Give five examples of ter- verbs — two as superlatives, three as accidental actions.</li>
+          <li>Convert three active me- sentences into passive di- sentences.</li>
+          <li>Complete a full restaurant scenario in Indonesian from arrival to paying the bill.</li>
+          <li>Make, accept, and decline a plan in Indonesian, using yuk, janjian, tidak bisa, and lain kali.</li>
+          <li>Describe your daily work routine using setiap hari, sebelum, setelah, and berangkat / pulang kerja.</li>
+          <li>Say five emergency phrases from memory, including Tolong, darurat, and how to describe a symptom.</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <div class="block-label">Phase 4 Preview</div>
+        <div class="grammar-box">
+          <h4>Phase 4: Fluency (Lessons 37+)</h4>
+          <p>Phase 4 is about closing the gap between competent and genuinely fluent. You will work on: advanced prefix and suffix combinations (me-…-kan, me-…-i, ke-…-an), nuanced register switching, Indonesian idioms and proverbs (peribahasa), formal writing and email Indonesian, understanding rapid natural speech, regional vocabulary differences between Java and Bali, and developing your own personal Indonesian voice.</p>
+          <p>By the time you reach Phase 4, the most important thing is immersion. Seek out Indonesian conversations every day. Make Indonesian friends. Read Indonesian content. Watch Indonesian media without subtitles. Language fluency is not achieved in a classroom — it is built in the world, through thousands of small interactions, mistakes, and moments of real connection.</p>
+          <p><em>Selamat belajar — dan terus semangat.</em> Happy studying — and keep going.</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <p>Bahasa Indonesia · Learning Plan · Phase 3 Conversation</p>
+</footer>
+
+<script>
+  const navLinks = document.querySelectorAll('.lesson-nav a');
+  const panels = document.querySelectorAll('.lesson-panel');
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const lessonNum = link.dataset.lesson;
+      navLinks.forEach(l => l.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      link.classList.add('active');
+      document.getElementById('lesson-' + lessonNum).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
