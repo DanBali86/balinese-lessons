@@ -420,6 +420,180 @@
     .stats-strip { padding: 1rem 1.2rem; }
     .stats-inner { gap: 1.5rem; }
   }
+
+  /* ── SEARCH BAR ── */
+  .search-wrap {
+    margin-bottom: 1.2rem;
+  }
+
+  .search-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.6rem 1rem;
+    transition: border-color 0.15s;
+  }
+
+  .search-inner:focus-within {
+    border-color: var(--teal);
+  }
+
+  .search-icon {
+    color: var(--muted);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--ink);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    min-width: 0;
+  }
+
+  .search-input::placeholder {
+    color: var(--muted);
+  }
+
+  .search-clear {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.7rem;
+    padding: 0.1rem 0.2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s, color 0.15s;
+    flex-shrink: 0;
+  }
+
+  .search-clear.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .search-clear:hover { color: var(--rust); }
+
+  .search-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.5rem;
+  }
+
+  /* ── SESSION GRID ── */
+  .session-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+  }
+
+  .session-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.9rem 1rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  .session-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--teal);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  a.session-card:hover {
+    background: var(--surface2);
+    border-color: var(--teal-border);
+  }
+
+  a.session-card:hover::before { opacity: 1; }
+
+  .session-card.sc-soon {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .sc-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--teal);
+    text-transform: uppercase;
+  }
+
+  .session-card.sc-soon .sc-num { color: var(--muted); }
+
+  .sc-body { flex: 1; }
+
+  .sc-title {
+    font-family: 'Lora', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.35;
+    margin-bottom: 0.3rem;
+  }
+
+  .sc-muted { color: var(--muted) !important; font-weight: 400 !important; }
+
+  .sc-desc {
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .sc-arrow {
+    font-size: 0.85rem;
+    color: var(--teal);
+    align-self: flex-end;
+    transition: transform 0.15s;
+  }
+
+  a.session-card:hover .sc-arrow { transform: translateX(3px); }
+
+  .session-card.hidden { display: none; }
+
+  /* ── NO RESULTS ── */
+  .no-results {
+    display: none;
+    font-size: 0.82rem;
+    color: var(--muted);
+    text-align: center;
+    padding: 2rem 1rem;
+    font-style: italic;
+  }
+
+  @media (max-width: 680px) {
+    .session-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 420px) {
+    .session-grid { grid-template-columns: 1fr; }
+  }
+
 </style>
 </head>
 <body>
@@ -496,38 +670,48 @@
       <div class="section-rule"></div>
     </div>
 
-    <div class="lesson-grid">
+    <!-- SEARCH BAR -->
+    <div class="search-wrap">
+      <div class="search-inner">
+        <span class="search-icon">&#9906;</span>
+        <input
+          type="text"
+          id="sessionSearch"
+          class="search-input"
+          placeholder="Search by topic, grammar point, or vocabulary…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button class="search-clear" id="searchClear" aria-label="Clear">&#10005;</button>
+      </div>
+      <div class="search-count" id="searchCount">1 session complete</div>
+    </div>
 
-      <a class="lesson-card tutor-card" href="tutor-lesson-1.html">
-        <div class="card-num">Session 01</div>
-        <div>
-          <div class="card-title">Sentence Structure, Pronouns &amp; Core Verbs</div>
-          <div class="card-desc">S+V+O order · negation dengan tidak/bukan · makan / minum / masak · question words</div>
-          <div class="card-tags">
-            <span class="ctag ctag-tutor">Tutor</span>
-            <span class="ctag ctag-phase">Phase 1</span>
-          </div>
+    <!-- SESSION GRID -->
+    <div class="session-grid" id="sessionGrid">
+
+      <a class="session-card" href="tutor-lesson-1.html"
+         data-search="sentence structure pronouns core verbs svo negation tidak bukan makan minum masak question words">
+        <div class="sc-num">01</div>
+        <div class="sc-body">
+          <div class="sc-title">Sentence Structure, Pronouns &amp; Core Verbs</div>
+          <div class="sc-desc">S+V+O · tidak/bukan · makan / minum / masak · question words</div>
         </div>
-        <span class="card-arrow">→</span>
+        <span class="sc-arrow">&#8594;</span>
       </a>
 
-      <div class="lesson-card tutor-card coming-soon">
-        <div class="card-num">Session 02</div>
-        <div>
-          <div class="card-title" style="color:var(--muted)">Next session</div>
-          <div class="card-tags"><span class="ctag ctag-soon">Coming soon</span></div>
-        </div>
-      </div>
-
-      <div class="lesson-card tutor-card coming-soon">
-        <div class="card-num">Session 03</div>
-        <div>
-          <div class="card-title" style="color:var(--muted)">Next session</div>
-          <div class="card-tags"><span class="ctag ctag-soon">Coming soon</span></div>
-        </div>
-      </div>
+      <div class="session-card sc-soon" data-search=""><div class="sc-num">02</div><div class="sc-body"><div class="sc-title sc-muted">Upcoming session</div></div></div>
+      <div class="session-card sc-soon" data-search=""><div class="sc-num">03</div><div class="sc-body"><div class="sc-title sc-muted">Upcoming session</div></div></div>
+      <div class="session-card sc-soon" data-search=""><div class="sc-num">04</div><div class="sc-body"><div class="sc-title sc-muted">Upcoming session</div></div></div>
+      <div class="session-card sc-soon" data-search=""><div class="sc-num">05</div><div class="sc-body"><div class="sc-title sc-muted">Upcoming session</div></div></div>
+      <div class="session-card sc-soon" data-search=""><div class="sc-num">06</div><div class="sc-body"><div class="sc-title sc-muted">Upcoming session</div></div></div>
 
     </div>
+
+    <div class="no-results" id="noResults">
+      No sessions found matching &ldquo;<span id="noResultsTerm"></span>&rdquo;
+    </div>
+
   </section>
 
   <!-- ── LEARNING PLAN ── -->
@@ -627,6 +811,75 @@
 <footer>
   <p>Bahasa Indonesia · Personal Learning Hub · Updated after every session</p>
 </footer>
+
+
+<script>
+  // ── SESSION SEARCH ──
+  const searchInput = document.getElementById('sessionSearch');
+  const searchClear = document.getElementById('searchClear');
+  const searchCount = document.getElementById('searchCount');
+  const sessionGrid = document.getElementById('sessionGrid');
+  const noResults   = document.getElementById('noResults');
+  const noResultsTerm = document.getElementById('noResultsTerm');
+
+  const allCards = Array.from(sessionGrid.querySelectorAll('.session-card'));
+  const liveCards = allCards.filter(c => !c.classList.contains('sc-soon'));
+
+  function updateCount(visible) {
+    const total = liveCards.length;
+    const q = searchInput.value.trim();
+    if (!q) {
+      searchCount.textContent = total + ' session' + (total !== 1 ? 's' : '') + ' complete';
+    } else {
+      searchCount.textContent = visible + ' of ' + total + ' session' + (total !== 1 ? 's' : '') + ' match';
+    }
+  }
+
+  function runSearch() {
+    const q = searchInput.value.trim().toLowerCase();
+
+    // Toggle clear button
+    searchClear.classList.toggle('visible', q.length > 0);
+
+    let visibleCount = 0;
+
+    allCards.forEach(card => {
+      if (card.classList.contains('sc-soon')) {
+        // Hide upcoming placeholders when searching
+        card.classList.toggle('hidden', q.length > 0);
+        return;
+      }
+
+      const text = (
+        (card.dataset.search || '') + ' ' +
+        (card.querySelector('.sc-title')?.textContent || '') + ' ' +
+        (card.querySelector('.sc-desc')?.textContent || '')
+      ).toLowerCase();
+
+      const match = !q || text.includes(q);
+      card.classList.toggle('hidden', !match);
+      if (match) visibleCount++;
+    });
+
+    // Show/hide no-results message
+    const anyVisible = visibleCount > 0;
+    noResults.style.display = (!anyVisible && q) ? 'block' : 'none';
+    noResultsTerm.textContent = q;
+
+    updateCount(visibleCount);
+  }
+
+  searchInput.addEventListener('input', runSearch);
+
+  searchClear.addEventListener('click', () => {
+    searchInput.value = '';
+    searchInput.focus();
+    runSearch();
+  });
+
+  // Initialise count
+  updateCount(liveCards.length);
+</script>
 
 </body>
 </html>
