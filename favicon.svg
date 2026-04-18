@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 72" width="64" height="72">
+  <defs>
+    <!-- Colours extracted from image -->
+    <!-- Dark outline: #2d4457 -->
+    <!-- Roof fill: #f47c6a / salmon-red -->
+    <!-- Roof highlight: #f9a98e -->
+    <!-- Roof shadow: #e06650 -->
+    <!-- Wall/column: #f5d98a / warm gold -->
+    <!-- Wall accent: #e8b86d -->
+    <!-- Sky/window: #8fd4e0 / light teal-blue -->
+    <!-- Window dark: #4a8fa0 -->
+  </defs>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- SPIRE / TOP FINIAL -->
+  <!-- ═══════════════════════════════ -->
+  <!-- Spire tip -->
+  <polygon points="32,2 30,7 34,7" fill="#e06650" stroke="#2d4457" stroke-width="1.2" stroke-linejoin="round"/>
+  <!-- Spire base knob -->
+  <rect x="29.5" y="7" width="5" height="2" rx="0.5" fill="#e8b86d" stroke="#2d4457" stroke-width="1" stroke-linejoin="round"/>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- TOP ROOF (smallest) -->
+  <!-- ═══════════════════════════════ -->
+  <!-- Top roof main body -->
+  <path d="M19,18 Q32,12 45,18 L43,22 L21,22 Z" fill="#f47c6a" stroke="#2d4457" stroke-width="1.2" stroke-linejoin="round"/>
+  <!-- Top roof highlight band -->
+  <path d="M21,18.5 Q32,13.5 43,18.5 L42.5,20 Q32,15 21.5,20 Z" fill="#f9a98e" opacity="0.6"/>
+  <!-- Top roof underside/eave -->
+  <rect x="20" y="22" width="24" height="2.5" rx="0.5" fill="#e8b86d" stroke="#2d4457" stroke-width="1" stroke-linejoin="round"/>
+  <!-- Top tier wall -->
+  <rect x="25" y="24.5" width="14" height="5" rx="0.5" fill="#f5d98a" stroke="#2d4457" stroke-width="1" stroke-linejoin="round"/>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- MIDDLE ROOF -->
+  <!-- ═══════════════════════════════ -->
+  <!-- Middle roof main -->
+  <path d="M12,37 Q32,29 52,37 L49,42 L15,42 Z" fill="#f47c6a" stroke="#2d4457" stroke-width="1.2" stroke-linejoin="round"/>
+  <!-- Middle roof highlight -->
+  <path d="M15,37.5 Q32,30.5 49,37.5 L48.5,39 Q32,32 15.5,39 Z" fill="#f9a98e" opacity="0.6"/>
+  <!-- Middle roof eave -->
+  <rect x="13" y="42" width="38" height="2.5" rx="0.5" fill="#e8b86d" stroke="#2d4457" stroke-width="1" stroke-linejoin="round"/>
+  <!-- Middle tier wall -->
+  <rect x="20" y="44.5" width="24" height="5" rx="0.5" fill="#f5d98a" stroke="#2d4457" stroke-width="1" stroke-linejoin="round"/>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- BOTTOM / BASE ROOF (widest) -->
+  <!-- ═══════════════════════════════ -->
+  <!-- Base roof main -->
+  <path d="M4,55 Q32,46 60,55 L57,60 L7,60 Z" fill="#f47c6a" stroke="#2d4457" stroke-width="1.2" stroke-linejoin="round"/>
+  <!-- Base roof highlight -->
+  <path d="M7,55.5 Q32,47.5 57,55.5 L56.5,57 Q32,49 7.5,57 Z" fill="#f9a98e" opacity="0.6"/>
+  <!-- Base eave -->
+  <rect x="5" y="60" width="54" height="2.5" rx="0.5" fill="#e8b86d" stroke="#2d4457" stroke-width="1" stroke-linejoin="round"/>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- BASE PLATFORM & WALLS -->
+  <!-- ═══════════════════════════════ -->
+  <!-- Main base wall -->
+  <rect x="12" y="62.5" width="40" height="8" rx="0.5" fill="#f5d98a" stroke="#2d4457" stroke-width="1.2" stroke-linejoin="round"/>
+
+  <!-- Left fence/rail post -->
+  <rect x="4" y="63.5" width="7" height="6" rx="0.5" fill="#f5d98a" stroke="#2d4457" stroke-width="1" stroke-linejoin="round"/>
+  <!-- Left fence top rail -->
+  <rect x="3.5" y="63" width="8" height="1.2" rx="0.3" fill="#e8b86d" stroke="#2d4457" stroke-width="0.8" stroke-linejoin="round"/>
+  <!-- Left fence bottom rail -->
+  <rect x="3.5" y="68.5" width="8" height="1" rx="0.3" fill="#e8b86d" stroke="#2d4457" stroke-width="0.8"/>
+
+  <!-- Right fence/rail post -->
+  <rect x="53" y="63.5" width="7" height="6" rx="0.5" fill="#f5d98a" stroke="#2d4457" stroke-width="1" stroke-linejoin="round"/>
+  <!-- Right fence top rail -->
+  <rect x="52.5" y="63" width="8" height="1.2" rx="0.3" fill="#e8b86d" stroke="#2d4457" stroke-width="0.8" stroke-linejoin="round"/>
+  <!-- Right fence bottom rail -->
+  <rect x="52.5" y="68.5" width="8" height="1" rx="0.3" fill="#e8b86d" stroke="#2d4457" stroke-width="0.8"/>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- DOORS & WINDOWS -->
+  <!-- ═══════════════════════════════ -->
+  <!-- Centre door arch -->
+  <rect x="28" y="63.5" width="8" height="7" rx="1.5" fill="#8fd4e0" stroke="#2d4457" stroke-width="1" stroke-linejoin="round"/>
+  <!-- Door arch top -->
+  <path d="M28,65.5 Q32,62.5 36,65.5" fill="#8fd4e0" stroke="#2d4457" stroke-width="1"/>
+
+  <!-- Left window -->
+  <rect x="15" y="64.5" width="5" height="5" rx="1" fill="#8fd4e0" stroke="#2d4457" stroke-width="0.9" stroke-linejoin="round"/>
+  <!-- Right window -->
+  <rect x="44" y="64.5" width="5" height="5" rx="1" fill="#8fd4e0" stroke="#2d4457" stroke-width="0.9" stroke-linejoin="round"/>
+
+  <!-- Left column -->
+  <rect x="22" y="62.5" width="3" height="8" rx="0.5" fill="#e8b86d" stroke="#2d4457" stroke-width="0.9" stroke-linejoin="round"/>
+  <!-- Right column -->
+  <rect x="39" y="62.5" width="3" height="8" rx="0.5" fill="#e8b86d" stroke="#2d4457" stroke-width="0.9" stroke-linejoin="round"/>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- GROUND BASE LINE -->
+  <!-- ═══════════════════════════════ -->
+  <rect x="3" y="70.5" width="58" height="1.5" rx="0.5" fill="#2d4457"/>
+
+</svg>
