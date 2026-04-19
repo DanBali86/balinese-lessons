@@ -594,6 +594,61 @@
     .session-grid { grid-template-columns: 1fr; }
   }
 
+
+  /* ── DUOLINGO CARD ── */
+  .duo-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.7rem 1.1rem;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, background 0.2s;
+    margin-bottom: 1rem;
+  }
+
+  .duo-card:hover {
+    border-color: #58cc02;
+    background: var(--surface2);
+  }
+
+  .duo-left {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .duo-icon {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+
+  .duo-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #58cc02;
+    margin-bottom: 0.15rem;
+  }
+
+  .duo-name {
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  .duo-arrow {
+    font-size: 0.8rem;
+    color: #58cc02;
+    transition: transform 0.15s;
+  }
+
+  .duo-card:hover .duo-arrow { transform: translateX(3px); }
+
 </style>
 </head>
 <body>
@@ -631,6 +686,29 @@
 
   <!-- ── PATH CHOOSER ── -->
   <section>
+    <!-- ── DUOLINGO LINK ── -->
+    <a class="duo-card" href="https://www.duolingo.com/learn" target="_blank" rel="noopener">
+      <div class="duo-left">
+        <svg class="duo-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="24" fill="#58cc02"/>
+          <ellipse cx="24" cy="26" rx="13" ry="12" fill="#fff"/>
+          <ellipse cx="24" cy="25" rx="11" ry="10" fill="#89e219"/>
+          <circle cx="18.5" cy="22" r="3.5" fill="#fff"/>
+          <circle cx="29.5" cy="22" r="3.5" fill="#fff"/>
+          <circle cx="18.5" cy="22" r="2" fill="#1cb0f6"/>
+          <circle cx="29.5" cy="22" r="2" fill="#1cb0f6"/>
+          <path d="M19 29 Q24 33 29 29" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <ellipse cx="24" cy="14" rx="5" ry="6" fill="#58cc02"/>
+          <ellipse cx="24" cy="13" rx="4" ry="5" fill="#89e219"/>
+        </svg>
+        <div>
+          <div class="duo-label">Practice</div>
+          <div class="duo-name">Open Duolingo</div>
+        </div>
+      </div>
+      <span class="duo-arrow">→</span>
+    </a>
+
     <div class="path-chooser">
 
       <div class="path-card tutor-path" onclick="document.getElementById('tutor-section').scrollIntoView({behavior:'smooth'})">
