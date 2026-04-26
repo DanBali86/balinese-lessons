@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutor Lesson 3 — Bahasa Indonesia</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  :root {
+    --bg: #0f1a14;
+    --surface: #162010;
+    --surface2: #1c2a18;
+    --border: #2a3d24;
+    --green: #6abf69;
+    --green-bright: #a8e6a3;
+    --yellow: #f0d060;
+    --rust: #e07050;
+    --text: #d8e8d0;
+    --muted: #7a9a72;
+    --ink: #f0f4ee;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'Jost', sans-serif; font-weight: 300; min-height: 100vh; }
+
+  .back-bar { border-bottom: 1px solid var(--border); padding: 0.75rem 2rem; }
+  .back-bar-inner { max-width: 820px; margin: 0 auto; }
+  .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+  .back-btn:hover { color: var(--green-bright); }
+  .back-btn::before { content: '←'; font-size: 0.85rem; }
+
+  header { padding: 3rem 2rem 2rem; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+  header::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at 80% 50%, rgba(106,191,105,0.07) 0%, transparent 65%); pointer-events: none; }
+  .header-inner { max-width: 820px; margin: 0 auto; }
+  .tag { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green); border: 1px solid var(--border); padding: 0.25rem 0.6rem; border-radius: 2px; margin-bottom: 1rem; }
+  .tag::before { content: ''; width: 5px; height: 5px; background: var(--green); border-radius: 50%; display: inline-block; }
+  header h1 { font-family: 'Lora', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 400; line-height: 1.15; color: var(--ink); margin-bottom: 0.5rem; }
+  header h1 em { font-style: italic; color: var(--green-bright); }
+  .header-meta { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; margin-top: 0.75rem; }
+
+  .wrap { max-width: 820px; margin: 0 auto; padding: 2.5rem 2rem; display: flex; flex-direction: column; gap: 2.5rem; }
+
+  .section-head { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem; }
+  .section-num { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--green); letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid var(--border); padding: 0.2rem 0.5rem; border-radius: 2px; white-space: nowrap; }
+  .section-title { font-family: 'Lora', serif; font-size: 1.25rem; font-weight: 600; color: var(--ink); }
+  .section-rule { flex: 1; height: 1px; background: var(--border); }
+
+  .grammar-box { background: var(--surface); border: 1px solid var(--border); border-top: 2px solid var(--green); border-radius: 0 0 6px 6px; padding: 1.1rem 1.3rem; font-size: 0.85rem; line-height: 1.75; color: var(--text); }
+  .grammar-box h4 { font-family: 'Lora', serif; font-size: 1rem; color: var(--green-bright); font-weight: 600; margin-bottom: 0.5rem; }
+  .grammar-box p { margin-bottom: 0.6rem; }
+  .grammar-box p:last-child { margin-bottom: 0; }
+  .grammar-box strong { color: var(--ink); font-weight: 500; }
+  .grammar-box em { color: var(--green-bright); font-style: italic; }
+
+  .example { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 0.5rem 0.8rem; margin: 0.5rem 0; }
+  .example .indo { font-family: 'Lora', serif; color: var(--green-bright); display: block; font-size: 0.95rem; }
+  .example .pron { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--rust); display: block; margin-top: 0.1rem; white-space: nowrap; }
+  .example .eng { font-size: 0.75rem; color: var(--muted); display: block; margin-top: 0.1rem; }
+
+  .insight { background: rgba(106,191,105,0.08); border: 1px solid rgba(106,191,105,0.25); border-radius: 6px; padding: 1rem 1.2rem; font-size: 0.85rem; line-height: 1.7; color: var(--text); }
+  .insight-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--green); margin-bottom: 0.4rem; }
+  .insight strong { color: var(--ink); font-weight: 500; }
+  .insight em { color: var(--green-bright); font-style: italic; }
+
+  /* ── VOCAB TABLE ── */
+  .vocab-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .vocab-table thead th { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 0.4rem 0.8rem; border-bottom: 1px solid var(--border); }
+  .vocab-table tbody tr { border-bottom: 1px solid rgba(42,61,36,0.5); transition: background 0.1s; }
+  .vocab-table tbody tr:hover { background: var(--surface2); }
+  .vocab-table td { padding: 0.7rem 0.8rem; vertical-align: top; }
+  .td-indo { font-family: 'Lora', serif; font-size: 1rem; color: var(--green-bright); }
+  .td-pron { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--rust); white-space: nowrap; }
+  .td-en { color: var(--text); font-size: 0.85rem; }
+  .td-note { color: var(--muted); font-size: 0.78rem; font-style: italic; }
+
+  /* ── EXAMPLE SENTENCES ── */
+  .examples { display: flex; flex-direction: column; gap: 0.5rem; }
+  .ex-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.85rem 1.1rem; display: grid; grid-template-columns: auto 1fr auto; gap: 0.6rem 1rem; align-items: start; transition: border-color 0.15s; }
+  .ex-card:hover { border-color: rgba(106,191,105,0.4); }
+  .ex-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--green); letter-spacing: 0.15em; text-transform: uppercase; padding-top: 0.15rem; white-space: nowrap; }
+  .ex-indo { font-family: 'Lora', serif; font-size: 1.05rem; color: var(--ink); margin-bottom: 0.2rem; }
+  .ex-indo .s   { color: var(--green-bright); }
+  .ex-indo .v   { color: var(--yellow); }
+  .ex-indo .adj { color: #a8d8f0; }
+  .ex-indo .adv { color: var(--muted); }
+  .ex-indo .prep{ color: var(--rust); }
+  .ex-pron { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); margin-bottom: 0.15rem; }
+  .ex-en { font-size: 0.78rem; color: var(--muted); }
+  .ex-badge { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.45rem; border-radius: 3px; white-space: nowrap; align-self: start; }
+  .badge-adj { background: rgba(168,216,240,0.12); color: #a8d8f0; border: 1px solid rgba(168,216,240,0.25); }
+  .badge-pos { background: rgba(106,191,105,0.12); color: var(--green); border: 1px solid rgba(106,191,105,0.25); }
+  .badge-neg { background: rgba(224,112,80,0.12); color: var(--rust); border: 1px solid rgba(224,112,80,0.25); }
+
+  /* ── ROUTINE TIMELINE ── */
+  .routine { display: flex; flex-direction: column; gap: 0; }
+  .routine-item { display: grid; grid-template-columns: 24px 1fr; gap: 0 1rem; align-items: start; position: relative; }
+  .routine-item::before { content: ''; position: absolute; left: 11px; top: 28px; bottom: -8px; width: 2px; background: var(--border); }
+  .routine-item:last-child::before { display: none; }
+  .routine-dot { width: 24px; height: 24px; border-radius: 50%; background: var(--surface2); border: 2px solid var(--green); display: flex; align-items: center; justify-content: center; margin-top: 0.6rem; flex-shrink: 0; z-index: 1; }
+  .routine-dot-inner { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+  .routine-body { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 0.8rem; transition: border-color 0.15s; }
+  .routine-body:hover { border-color: rgba(106,191,105,0.35); }
+  .routine-en { font-size: 0.72rem; color: var(--muted); font-family: 'DM Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.2rem; }
+  .routine-indo { font-family: 'Lora', serif; font-size: 1rem; color: var(--green-bright); }
+  .routine-ex { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; font-style: italic; }
+
+  /* ── PLACES GRID ── */
+  .places-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)); gap: 0.5rem; }
+  .place-card { background: var(--surface); border: 1px solid var(--border); border-radius: 5px; padding: 0.65rem 0.9rem; transition: border-color 0.15s; }
+  .place-card:hover { border-color: rgba(106,191,105,0.35); }
+  .place-indo { font-family: 'Lora', serif; font-size: 0.95rem; color: var(--green-bright); margin-bottom: 0.15rem; }
+  .place-en { font-size: 0.75rem; color: var(--muted); }
+
+  /* ── VOCAB PILLS ── */
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem; }
+  .vocab-pill { background: var(--surface); border: 1px solid var(--border); border-radius: 5px; padding: 0.65rem 0.9rem; display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; transition: border-color 0.15s; }
+  .vocab-pill:hover { border-color: rgba(106,191,105,0.4); }
+  .vp-indo { font-family: 'Lora', serif; font-size: 0.95rem; color: var(--green-bright); }
+  .vp-en { font-size: 0.75rem; color: var(--muted); text-align: right; }
+
+  /* ── DRILL BOX ── */
+  .drill-box { background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--yellow); border-radius: 0 6px 6px 0; padding: 1.2rem 1.4rem; }
+  .drill-title { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--yellow); margin-bottom: 0.8rem; }
+  .drill-list { list-style: none; counter-reset: drill; display: flex; flex-direction: column; gap: 0.55rem; }
+  .drill-list li { counter-increment: drill; display: flex; gap: 0.7rem; align-items: baseline; font-size: 0.85rem; line-height: 1.55; color: var(--text); }
+  .drill-list li::before { content: counter(drill, decimal-leading-zero); font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--yellow); flex-shrink: 0; }
+  .drill-list li em { color: var(--green-bright); font-style: italic; }
+
+  @media (max-width: 600px) {
+    .ex-card { grid-template-columns: auto 1fr; }
+    .ex-badge { display: none; }
+    header { padding: 2rem 1.2rem 1.5rem; }
+    .wrap { padding: 1.5rem 1.2rem; gap: 2rem; }
+    .back-bar { padding: 0.75rem 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="back-bar">
+  <div class="back-bar-inner">
+    <a class="back-btn" href="index.html">Back to hub</a>
+  </div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <div class="tag">Tutor Session · Lesson 3 Recap</div>
+    <h1>Adjectives, Places<br>&amp; <em>Daily Routine</em></h1>
+    <div class="header-meta">Based on your handwritten notes &nbsp;·&nbsp; Bahasa Indonesia</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- SECTION 1: BAIK vs BAGUS -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Baik vs Bagus — Both Mean "Good"</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="grammar-box">
+      <h4>Two words for good — used differently</h4>
+      <p>Your tutor noted the distinction at the top of your notes with the labels <strong>attitude</strong> and <strong>quality</strong>:</p>
+      <p><strong>Baik</strong> = good in character, morally good, kind, well-behaved. Used for people's nature, behaviour, and health.</p>
+      <p><strong>Bagus</strong> = good in quality, nice-looking, well-made. Used for things, appearance, and quality.</p>
+      <div class="example">
+        <span class="indo">Dia orang yang baik</span>
+        <span class="pron">di-a · o-rang · yang · ba-ik</span>
+        <span class="eng">She is a good person (good in character)</span>
+      </div>
+      <div class="example">
+        <span class="indo">Baju kamu bagus</span>
+        <span class="pron">ba-ju · ka-mu · ba-gus</span>
+        <span class="eng">Your clothes are nice (good in quality/looks)</span>
+      </div>
+      <div class="example">
+        <span class="indo">Apa kabar? — Baik, terima kasih</span>
+        <span class="pron">a-pa · ka-bar? — ba-ik · te-ri-ma · ka-sih</span>
+        <span class="eng">How are you? — Well, thank you (baik = doing well)</span>
+      </div>
+    </div>
+
+    <div class="insight" style="margin-top:1rem;">
+      <div class="insight-label">Adjective word order</div>
+      Your tutor's example <em>Baju kamu bagus</em> shows the Indonesian adjective pattern: <strong>Noun + Possessor + Adjective</strong>. The adjective comes after the noun and its owner — the opposite of English. So "your good clothes" becomes "clothes your good" — <em>baju kamu bagus.</em>
+    </div>
+  </section>
+
+  <!-- SECTION 2: ADJECTIVE SENTENCES -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Adjective Sentences</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="examples">
+      <div class="ex-card">
+        <span class="ex-label">Adj</span>
+        <div>
+          <div class="ex-indo">Baju <span class="s">kamu</span> <span class="adj">bagus</span></div>
+          <div class="ex-pron">ba-ju · ka-mu · ba-gus</div>
+          <div class="ex-en">Your clothes are nice</div>
+        </div>
+        <span class="ex-badge badge-adj">Adjective</span>
+      </div>
+      <div class="ex-card">
+        <span class="ex-label">Adj</span>
+        <div>
+          <div class="ex-indo">Baju <span class="s">kami</span> <span class="adj">bagus</span></div>
+          <div class="ex-pron">ba-ju · ka-mi · ba-gus</div>
+          <div class="ex-en">Our clothes are nice (we excludes you)</div>
+        </div>
+        <span class="ex-badge badge-adj">Adjective</span>
+      </div>
+      <div class="ex-card">
+        <span class="ex-label">Adj</span>
+        <div>
+          <div class="ex-indo">Restoran <span class="adj">ini</span> <span class="adj">bagus</span></div>
+          <div class="ex-pron">res-to-ran · i-ni · ba-gus</div>
+          <div class="ex-en">This restaurant is good</div>
+        </div>
+        <span class="ex-badge badge-adj">Adjective</span>
+      </div>
+      <div class="ex-card">
+        <span class="ex-label">Pos</span>
+        <div>
+          <div class="ex-indo"><span class="s">Dia</span> <span class="adj">baik</span></div>
+          <div class="ex-pron">di-a · ba-ik</div>
+          <div class="ex-en">She/He is good (kind / a good person)</div>
+        </div>
+        <span class="ex-badge badge-pos">Character</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: DAILY ROUTINE VERBS -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Daily Routine Verbs</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="routine">
+
+      <div class="routine-item">
+        <div class="routine-dot"><div class="routine-dot-inner"></div></div>
+        <div class="routine-body">
+          <div class="routine-en">Wake up</div>
+          <div class="routine-indo">Bangun</div>
+          <div class="routine-ex">Saya bangun jam enam — I wake up at 6</div>
+        </div>
+      </div>
+
+      <div class="routine-item">
+        <div class="routine-dot"><div class="routine-dot-inner"></div></div>
+        <div class="routine-body">
+          <div class="routine-en">Shower</div>
+          <div class="routine-indo">Mandi</div>
+          <div class="routine-ex">Saya mandi sebelum sarapan — I shower before breakfast</div>
+        </div>
+      </div>
+
+      <div class="routine-item">
+        <div class="routine-dot"><div class="routine-dot-inner"></div></div>
+        <div class="routine-body">
+          <div class="routine-en">Breakfast</div>
+          <div class="routine-indo">Makan pagi / Sarapan</div>
+          <div class="routine-ex">Saya sarapan di rumah — I have breakfast at home</div>
+        </div>
+      </div>
+
+      <div class="routine-item">
+        <div class="routine-dot"><div class="routine-dot-inner"></div></div>
+        <div class="routine-body">
+          <div class="routine-en">Go to work</div>
+          <div class="routine-indo">Pergi kerja / Ke kantor</div>
+          <div class="routine-ex">Saya pergi ke kantor — I go to the office</div>
+        </div>
+      </div>
+
+      <div class="routine-item">
+        <div class="routine-dot"><div class="routine-dot-inner"></div></div>
+        <div class="routine-body">
+          <div class="routine-en">Lunch</div>
+          <div class="routine-indo">Makan siang</div>
+          <div class="routine-ex">Saya makan siang di restoran — I have lunch at a restaurant</div>
+        </div>
+      </div>
+
+      <div class="routine-item">
+        <div class="routine-dot"><div class="routine-dot-inner"></div></div>
+        <div class="routine-body">
+          <div class="routine-en">Swim</div>
+          <div class="routine-indo">Renang</div>
+          <div class="routine-ex">Saya renang di kolam renang — I swim in the swimming pool</div>
+        </div>
+      </div>
+
+      <div class="routine-item">
+        <div class="routine-dot"><div class="routine-dot-inner"></div></div>
+        <div class="routine-body">
+          <div class="routine-en">Dinner</div>
+          <div class="routine-indo">Makan malam</div>
+          <div class="routine-ex">Saya makan malam dengan teman — I have dinner with a friend</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 4: PREPOSITIONS — KE vs DI -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Prepositions — Ke, Di, Dengan</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="grammar-box">
+      <h4>Three essential prepositions</h4>
+      <p><strong>Di</strong> = in / on / at — static location. Where something is.</p>
+      <p><strong>Ke</strong> = to — direction of movement. Where you are going.</p>
+      <p><strong>Dengan</strong> = with — accompaniment or manner.</p>
+      <div class="example">
+        <span class="indo">Saya di kantor</span>
+        <span class="pron">sa-ya · di · kan-tor</span>
+        <span class="eng">I am at the office (static — I am there)</span>
+      </div>
+      <div class="example">
+        <span class="indo">Saya pergi ke kantor</span>
+        <span class="pron">sa-ya · per-gi · ke · kan-tor</span>
+        <span class="eng">I go to the office (movement — I am heading there)</span>
+      </div>
+      <div class="example">
+        <span class="indo">Saya makan dengan teman</span>
+        <span class="pron">sa-ya · ma-kan · de-ngan · te-man</span>
+        <span class="eng">I eat with a friend</span>
+      </div>
+      <div class="example">
+        <span class="indo">Saya pergi ke pasar dengan kamu</span>
+        <span class="pron">sa-ya · per-gi · ke · pa-sar · de-ngan · ka-mu</span>
+        <span class="eng">I go to the market with you</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: TIME PHRASES -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Time Phrases — Ini &amp; Setelah/Sebelum</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="grammar-box" style="margin-bottom:1rem;">
+      <h4>This morning / tonight / this afternoon</h4>
+      <p>Your tutor showed that adding <strong>ini</strong> (this) after any time-of-day word creates "this ___":</p>
+      <div class="example">
+        <span class="indo">Pagi ini &nbsp;·&nbsp; Siang ini &nbsp;·&nbsp; Malam ini</span>
+        <span class="pron">pa-gi · i-ni &nbsp;·&nbsp; si-ang · i-ni &nbsp;·&nbsp; ma-lam · i-ni</span>
+        <span class="eng">This morning &nbsp;·&nbsp; This afternoon &nbsp;·&nbsp; Tonight</span>
+      </div>
+      <p>This pattern works because <em>ini</em> means "this" and simply specifies which pagi/siang/malam you mean — today's one.</p>
+    </div>
+
+    <table class="vocab-table">
+      <thead><tr><th>Indonesian</th><th>Pronunciation</th><th>English</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="td-indo">Pagi ini</td>
+          <td class="td-pron">pa-gi · i-ni</td>
+          <td class="td-en">This morning</td>
+          <td class="td-note">Saya bangun pagi ini — I woke up this morning</td>
+        </tr>
+        <tr>
+          <td class="td-indo">Siang ini</td>
+          <td class="td-pron">si-ang · i-ni</td>
+          <td class="td-en">This afternoon</td>
+          <td class="td-note">Saya makan siang ini — I'm eating lunch this afternoon</td>
+        </tr>
+        <tr>
+          <td class="td-indo">Malam ini</td>
+          <td class="td-pron">ma-lam · i-ni</td>
+          <td class="td-en">Tonight</td>
+          <td class="td-note">Saya akan makan malam ini — I will eat dinner tonight</td>
+        </tr>
+        <tr>
+          <td class="td-indo">Setelah</td>
+          <td class="td-pron">se-te-lah</td>
+          <td class="td-en">After</td>
+          <td class="td-note">Setelah mandi, saya sarapan — After showering, I have breakfast</td>
+        </tr>
+        <tr>
+          <td class="td-indo">Sebelum</td>
+          <td class="td-pron">se-be-lum</td>
+          <td class="td-en">Before</td>
+          <td class="td-note">Sebelum tidur, saya mandi — Before sleeping, I shower</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="examples" style="margin-top:1rem;">
+      <div class="ex-card">
+        <span class="ex-label">Time</span>
+        <div>
+          <div class="ex-indo"><span class="adv">Setelah</span> <span class="v">mandi</span>, <span class="s">saya</span> <span class="v">makan</span> <span class="adv">pagi ini</span></div>
+          <div class="ex-pron">se-te-lah · man-di · sa-ya · ma-kan · pa-gi · i-ni</div>
+          <div class="ex-en">After showering, I ate this morning</div>
+        </div>
+        <span class="ex-badge badge-pos">Sequence</span>
+      </div>
+      <div class="ex-card">
+        <span class="ex-label">Time</span>
+        <div>
+          <div class="ex-indo"><span class="s">Saya</span> <span class="v">akan pergi</span> <span class="prep">ke</span> pantai <span class="adv">malam ini</span></div>
+          <div class="ex-pron">sa-ya · a-kan · per-gi · ke · pan-tai · ma-lam · i-ni</div>
+          <div class="ex-en">I will go to the beach tonight</div>
+        </div>
+        <span class="ex-badge badge-pos">Future</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: PLACES -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Places</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="places-grid">
+      <div class="place-card">
+        <div class="place-indo">Kantor</div>
+        <div class="place-en">Office</div>
+      </div>
+      <div class="place-card">
+        <div class="place-indo">Villa</div>
+        <div class="place-en">Villa</div>
+      </div>
+      <div class="place-card">
+        <div class="place-indo">Hotel</div>
+        <div class="place-en">Hotel</div>
+      </div>
+      <div class="place-card">
+        <div class="place-indo">Rumah sakit</div>
+        <div class="place-en">Hospital (lit. sick house)</div>
+      </div>
+      <div class="place-card">
+        <div class="place-indo">Pasar</div>
+        <div class="place-en">Market</div>
+      </div>
+      <div class="place-card">
+        <div class="place-indo">Restoran / Resto</div>
+        <div class="place-en">Restaurant</div>
+      </div>
+      <div class="place-card">
+        <div class="place-indo">Pantai</div>
+        <div class="place-en">Beach</div>
+      </div>
+      <div class="place-card">
+        <div class="place-indo">Pura</div>
+        <div class="place-en">Temple (Balinese Hindu)</div>
+      </div>
+      <div class="place-card">
+        <div class="place-indo">Supermarket</div>
+        <div class="place-en">Supermarket / department store</div>
+      </div>
+      <div class="place-card">
+        <div class="place-indo">Gereja</div>
+        <div class="place-en">Church</div>
+      </div>
+      <div class="place-card">
+        <div class="place-indo">Stasiun gas / Pom bensin</div>
+        <div class="place-en">Petrol station</div>
+      </div>
+      <div class="place-card">
+        <div class="place-indo">Kolam</div>
+        <div class="place-en">Pool</div>
+      </div>
+      <div class="place-card">
+        <div class="place-indo">Kolam renang</div>
+        <div class="place-en">Swimming pool</div>
+      </div>
+    </div>
+
+    <div class="insight" style="margin-top:1rem;">
+      <div class="insight-label">Pom bensin vs Stasiun gas</div>
+      Your tutor noted both terms for petrol station. <strong>Pom bensin</strong> is the term you will hear most commonly in Bali and everyday speech — it comes from Dutch <em>pomp</em> (pump) and <em>bensin</em> (petrol). <strong>Stasiun gas</strong> is the more formal/standard Indonesian. Use pom bensin when speaking to locals.
+    </div>
+  </section>
+
+  <!-- SECTION 7: TRANSACTIONAL VERBS -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">07</span>
+      <h2 class="section-title">Transactional Verbs</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <table class="vocab-table">
+      <thead><tr><th>Indonesian</th><th>Pronunciation</th><th>English</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="td-indo">Beli</td>
+          <td class="td-pron">be-li</td>
+          <td class="td-en">Buy</td>
+          <td class="td-note">Saya mau beli ini — I want to buy this</td>
+        </tr>
+        <tr>
+          <td class="td-indo">Jual</td>
+          <td class="td-pron">ju-al</td>
+          <td class="td-en">Sell</td>
+          <td class="td-note">Dijual = for sale (passive — you'll see this on signs)</td>
+        </tr>
+        <tr>
+          <td class="td-indo">Renang</td>
+          <td class="td-pron">re-nang</td>
+          <td class="td-en">Swim</td>
+          <td class="td-note">Kolam renang = swimming pool (lit. swimming pool)</td>
+        </tr>
+        <tr>
+          <td class="td-indo">Tolong</td>
+          <td class="td-pron">to-long</td>
+          <td class="td-en">Please / help</td>
+          <td class="td-note">Goes before the verb: Tolong beli — please buy</td>
+        </tr>
+        <tr>
+          <td class="td-indo">Kerja</td>
+          <td class="td-pron">ker-ja</td>
+          <td class="td-en">Work</td>
+          <td class="td-note">Saya kerja di kantor — I work at the office</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="examples" style="margin-top:1rem;">
+      <div class="ex-card">
+        <span class="ex-label">Req</span>
+        <div>
+          <div class="ex-indo"><span class="adv">Tolong</span> <span class="v">beli</span> kopi <span class="prep">di</span> pasar</div>
+          <div class="ex-pron">to-long · be-li · ko-pi · di · pa-sar</div>
+          <div class="ex-en">Please buy coffee at the market</div>
+        </div>
+        <span class="ex-badge badge-pos">Request</span>
+      </div>
+      <div class="ex-card">
+        <span class="ex-label">Pos</span>
+        <div>
+          <div class="ex-indo"><span class="s">Saya</span> <span class="v">renang</span> <span class="prep">di</span> kolam renang <span class="adv">pagi ini</span></div>
+          <div class="ex-pron">sa-ya · re-nang · di · ko-lam · re-nang · pa-gi · i-ni</div>
+          <div class="ex-en">I swam in the swimming pool this morning</div>
+        </div>
+        <span class="ex-badge badge-pos">Positive</span>
+      </div>
+      <div class="ex-card">
+        <span class="ex-label">Pos</span>
+        <div>
+          <div class="ex-indo"><span class="s">Dia</span> <span class="v">jual</span> baju <span class="prep">di</span> pasar</div>
+          <div class="ex-pron">di-a · ju-al · ba-ju · di · pa-sar</div>
+          <div class="ex-en">She sells clothes at the market</div>
+        </div>
+        <span class="ex-badge badge-pos">Positive</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 8: FULL VOCAB -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">08</span>
+      <h2 class="section-title">All Vocabulary — Lesson 3</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="vocab-grid">
+      <div class="vocab-pill"><span class="vp-indo">Baik</span><span class="vp-en">Good (character)</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Bagus</span><span class="vp-en">Good (quality)</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Baju</span><span class="vp-en">Clothes / shirt</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Bangun</span><span class="vp-en">Wake up</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Mandi</span><span class="vp-en">Shower / bathe</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Kerja</span><span class="vp-en">Work</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Renang</span><span class="vp-en">Swim</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Beli</span><span class="vp-en">Buy</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Jual</span><span class="vp-en">Sell</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Tolong</span><span class="vp-en">Please / help</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Ke</span><span class="vp-en">To (direction)</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Dengan</span><span class="vp-en">With</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Setelah</span><span class="vp-en">After</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Sebelum</span><span class="vp-en">Before</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Pagi ini</span><span class="vp-en">This morning</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Siang ini</span><span class="vp-en">This afternoon</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Malam ini</span><span class="vp-en">Tonight</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Kantor</span><span class="vp-en">Office</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Pasar</span><span class="vp-en">Market</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Pantai</span><span class="vp-en">Beach</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Pura</span><span class="vp-en">Temple</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Rumah sakit</span><span class="vp-en">Hospital</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Supermarket</span><span class="vp-en">Supermarket</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Gereja</span><span class="vp-en">Church</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Pom bensin</span><span class="vp-en">Petrol station</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Kolam renang</span><span class="vp-en">Swimming pool</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Villa / Hotel</span><span class="vp-en">Villa / Hotel</span></div>
+      <div class="vocab-pill"><span class="vp-indo">Restoran / Resto</span><span class="vp-en">Restaurant</span></div>
+    </div>
+  </section>
+
+  <!-- SECTION 9: DRILLS -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">09</span>
+      <h2 class="section-title">Practice Drills</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="drill-box">
+      <div class="drill-title">Drill these until automatic</div>
+      <ul class="drill-list">
+        <li>Describe your morning routine as a chain using setelah and sebelum: <em>Sebelum mandi, saya bangun. Setelah mandi, saya sarapan. Setelah sarapan, saya pergi ke kantor.</em></li>
+        <li>Use both baik and bagus correctly in a sentence each. Remember: baik = character/health, bagus = quality/looks. <em>Dia baik. Baju itu bagus.</em></li>
+        <li>Drill the ke/di distinction with every place from this lesson: <em>Saya di pantai</em> (I am at the beach) vs <em>Saya pergi ke pantai</em> (I go to the beach). Do this for kantor, pasar, restoran, rumah sakit.</li>
+        <li>Build "this morning / tonight / this afternoon" into three separate sentences about your actual day today.</li>
+        <li>Make three sentences using dengan: <em>Saya makan dengan teman. Saya pergi ke pasar dengan kamu. Saya renang dengan dia.</em></li>
+        <li>Use tolong in three requests with places from this lesson: <em>Tolong beli kopi di pasar. Tolong pergi ke kantor. Tolong mandi sebelum makan.</em></li>
+        <li>Say "I will buy __ at the market" with five different items, using the full sentence: <em>Saya akan beli [item] di pasar malam ini.</em></li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
